@@ -1,0 +1,105 @@
+\documentclass[11pt, bookmarks=true, colorlinks=true, allcolors=blue, twoside, letter]{report}
+\usepackage[top=25mm, bottom=25mm, bindingoffset=0mm, inner=25mm, outer=25mm]{geometry}
+\usepackage{float}
+\setlength\parindent{0pt}
+\usepackage{blindtext}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\setlength{\parskip}{12pt}
+\usepackage{booktabs} 
+\usepackage{multirow} 
+
+\usepackage{longtable}
+\usepackage{tabularray}
+
+\usepackage{rotating}
+\usepackage{caption} 
+\captionsetup[table]{skip=5pt}
+\captionsetup[figure]{skip=5pt}
+
+\usepackage{chngcntr} 
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+
+\usepackage[backend=bibtex, style=author year]{biblatex}
+\addbibresource{references.bib}
+\renewcommand{\thesection}{\arabic{section}}
+
+\setcounter{secnumdepth}{5}
+
+%%%%%%%%%%%
+% For equations
+\usepackage{array}
+
+\newenvironment{conditions}
+  {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}
+%%%%%%%%%%%
+
+%%%%%%%%%%%
+% toc
+\usepackage{titlesec}
+\usepackage[toc,page]{appendix}
+%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{pdflscape}
+\usepackage{tabularray}
+
+\title{The International Model for Policy Analysis of Agricultural Commodities and Trade (IMPACT): Model description for version 3.6}
+\author{\textcolor{red}{\textbf{add author names}}}
+\begin{document}
+\maketitle
+
+\input{sections/01_title}
+
+\input{sections/02_information}
+
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+
+\input{sections/03_abstract}
+
+\input{sections/04_ackn}
+
+\input{sections/05_abbr}
+
+\setcounter{section}{0}
+\label{chapter1}
+\input{sections/10_introduction}
+
+\label{chapter2}
+\input{sections/20_history}
+
+\label{chapter3}
+\input{sections/30_scenario_analysis}
+
+\label{chapter4}
+\input{sections/40_impact_mmm}
+
+\label{chapter5}
+\input{sections/50_impact_model_system}
+
+\label{chapter6}
+\input{sections/60_summary}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{appendices}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\thefigure}{A\arabic{figure}}
+
+% lables are withing appendix
+\input{appendix/a}
+\input{appendix/b}
+\input{appendix/c}
+
+\end{appendices}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\printbibliography
+\end{document}

@@ -1,0 +1,146 @@
+\clearpage
+\section{IMPACT model system}
+
+The IMPACT model system is a network of linked models. Major components include climate models, crop models, and water models, and the links between these were shown in Figure 1.1. The model system now includes a number of additional modules, and more are in development. Some of these modules are integrated into the multimarket model, and others are coded as separate modules that are linked through information flows to others. Figure 5.1, a detailed schematic of the IMPACT multimarket model, illustrates how many of these modules are interconnected. In this section, we will discuss these new modules and provide further description of the major components of the IMPACT model system such as data management and estimation, scenario specification and implementation, food security indicators, welfare analysis, crop models, and water models.  More detail about some of the modules, including equations, is provided in the appendixes.
+
+\begin{figure}[hbt!]
+  \centerline{\includegraphics[width=1.5\textwidth]{plots/Slide3.png}}
+  \caption[Detailed schematic of the IMPACT multimarket model]{Detailed schematic of the IMPACT multimarket model. CGE = computable general equilibrium; GDP = gross domestic product; IMPACT = International Model for Policy Analysis of Agricultural Commodities and Trade; IPRs = intrinsic productivity growth rates.}
+  \label{fig:model_schematic}
+\end{figure}
+
+\subsection{IMPACT data management and estimation system}
+
+Modeling philosophy in IMPACT also focuses on making data processing independent from the behavioral model system. The goal is that any model component of IMPACT should have standard data requirements and that the data sources could be changed as long as they conform to deliver standard data inputs of the modules. This standardization of data inputs has allowed the breaking up of processing the IMPACT database into a series of specific data-processing modules, each focused on preparing one part of the IMPACT database. These data modules are linked into a separate IMPACT Data Management and Estimation System that provides all the data needed to implement the IMPACT model system. These data processing modules include the following:
+
+\begin{itemize}
+   \item Food and Agriculture Organization of the United Nations (FAO) production, trade, and demand estimation program: An estimation module that uses cross-entropy estimation techniques to estimate a consistent and balanced base year database for IMPACT from FAOSTAT, AquaStat, IFPRI-SPAM, and other data sources. For more information about this module see Mason-D’Croz, Robinson, and Islam (2015)
+   \item Population and GDP processing module: An aggregation module that takes data for population, GDP, and growth rates from a variety of sources, including the World Bank’s World Development Indicators (WDIs), UN population statistics, Central Intelligence Agency World Factbook, and the SSP database, and puts them into an IMPACT-ready format
+   \item Price-processing module that reads in data from OECD Agricultural Market Access Database and maps them to IMPACT commodities
+   \item Trade parameter–processing module that reads in data from OECD and Global Trade Analysis Project at Purdue University to IMPACT commodities and countries
+   \item Model calibration modules that join GAMS, Excel, and Tableau  to generate complex data visualizations, which are used to compare IMPACT results to historical trends and to inform model calibration to adjust IMPACT parameters in response to these trends and new expert judgment
+   \item Climate data processing module, which reads in results from crop models aggregated to the FPU level and then processes them into average annual climate shocks for all IMPACT commodities (for more information about crop models see Appendix F)
+\end{itemize}
+
+\subsection{Food security modules}
+
+Food security is an important aspect analyzed with IMPACT. Understanding the interplay of commodity production, trade, and demand is valuable, but understanding some of the potential human welfare implications of these changes is also important to better understand consequences of difference scenarios. In IMPACT, there are two food security modules that were designed to give policymakers a sense of how countries were progressing toward the Sustainable Development Goals. 
+
+The malnutrition module is based on \cite{smith2000explaining}, and estimates changes in child wasting (underweight) based on changes in food availability at the country level. The population at risk of hunger module is based on \cite{fischer2005socio}, and estimates changes in the share of population at risk of hunger based on changes in food availability. Both modules are examples of postprocessing modules in IMPACT, where information from the multimarket model (food availability, population, GDP, etc.) serves as an input to the module and the results are not feedback into the economic module.
+
+\subsubsection{Undernourished children}
+
+The percentage of undernourished children younger than five is estimated from the average per capita calorie consumption, female access to secondary education, the quality of maternal and child care, and health and sanitation \parencite{rosegrant2001global}. Observed relationships between all of these factors were used to create the semi-log functional mathematical model, allowing an accurate estimate of the number of undernourished children to be derived from data describing the average per capita calorie consumption, female access to secondary education,  quality of maternal and child care, and health and sanitation. The precise relationship used to project the percentage of undernourished children is based on a cross-country regression relationship of \cite{smith2000explaining}.
+
+\begin{equation}
+    \label{eq:undernourished}
+    \Delta UndNrsh_{t, t0} = -25.54 * \ln{\frac{kcal_{t}}{kcal_{t0}}} - (71.76 * \Delta LFER_{t, t0}) - (0.22 * \Delta SCH_{t, t0}) - (0.08 * \Delta WAT_{t, t0})
+\end{equation}
+where:
+\begin{conditions}
+ UndNrsh       &   Percent change in undernourished children \\
+ kcal    &   per capita kilocalorie availability \\
+ LFER   &   Ratio of female-male life expectancy at birth \\
+ SCH      &   Gross female secondary school enrollment rate \\
+ WAT      &   \% of population with access to safe water \\
+ \Delta t,t0 & Difference between time step t and base year (2019 for IMPACT v3.6) \\ 
+\end{conditions}
+
+The data used in this calculation come from a variety of sources. The base values for undernourished children originally come from the World Bank’s WDIs (World Bank 2014). The base values for female-male life expectancy ratio, female secondary school enrollment, and access to safe water come from the WDIs (World Bank 2014). The projections of changes in female-male life expectancy come from the United Nations Populations Prospects medium variant (United Nations 2011). The projections of changes in female secondary school enrollment and access to clean water come from the Technogarden Baseline Scenario (MA 2005).
+
+The per capita kilocalorie availability is derived from two sources: (1) the amount of calories obtained from commodities included in the IMPACT-Food model and (2) the calories from commodities outside the model (FAO 2015).
+
+After the percentage of undernourished children has been calculated, the total number of undernourished children is calculated as the product of equation \ref{eq:undernourished}, with the population of children (0–5 years old) coming from the appropriate SSP scenario (\textcolor{red}{\textbf{cite v3 here}}).
+
+\subsubsection{Share of population at risk of hunger}
+
+The share at risk is the percentage of the total population that is at risk of suffering from undernourishment. This calculation is based on a strong empirical correlation between the share of undernourished within the total population and the relative availability of food and is adapted from \cite{fischer2005socio} \footnote{The estimated values of the parameter and intercept values are not the same as the ones used by \cite{fischer2005socio}. These parameters have been adjusted to better fit data from IMPACT.}.
+
+\begin{equation}
+    \label{eq:poprisk}
+    ShrRisk_{cty, t} = \beta_0 + (\beta_1 * rKcal_{cty, t}) + (\beta_2 * rKcal_{cty, t}^{2}) + \varepsilon
+\end{equation}
+where:
+\begin{conditions}
+ ShrRisk       &   Share of population at risk of hunger \\
+ \beta_0       &   Constant term (288.1) \\
+ \beta_1    &   -319.7 \\
+ \beta_2   &   89.7 \\
+ \varepsilon & Estimation error \\ 
+  cty        &   Countries \\ 
+  t        &   Simulation time step \\ 
+\end{conditions}
+
+It should be noted that due to the quadratic nature of this equation it is necessary to apply an upper and lower bound to the share at risk. The lower bound is defined as 0, and the upper bound is 100. Developed countries unsurprisingly have low share at risk, so for simplicity we treat all countries with less than 3 percent share at risk of hunger as if they had 0 percent share of hunger. The relative availability of food has been bounded to ensure realistic results on the quadratic curve: when the ratio of calories available to calories required, RelativeKCal, is greater than 1.7, we assume that the share at risk of hunger is effectively 0.
+
+\subsection{Crop models}
+
+The effect of climate change on crop yields starts by running the DSSAT family of crop models across a gridded representation of the world. Yield maps for groundnuts, maize, potatoes, rice, sorghum, soybeans, and wheat are compiled under both rainfed and irrigated conditions. Driving the model is a large collection of data. Some of the data represent soil characteristics and conditions as well as basic management decisions while others characterize the climatic conditions under which the crops were grown.
+
+The climate data are maps of monthly climate data that allow the random generation of daily weather data for each location typical of what might be expected for conditions of the near recent past as well as those of the future. The baseline climate information comes from \textcolor{red}{\textbf{cite new}}. The future climate information is derived from data processed by the Inter-sectoral Impact Model Intercomparison Project \textcolor{red}{\textbf{cite new}}. 
+
+The grid-based yields for each climate and crop combination are aggregated within regions appropriate for the economic portions of the model. Specifically, they are computed as production-area-weighted averages using maps of production areas from the Spatial Production Allocation Model as weights \textcolor{red}{\textbf{cite SPAM}}. These are then used as weights in the multimarket model to estimate final yield impacts. This follows the general approach for incorporating projected yield changes from biophysical models into economics models as outlined in \cite{muller2014projecting}.
+
+\subsection{Water models}
+
+The water models in the IMPACT Modeling System include (1) the IMPACT global hydrology model (IGHM) that simulates snow accumulation and melt and rainfall-runoff processes, (2) the IMPACT water basin simulation model (IWSM) that simulates operation of aggregate surface water reservoir and water supplies to economic sectors including irrigation, and (3) the IMPACT crop water allocation and stress model (ICWASM) that allocates available net irrigated water to crops and estimates the impact of water shortages on yields. These three models enable the IMPACT multimarket model to assess the effects on global food and water systems of hydroclimatic variability and change, socioeconomic change–driven water demand growth, investment in water storage and irrigation infrastructure, and technological improvements.
+
+IGHM is driven by climate-forcing data and computes effective rainfall, potential and actual evapotranspiration, and runoff to river basins. The IGHM-simulated hydrologic outputs are then provided in a one-way link to IWSM, which optimally manages water basin storage and provides irrigated water supply in a one-way link to ICWASM, which then provides the IMPACT multimarket model with water stress-induced crop yield reductions for both irrigated and rainfed crops. The solution of IGHM depends only on climate inputs and is completely independent of the other water models and the IMPACT multimarket model. However, there is two-way communication between IWSM and the IMPACT multimarket model—the demand for water in IWSM depends on the allocation of land to crops, which is part of the solution of the IMPACT multimarket model. In turn, changes in water availability from IWSM affect water allocation and stress in ICWASM. The communication between these models to capture this endogeneity is discussed below.
+
+\subsubsection{IMPACT global hydrology model (IGHM)}
+
+As described in the following schematic (Fig. \ref{fig:ighm}), IGHM is a semidistributed parsimonious model. It simulates monthly soil moisture balance, evapotranspiration, and runoff generation on each 0.5\textdegree latitude by 0.5\textdegree longitude grid cell spanning the global land surface except the Antarctic. Gridded output of hydrological fluxes - namely, effective rainfall, evapotranspiration, and runoff—are spatially aggregated to FPUs within the river basin and weighted by grid cell areas.
+
+The most important climatic drivers for water availability are precipitation and evaporative demand determined by net radiation at ground level, atmospheric humidity, wind speed, and temperature. In IGHM, the Priestley-Taylor equation \parencite{priestley1972assessment} is used to calculate potential evapotranspiration. Soil moisture balance is simulated for each grid cell using a single layer water bucket. To represent subgrid variability of soil water-holding capacity, we assume it spatially varies within each grid cell, following a parabolic distribution function.
+
+Actual evapotranspiration is determined jointly by the potential evapotranspiration and the relative soil moisture state in a grid cell. The generated runoff is divided into a surface runoff component and a deep percolation component using a partitioning factor. The base flow is linearly related to storage of the groundwater reservoir. The total runoff to the streams in a month is the sum of surface runoff and base flow.
+
+
+\begin{figure}[hbt!]
+  \centerline{\includegraphics[width=0.8\textwidth]{plots/5_5.png}}
+  \caption[Detailed schematic of IMPACT global hydrology model]{IMPACT global hydrology model schematic illustrating vertical water balance of the land and open water fraction of a grid cell. E = evaporation (millimeters per month [mm/m]); ET = evapotranspiration (mm/m); GW = groundwater; IMPACT = International Model for Policy Analysis of Agricultural Commodities and Trade; P = effective precipitation (mm/m); P* = precipitation (mm/m); R = total runoff (mm/m); RB = base flow (mm/m); RD = direct runoff from open water body (mm/m); RS = surface runoff (mm/m); S = soil moisture content (millimeters); T = temperature (\textdegree C); Tb = base temperature (\textdegree C), used as threshold to determine incoming precipitation as rain or snow.}
+  \label{fig:ighm}
+\end{figure}
+
+\subsubsection{IMPACT water basin simulation model (IWSM)}
+
+\textbf{Water demand}
+
+The water demand module calculates water demand for crops, industry, households, and livestock at the FPU level. Irrigation water demand is assessed as the portion of crop water requirement not satisfied by precipitation or soil moisture based on hydrologic and agronomic characteristics. Crop water requirement is calculated for each crop using evapotranspiration and effective rainfall from IGHM. It relies on the FAO crop coefficient approach \parencite{allen1998crop} to calculate water requirement for each crop every month. Irrigation demand in the FPU is calculated for a given cropping pattern after taking into account the basin efficiency of the irrigation system. The IMPACT multimarket model solves endogenously for the allocation of land to different crops while IWSM requires information about the cropping pattern to calculate irrigation water demand and hence water stress that is then an input into the multimarket model, which requires two-way communication between the models.
+
+Industrial water demand is modeled for the manufacturing and energy sectors using growth rates for the value-added by sector and energy production values for the electricity sector from the Emissions Prediction and Policy Analysis Model version 6 (EPPA6) of the MIT Joint Program on the Science and Policy of Global Change \parencite{chen2015eppa6}. Future domestic water demands are based on projections of population and income growth. In each region or basin income elasticities of demand for domestic water use are synthesized based on the literature and available estimates \parencite{de2007integrated, rosegrant2002world}. These elasticities of demand measure the propensity to consume water with respect to increases in per capita income. The elasticities also capture both direct income effects and conservation of domestic water use through technological and management change. Livestock water demand is proportional to the number of animals raised as calculated by the multimarket model.
+
+
+\textbf{Water supply}
+
+IWSM is a water basin management model. For FPUs where there is surface water storage capacity (for example, dams), the model specifies a single reservoir that summarizes all water storage capacity. For a given water basin that includes more than one FPU, IWSM manages storage in all those FPUs to maximize the ratio of water supply to water demand in the water basin. IWSM uses the runoff calculated by IGHM, the climatic data, and the water demands presented above to allocate available water to different uses. The schematic in Fig. \ref{fig:iwsm} provides an overview of the model. In each FPU, IWSM solves for a balance between the change in the amount of water stored in the reservoirs, the entering water flows (runoff from precipitation, water from nontraditional sources such as desalination, and inflows from FPUs situated upstream), the exiting water flows (groundwater recharge from the stream, evaporation from the reservoirs, outflows to the FPU downstream or the ocean), and the water withdrawn for human use (surface water depletion). The model uses a simple hedging rule to avoid leaving empty storage for the next year.
+
+\begin{figure}[hbt!]
+  \centerline{\includegraphics[width=0.8\textwidth]{plots/5_6.png}}
+  \caption[Detailed schematic of IMPACT water basin simulation model]{IMPACT water basin simulation model. FPU = food production unit; IMPACT = International Model for Policy Analysis of Agricultural Commodities and Trade; Non-Ag = nonagricultural}
+  \label{fig:iwsm}
+\end{figure}
+
+Surface water depletion added to the pumped groundwater (which is limited by the monthly capacity of tubewells and other pumps) is used to meet various water demands. The model solves by maximizing the ratio of water supplied to water demanded by water basin during a year in all FPUs. Solving for water supply in all FPUs simultaneously, IWSM assumes that linked FPUs within the same water basins are operated cooperatively, optimally allocating water between upstream and downstream demanders (qualified by imposing constraints on water delivery to downstream demanders). The model is parameterized to use available storage to smooth the distribution of water over months to avoid dramatic swings in monthly water delivery, if possible.
+
+Following standard practice, IWSM incorporates the basic rule that nonagricultural water demands have priority over agricultural water demands. Any shortage in water supply is absorbed by agriculture first. If the shortage is larger than irrigation water demand, then livestock and domestic and industrial supplies are reduced proportionally.
+
+\subsubsection{IMPACT crop water allocation and stress model (ICWASM)}
+
+ICWASM then allocates water among crops in an area, given the economic value of the crop. We use the FAO approach \parencite{doorenbos1979yield} to measure water stress at monthly intervals to include seasonality of water stress. Because optimizing total value of production given fixed prices leads to a tendency for specializing in high-value crops, we include a measure of risk aversion for farmers in the objective function, which preserves a diversified production structure even in case of a drought. The stress model produces a measure of yield stress for every crop—both irrigated and rainfed—in each FPU where that crop is grown. The yield stress for the base year is recorded, and the model defines for subsequent years the yield shock as the ratio of that year’s yield stress to the base year yield stress. This allows for a consistent modeling framework while making sure that the base year yields from the multimarket model dataset are preserved.
+
+\subsubsection{Linking the IMPACT Water and Multimarket Models}
+
+Communication between the water models and the multimarket model is shown in Fig. \ref{fig:wat_link}. In a given year, the IMPACT multimarket model is first solved assuming exogenous trends on various parameters, yielding projected production, prices, and allocation of land to crops. For this first run, expected water stress is set to the average of the previous four years, which sets harvest expectations for the allocation of land to different crops. This solution can be seen as providing projections that farmers use to make their cropping decisions.
+
+The water demand module then calculates water demand for crops, industry, households, and livestock. Agricultural and nonagricultural water demands are then calculated as outlined above. IWSM (Fig. \ref{fig:iwsm}) uses these water demands, along with river flows provided by IGHM (Fig. \ref{fig:ighm}), to provide the monthly repartition of water among FPUs given the objective function described above.
+
+ICWASM then allocates water among crops in an area, given the economic value of the crop. The stress model produces a measure of water stress on yield for every crop—both irrigated and rainfed—in each of the FPUs and then multiplies by the temperature stress obtained from DSSAT to represent the total climate yield shock.
+
+Finally, the new yield shocks are applied to the IMPACT multimarket model, which is solved a second time for the final equilibrium, only now assuming that the allocation of land to crops is fixed since farmers cannot change their decisions after planting. This solution yields all economic variables, including quantities and prices of outputs and inputs, and all trade flows. The model then moves to the next year, updates various parameters on trend, and starts the process again.
+
+\begin{figure}[hbt!]
+  \centerline{\includegraphics[width=\textwidth]{plots/5_7.png}}
+  \caption[Linking IMPACT to water models]{Linking IMPACT to water models: Dynamic two-way communication year by year. FPUs = food production units; IMPACT = International Model for Policy Analysis of Agricultural Commodities and Trade; IWSM = IMPACT water basin simulation model; ICWASM = IMPACT crop water allocation and stress model.}
+  \label{fig:wat_link}
+\end{figure}
