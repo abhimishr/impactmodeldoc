@@ -1,0 +1,70 @@
+\clearpage
+\chapter*{Appendix D}
+\label{sec:appendixD}
+\addcontentsline{toc}{section}{Appendix D: Crop models}
+
+As a decision-support tool, crop systems models have potential at various levels of decision making, from household (for example, irrigation scheduling in farmers’ fields) to global (for example, identifying the potential breadbasket areas). Crop models mathematically describe the growth of crops and their interactions with soils, climate, and management practices. Most modern crop models can quantify, on a daily basis, various biological processes of a crop (for example, the amount of solar energy transformed into biomass; water and nutrient requirements, supply, and stresses; and growth stages) as well as physical processes around the crop (for example, soil water runoff, soil carbon sequestration, and nitrogen leaching).
+
+Since the early 1970s, various crop models have been developed by agricultural scientists based on improved knowledge of plant photosynthesis and respiration processes. Models range from generic and simple to specific and complex. Some models use response functions (for example, yield as a function of rainfall and nutrients) at their core, while others use sets of differential equations to describe complexity of different processes and their interactions. There is no final and universal crop model. Instead, crop models are selected based on the type of research question.
+
+\subsection*{Decision Support System for Agrotechnology Transfer (DSSAT) Crop Systems Model}
+
+DSSAT is a popular software package used by crop modelers. DSSAT is actually a suite of single crop models with access to unified crop, soil, and weather databases (Hoogenboom et al. 2012; Jones et al. 2003). The models integrate the effects of crop systems components and management options to simulate the states of all the components of the cropping system and their interactions. DSSAT crop models provide a framework for users to understand how the overall cropping system and its components function throughout cropping season(s) on a daily basis. Users are expected to provide at least a minimum set of data that are essential to run the crop model for each geographical location. The minimum dataset includes the following:
+
+\begin{enumerate}
+    \item Site daily weather data for the duration of the growing season
+    \item Site soil data
+    \item Management and observed data from an experiment
+\end{enumerate}
+
+Given the availability of the input dataset, DSSAT users can simulate single-season or multiseason outcomes of the crop management decisions for different crops at any location in the world.
+
+DSSAT is one of the principal products developed by the International Benchmark Sites Network for Agrotechnology Transfer project supported by the United States Agency for International Development from 1983 to 1993. It has subsequently continued development through collaboration among scientists from multiple universities and international agricultural research institutes as well as scientists associated with the International Consortium for Agricultural Systems Applications  (White et al 2013).
+
+Currently, DSSAT is a commercial open source application that provides source code to registered users. Adopting a modular modeling approach, many parts of crop models can be plugged out/in by users as necessary. The main engine of DSSAT is written in FORTRAN 90 programming language, originally compiled in a PC environment. With minimal changes in the source code, DSSAT also can be compiled and executed in any other operating system with a FORTRAN compiler.
+
+\subsection*{Linking DSSAT Crop Model Results to the International Model for Policy Analysis of Agricultural Commodities and Trade (IMPACT) Model}
+
+Process-based crop simulation models can be used to explore the effect of climate change and possible alternative technologies on the mechanics of crop production. For instance, the models can simulate how yields may respond to varietal choice, soil management practices (for example, residues retention, tillage depth), and length of growth period. The next level of assessment is to consider these biophysical processes in conjunction with economic factors. Shifters are calculated from the process-based models to implement supply curve shocks in the partial equilibrium environment. Process-based crop models can simulate accurately the growth of particular crops but provide no insight into the availability of a variety or technology and how farmers respond to incentives and factors beyond the crop system. They are mechanical biophysical models containing no economic factors or inputs. The challenge is then to take both management and climate change effects simulated in crop models and incorporate them into economic models alongside price effects, general technological progress, and assumptions about adaptive behavior on the part of producers.
+
+The approach employed for the IMPACT model uses the responses of selected crops to climate, soil, and nutrients simulated by DSSAT. The yield simulations in DSSAT are performed on a high-resolution geographic grid, whereas IMPACT operates on a regional basis (food production units [FPUs]). Transformation of the detailed gridded crop modeling results into a form compatible with that of the multimarket model is accomplished using area-weighted average yields. The relative importance of each pixel is judged by the physical area allocated to the crop of interest by the Spatial Production Allocation Model (SPAM; You, Wood, and Wood-Sichra 2006; You et al. 2014). The SPAM areas are summed in the FPU to determine a total crop area. Next, the SPAM areas are multiplied (pixel by pixel) by the DSSAT simulated yields, providing pixel-level production information. These are summed in the FPU to obtain the total simulated production. Based on these, the area-weighted average yield is just total production divided by total area. These yields are computed for all combinations of cases and then transferred to IMPACT as shifters that are used in the simulations to reflect the climate change shock and the effects of technology adoption. All crop model results are applied in IMPACT using a delta method, meaning the changes in yields (deltas) observed in the crop models–simulated yields are applied to the IMPACT yields.
+
+This approach is followed as it allows us to capture the direction and magnitude of change due to technologies (or climate change) seen in the crop models while maintaining the observed agricultural productivity reported in the FAOSTAT database.
+
+DSSAT requires several consistent and comprehensive datasets as input. Seven crops are directly modeled (groundnuts, maize, potatoes, rice, sorghum, soybeans, and wheat) due to these crops’ being particularly well developed in DSSAT and broadly accepted as globally applicable. The effects on the remaining crops in IMPACT are built up off of these core crops, based on biophysical similarities of the IMPACT crops to the core DSSAT crops (for example, pulses are legumes like groundnuts and soybeans, and sugarcane is a C4 grass like maize). Table F.1 summarizes this mapping of DSSAT crop models to IMPACT crops. Each crop is modeled under purely rainfed conditions and a stylized minimum water stress irrigation scheme. Effects of carbon dioxide concentrations are considered, using the appropriate future value and keeping it constant at the baseline levels. As modeled in DSSAT, the effects of carbon dioxide fertilization are generally optimistic compared to a world without any fertilization. The range of potential future climatic conditions is represented via a baseline climate (also known as no climate change) and specified Representative Concentration Pathways. Earth System Models (ESMs) then provide a more specific climate realization that can be used to generate future monthly and daily weather data. For each Representative Concentration Pathway and ESM combination, we have (7 crops) x (2 water sources) x ([1 baseline] + [2 CO\textsubscript{2} assumptions]) = 42 individual yield realizations that are used to calculate climate change impacts across the appropriate domains of the IMPACT model.
+
+% Table generated by Excel2LaTeX from sheet 'd1'
+\begin{table}[htbp]
+  \centering
+  \caption{Mapping DSSAT crop model results to IMPACT}
+    \begin{tabular}{cp{13.93em}p{13.93em}r}
+\cmidrule{1-3}    \multicolumn{1}{p{3.785em}}{\textbf{Type}} & \textbf{DSSAT crop model} & \textbf{IMPACT crops} &  \\
+\cmidrule{1-3}    \multicolumn{1}{c}{\multirow{9}[2]{*}{C3 crops}} & CERES rice & Rice  &  \\
+          & CERES wheat & Wheat &  \\
+          & CROPGRO soybeans & Soybeans &  \\
+          & CROPGRO groundnuts & Groundnuts &  \\
+          & SUBSTOR potatoes & Potatoes &  \\
+          & Dryland cereals & Barley, other cereals &  \\
+          & Dryland pulses & Chickpeas, pigeon peas, beans, cowpeas, lentils, other pulses &  \\
+          & C3 average & Cotton, sugar beets, tropical fruits, temperate fruits, vegetables, bananas, plantains, cocoa, coffee, tea, rapeseed, sunflower, oil palm, other oilseeds &  \\
+          & C3 tolerant & Cassava, sweet potato, yams, other roots and tubers, other &  \\
+\cmidrule{1-3}    \multicolumn{1}{c}{\multirow{3}[2]{*}{C4 crops}} & CERES maize & Maize &  \\
+          & CERES sorghum & Sorghum, millet &  \\
+          & C4 tolerant & Sugarcane &  \\
+\cmidrule{1-3}    \end{tabular}%
+  \label{tab:dssatimpact}%
+\end{table}%
+
+Key data sources and processing for the DSSAT-IMPACT linkage are the following:
+
+\begin{itemize}
+    \item Climate data are derived from ESM outputs. In particular, the Inter-sectoral Impact Model Intercomparison Project (ISIMIP) initiative provides gridded versions of ESM outputs relevant to agricultural modeling (Hempel et al. 2013; Piani, Haerter, and Coppala 2010; Weedon et al. 2011). As of this writing, the ISIMIP3b datasets are used to build the future climates (Lange and Büchner 2021). This is accomplished by taking patterns of change from the ISIMIP maps and applying them to a common and trusted set of baseline/historic climate data to allow for consistent comparisons and realistic baseline results. The Princeton Global Forcing dataset (Sheffield et al 2006) is used as the common baseline. The historical period of interest is defined as the average of the years 1995-2015. The change to the future climates is determined by extracting similar averages over the years 1995-2015 (i.e., centered on 2005) and 2040-2060 (centered on 2050) and applying those to the Princeton Global Forcing averages centered on 2005.
+
+    \item Soils were handled using a generic soil profile approach. The Harmonized World Soil Database (FAO/IIASA/ISRIC/ISSCAS/JRC 2012) was processed to provide a global gridded map of 27 generic soil types based on organic carbon content (high, medium, and low), depth (shallow, medium, deep), and texture (sand, clay, loam)
+
+    \item Planting month assumptions are constructed as was done for Nelson et al (2010), as a combination of hard data and rules operating on them, which were calibrated to match expert and anecdotal evidence. To help account for imperfections in the approach and allow for a hint of maximizing behavior, the rule-based planting month was used as the middle of a three-month window. Each planting month was simulated and its average yield recorded. Then, for each pixel, the highest of the three monthly average yields was chosen as the final yield used for the DSSAT simulation.
+
+    \item Availability of other required data inputs is sparse and must necessarily be constructed on a more ad hoc basis. Nitrogen fertilizer rates come from a combination of official sources, expert opinion, anecdotes, and iterative adjustments. Other sets of initial conditions were primarily based on expert opinion and adjusted in a way to obtain reasonable output values from the crop models.
+\end{itemize}
+
+Each of these links in the chain from raw data to crop modeling to aggregation to the multimarket model provides opportunities for investigation and improvement. As with any effort of this scale, the details are periodically modified to better incorporate lessons learned along the way.

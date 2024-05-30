@@ -90,13 +90,27 @@
 \begin{appendices}
 \setcounter{table}{0}
 \setcounter{figure}{0}
-\renewcommand{\thetable}{A\arabic{table}}
-\renewcommand{\thefigure}{A\arabic{figure}}
 
 % lables are withing appendix
+\renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\thefigure}{A\arabic{figure}}
 \input{appendix/a}
+
+\renewcommand{\thetable}{B\arabic{table}}
+\renewcommand{\thefigure}{B\arabic{figure}}
 \input{appendix/b}
+
+\renewcommand{\thetable}{C\arabic{table}}
+\renewcommand{\thefigure}{C\arabic{figure}}\textbf{}
 \input{appendix/c}
+
+\renewcommand{\thetable}{D\arabic{table}}
+\renewcommand{\thefigure}{D\arabic{figure}}
+\input{appendix/d}
+
+\renewcommand{\thetable}{E\arabic{table}}
+\renewcommand{\thefigure}{E\arabic{figure}}
+\input{appendix/e}
 
 \end{appendices}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
