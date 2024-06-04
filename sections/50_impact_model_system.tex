@@ -14,12 +14,12 @@ The IMPACT model system is a network of linked models. Major components include 
 Modeling philosophy in IMPACT also focuses on making data processing independent from the behavioral model system. The goal is that any model component of IMPACT should have standard data requirements and that the data sources could be changed as long as they conform to deliver standard data inputs of the modules. This standardization of data inputs has allowed the breaking up of processing the IMPACT database into a series of specific data-processing modules, each focused on preparing one part of the IMPACT database. These data modules are linked into a separate IMPACT Data Management and Estimation System that provides all the data needed to implement the IMPACT model system. These data processing modules include the following:
 
 \begin{itemize}
-   \item Food and Agriculture Organization of the United Nations (FAO) production, trade, and demand estimation program: An estimation module that uses cross-entropy estimation techniques to estimate a consistent and balanced base year database for IMPACT from FAOSTAT, AquaStat, IFPRI-SPAM, and other data sources. For more information about this module see Mason-D’Croz, Robinson, and Islam (2015)
+   \item Food and Agriculture Organization of the United Nations (FAO) production, trade, and demand estimation program: An estimation module that uses cross-entropy estimation techniques to estimate a consistent and balanced base year database for IMPACT from FAOSTAT, AquaStat, IFPRI-SPAM, and other data sources. For more information about this module see \cite{mason2015international}
    \item Population and GDP processing module: An aggregation module that takes data for population, GDP, and growth rates from a variety of sources, including the World Bank’s World Development Indicators (WDIs), UN population statistics, Central Intelligence Agency World Factbook, and the SSP database, and puts them into an IMPACT-ready format
    \item Price-processing module that reads in data from OECD Agricultural Market Access Database and maps them to IMPACT commodities
    \item Trade parameter–processing module that reads in data from OECD and Global Trade Analysis Project at Purdue University to IMPACT commodities and countries
    \item Model calibration modules that join GAMS, Excel, and Tableau  to generate complex data visualizations, which are used to compare IMPACT results to historical trends and to inform model calibration to adjust IMPACT parameters in response to these trends and new expert judgment
-   \item Climate data processing module, which reads in results from crop models aggregated to the FPU level and then processes them into average annual climate shocks for all IMPACT commodities (for more information about crop models see Appendix F)
+   \item Climate data processing module, which reads in results from crop models aggregated to the FPU level and then processes them into average annual climate shocks for all IMPACT commodities.
 \end{itemize}
 
 \subsection{Food security modules}
@@ -46,11 +46,11 @@ where:
  \Delta t,t0 & Difference between time step t and base year (2019 for IMPACT v3.6) \\ 
 \end{conditions}
 
-The data used in this calculation come from a variety of sources. The base values for undernourished children originally come from the World Bank’s WDIs (World Bank 2014). The base values for female-male life expectancy ratio, female secondary school enrollment, and access to safe water come from the WDIs (World Bank 2014). The projections of changes in female-male life expectancy come from the United Nations Populations Prospects medium variant (United Nations 2011). The projections of changes in female secondary school enrollment and access to clean water come from the Technogarden Baseline Scenario (MA 2005).
+The data used in this calculation come from a variety of sources. The base values for undernourished children originally come from the World Bank’s World Development Indicators (WDIs). The base values for female-male life expectancy ratio, female secondary school enrollment, and access to safe water come from the WDIs. The projections of changes in female-male life expectancy come from the United Nations Populations Prospects (medium variant). The projections of changes in female secondary school enrollment and access to clean water come from the Technogarden Baseline Scenario \parencite{mea2005ecosystems}.
 
-The per capita kilocalorie availability is derived from two sources: (1) the amount of calories obtained from commodities included in the IMPACT-Food model and (2) the calories from commodities outside the model (FAO 2015).
+The per capita kilocalorie availability is derived from two sources: (1) the amount of calories obtained from commodities included in the IMPACT-Food model and (2) the calories from commodities outside the model (FAOSTAT database).
 
-After the percentage of undernourished children has been calculated, the total number of undernourished children is calculated as the product of equation \ref{eq:undernourished}, with the population of children (0–5 years old) coming from the appropriate SSP scenario (\textcolor{red}{\textbf{cite v3 here}}).
+After the percentage of undernourished children has been calculated, the total number of undernourished children is calculated as the product of equation \ref{eq:undernourished}, with the population of children (0–5 years old) coming from the appropriate SSP scenario \parencite{kc2024updating}.
 
 \subsubsection{Share of population at risk of hunger}
 
