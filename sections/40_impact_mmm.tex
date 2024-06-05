@@ -356,7 +356,7 @@ where:
 
 Food demand is a function of the price of the commodity and the prices of other competing commodities, per capita income, and total population. Per capita income and population increase annually according to country-specific population and income growth rates. Population and gross domestic product (GDP) trends vary by scenario and are drawn from the Shared Socio-economic Pathway (SSP) database (version 3) representing socioeconomic scenarios. 
 
-The IMPACT demand elasticities are originally based on United States Department of Agriculture–estimated elasticities and adjusted to represent a synthesis of average, aggregate elasticities for each region, given the income level and distribution of urban and rural population \textcolor{red}{\textbf{(United States Department of Agriculture 1998)??}}. Over time these elasticities have been adjusted in IMPACT to accommodate the gradual shift in demand from staples to high-value commodities like meat, especially in developing countries. This assumption is based on expected economic growth, increased urbanization, and continued commercialization of the agricultural sector. IMPACT is designed to simulate multiple types of households (that is, rural, urban, etc.); however, IMPACT 3.6 treats household demand with one representative consumer per country.
+The IMPACT demand elasticities are originally based on United States Department of Agriculture–estimated elasticities and adjusted to represent a synthesis of average, aggregate elasticities for each region, given the income level and distribution of urban and rural population. Over time these elasticities have been adjusted in IMPACT to accommodate the gradual shift in demand from staples to high-value commodities like meat, especially in developing countries. This assumption is based on expected economic growth, increased urbanization, and continued commercialization of the agricultural sector. IMPACT is designed to simulate multiple types of households (that is, rural, urban, etc.); however, IMPACT 3.6 treats household demand with one representative consumer per country.
 
 \begin{equation}
     \label{eq:qh}
@@ -515,11 +515,11 @@ where:
  cty                &   Countries \\
 \end{conditions}
 
-IMPACT prices are in constant \textcolor{red}{\textbf{2005}} US dollars. Domestic prices of tradable commodities are a function of world prices, adjusted by the effect of trade policy represented by taxes and tariffs, and price policies are expressed in terms of producer support estimates (PSEs), consumer support estimates (CSEs), and the cost of moving products from one market to another represented by marketing margins (MMs). Export taxes and import tariffs are drawn from data from the Global Trade Analysis Project (GTAP) at Purdue University and reflect trade policies at the national level. PSEs and CSEs represent public policies to support production and consumption by creating wedges between world and domestic prices. PSEs and CSEs are based on Organisation for Economic Co-operation and Development (OECD) estimates and are adjusted by expert judgment to reflect regional trade dynamics. MMs reflect other factors such as transport and marketing costs of getting goods to various markets and are based on expert opinion on the quality and availability of transportation, communication, and market infrastructure. Fig. \ref{fig:price_str} illustrates the pricing system in IMPACT and where the appropriate price wedges are applied.
+IMPACT prices are in constant base year US dollars (for IMPACT 3.6,  2020 is the base year). Domestic prices of tradable commodities are a function of world prices, adjusted by the effect of trade policy represented by taxes and tariffs, and price policies are expressed in terms of producer support estimates (PSEs), consumer support estimates (CSEs), and the cost of moving products from one market to another represented by marketing margins (MMs). Export taxes and import tariffs are drawn from data from the Global Trade Analysis Project (GTAP) at Purdue University and reflect trade policies at the national level. PSEs and CSEs represent public policies to support production and consumption by creating wedges between world and domestic prices. PSEs and CSEs are based on Organisation for Economic Co-operation and Development (OECD) estimates and are adjusted by expert judgment to reflect regional trade dynamics. MMs reflect other factors such as transport and marketing costs of getting goods to various markets and are based on expert opinion on the quality and availability of transportation, communication, and market infrastructure. Fig. \ref{fig:price_str} illustrates the pricing system in IMPACT and where the appropriate price wedges are applied.
 
 \begin{figure}[hbt!]
   \centering
-  \centerline{\includegraphics[width=1.4\linewidth]{plots/Slide2.png}}
+  \centerline{\includegraphics[width=0.8\linewidth]{plots/Slide2.png}}
   \caption{Price structure in IMPACT.}
   \label{fig:price_str}
 \end{figure}
@@ -530,7 +530,7 @@ Moving commodities to and from the port incurs MMs and any taxes/subsidies/tarif
 
 \begin{equation}
     \label{eq:pp}
-    PP_{j, cty} * (1 + MMJ_{j,cty}) = (1 + PSE_{j, c, cty}) * \sum_{c}(JCRatio_{j, c, cty} * PC_{c, cty}) 
+    PP_{j, cty} * (1 + MMJ_{j,cty}) = (1 + PSE_{j, cty}) * \sum_{c}(JCRatio_{j, c, cty} * PC_{c, cty}) 
 \end{equation}
 where:
 \begin{conditions}

@@ -4,7 +4,7 @@
 The IMPACT model system is a network of linked models. Major components include climate models, crop models, and water models, and the links between these were shown in Fig. \ref{fig:geography}. The model system now includes a number of additional modules, and more are in development. Some of these modules are integrated into the multimarket model, and others are coded as separate modules that are linked through information flows to others. Fig. \ref{fig:model_schematic}, a detailed schematic of the IMPACT multimarket model, illustrates how many of these modules are interconnected. In this section, we will discuss these new modules and provide further description of the major components of the IMPACT model system such as data management and estimation, scenario specification and implementation, food security indicators, welfare analysis, crop models, and water models.  More detail about some of the modules, including equations, is provided in the appendixes.
 
 \begin{figure}[hbt!]
-  \centerline{\includegraphics[width=1.5\textwidth]{plots/Slide3.png}}
+  \centerline{\includegraphics[width=1\textwidth]{plots/Slide3.png}}
   \caption[Detailed schematic of the IMPACT multimarket model]{Detailed schematic of the IMPACT multimarket model. CGE = computable general equilibrium; GDP = gross domestic product; IMPACT = International Model for Policy Analysis of Agricultural Commodities and Trade; IPRs = intrinsic productivity growth rates.}
   \label{fig:model_schematic}
 \end{figure}
@@ -77,9 +77,7 @@ It should be noted that due to the quadratic nature of this equation it is neces
 
 The effect of climate change on crop yields starts by running the DSSAT family of crop models across a gridded representation of the world. Yield maps for groundnuts, maize, potatoes, rice, sorghum, soybeans, and wheat are compiled under both rainfed and irrigated conditions. Driving the model is a large collection of data. Some of the data represent soil characteristics and conditions as well as basic management decisions while others characterize the climatic conditions under which the crops were grown.
 
-The climate data are maps of monthly climate data that allow the random generation of daily weather data for each location typical of what might be expected for conditions of the near recent past as well as those of the future. The baseline climate information comes from \textcolor{red}{\textbf{cite new}}. The future climate information is derived from data processed by the Inter-sectoral Impact Model Intercomparison Project \textcolor{red}{\textbf{cite new}}. 
-
-The grid-based yields for each climate and crop combination are aggregated within regions appropriate for the economic portions of the model. Specifically, they are computed as production-area-weighted averages using maps of production areas from the Spatial Production Allocation Model as weights \textcolor{red}{\textbf{cite SPAM}}. These are then used as weights in the multimarket model to estimate final yield impacts. This follows the general approach for incorporating projected yield changes from biophysical models into economics models as outlined in \cite{muller2014projecting}.
+The grid-based yields for each climate and crop combination are aggregated within regions appropriate for the economic portions of the model. Specifically, they are computed as production-area-weighted averages using maps of production areas from the Spatial Production Allocation Model as weights \parencite{you2014spatial}. These are then used as weights in the multimarket model to estimate final yield impacts. This follows the general approach for incorporating projected yield changes from biophysical models into economics models as outlined in \cite{muller2014projecting}. Crop models are further discussed in \nameref{sec:appendixD}.
 
 \subsection{Water models}
 
