@@ -16,7 +16,7 @@ The key to understanding the activity-commodity framework is to separate the pro
 Individual activities can produce more than one commodity. For example, the soybean value chain processing activity uses soybeans as an input and produces both soybean oil and soybean meal. Conversely, a given commodity can be produced by more than one activity. For example, there are separate sugar beet and sugarcane value chain processing activities that produce the same commodity, processed sugar, which is consumed and traded.
 \end{tcolorbox}
 
-The framework described in box 4.1 allows for potentially complex interlinking of activity inputs and outputs (managed through input-output matrices), to simulate agricultural value chains. An example of this interlinking is illustrated in Fig. \ref{fig:value_chain}, illustrating the oil palm sector value chain. The palm plantation activity produces palm fruit that is demanded by the palm fruit–processing sector that produces palm oil and a palm kernel by-product. Palm kernel is, in turn, an input into the palm kernel–processing sector that produces palm kernel oil and palm kernel meal. For a full list of activities and the commodities produced in IMPACT see Appendix B. This framework also allows IMPACT to consider the role of commodities outside of the agriculture sector in the production process (that is, fertilizer, labor) that can be treated as exogenous commodities with exogenous supply, prices, or both.
+The framework described in box 4.1 allows for potentially complex interlinking of activity inputs and outputs (managed through input-output matrices), to simulate agricultural value chains. An example of this interlinking is illustrated in Fig. \ref{fig:value_chain}, illustrating the oil palm sector value chain. The palm plantation activity produces palm fruit that is demanded by the palm fruit–processing sector that produces palm oil and a palm kernel by-product. Palm kernel is, in turn, an input into the palm kernel–processing sector that produces palm kernel oil and palm kernel meal. For a full list of activities and the commodities produced in IMPACT see \nameref{sec:appendixB}. This framework also allows IMPACT to consider the role of commodities outside of the agriculture sector in the production process (that is, fertilizer, labor) that can be treated as exogenous commodities with exogenous supply, prices, or both.
 
 \begin{figure}[hbt!]
   \centering
@@ -522,19 +522,22 @@ where:
  cty                &   Countries \\
 \end{conditions}
 
-IMPACT prices are in constant base year US dollars (for IMPACT 3.6,  2020 is the base year). Domestic prices of tradable commodities are a function of world prices, adjusted by the effect of trade policy represented by taxes and tariffs, and price policies are expressed in terms of producer support estimates (PSEs), consumer support estimates (CSEs), and the cost of moving products from one market to another represented by marketing margins (MMs). Export taxes and import tariffs are drawn from data from the Global Trade Analysis Project (GTAP) at Purdue University and reflect trade policies at the national level. PSEs and CSEs represent public policies to support production and consumption by creating wedges between world and domestic prices. PSEs and CSEs are based on Organisation for Economic Co-operation and Development (OECD) estimates and are adjusted by expert judgment to reflect regional trade dynamics. MMs reflect other factors such as transport and marketing costs of getting goods to various markets and are based on expert opinion on the quality and availability of transportation, communication, and market infrastructure. Fig. \ref{fig:price_str} illustrates the pricing system in IMPACT and where the appropriate price wedges are applied.
+IMPACT prices are in constant base year US dollars (for IMPACT 3.6,  2020 is the base year). Domestic prices of tradable commodities are a function of world prices, adjusted by the effect of trade policy represented by taxes and tariffs, and price policies are expressed in terms of producer support estimates (PSEs), consumer support estimates (CSEs), and the cost of moving products from one market to another represented by marketing margins (MMs). Export taxes and import tariffs are drawn from data from the Global Trade Analysis Project (GTAP) at Purdue University and reflect trade policies at the national level. PSEs and CSEs represent public policies to support production and consumption by creating wedges between world and domestic prices. PSEs and CSEs are based on Organisation for Economic Co-operation and Development (OECD) estimates and are adjusted by expert judgment to reflect regional trade dynamics. MMs reflect other factors such as transport and marketing costs of getting goods to various markets and are based on expert opinion on the quality and availability of transportation, communication, and market infrastructure. Fig. \ref{fig:price_str} illustrates the pricing system in IMPACT and where the appropriate price wedges are applied. Abbreviations used in Fig. \ref{fig:price_str} are as follows:
+\begin{itemize}
+\setlength\itemsep{0em}
+    \item  MMJ is \textbf{M}arketing \textbf{M}argins for activities (\textbf{j})
+    \item  PSE is \textbf{P}roducer \textbf{S}ubsidy \textbf{E}quivalents
+    \item  CSE is \textbf{C}onsumer \textbf{S}ubsidy \textbf{E}quivalents. 
+    \item  MMM is \textbf{M}arketing \textbf{M}argins for I\textbf{m}ports  
+    \item  MME is \textbf{M}arketing \textbf{M}argins for \textbf{E}xports 
+    \item  TM is \textbf{T}ariffs on \textbf{I}mports, and,
+    \item  TE is \textbf{T}axes on \textbf{E}xports
+\end{itemize}
 
 \begin{figure}[hbt!]
   \centering
-  \centerline{\includegraphics[width=0.8\linewidth]{plots/Slide2.png}}
-  \caption[Price structure in IMPACT.]{Price structure in IMPACT.\\ 
-  MMJ is \textbf{M}arketing \textbf{M}argins for activities (\textbf{j}).\\
-  PSE is \textbf{P}roducer \textbf{S}ubsidy \textbf{E}quivalents.\\
-  CSE is \textbf{C}onsumer \textbf{S}ubsidy \textbf{E}quivalents. \\
-  MMM is \textbf{M}arketing \textbf{M}argins for I\textbf{m}ports \\ 
-  MME is \textbf{M}arketing \textbf{M}argins for \textbf{E}xports \\
-  TM is \textbf{T}ariffs on \textbf{I}mports, and,\\
-  TE is \textbf{T}axes on \textbf{E}xports.}
+  \centerline{\includegraphics[width=0.7\linewidth]{plots/Slide2.png}}
+  \caption[Price structure in IMPACT.]{Price structure in IMPACT.}
   \label{fig:price_str}
 \end{figure}
 
