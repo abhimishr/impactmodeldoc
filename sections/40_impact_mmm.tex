@@ -4,62 +4,40 @@
 
 The IMPACT model system, as described in the preceding sections, is organized around a core global partial equilibrium multimarket model of agricultural production, demand, trade, and prices. The multimarket model simulates the operation of national and global markets for agricultural commodities, solving for equilibrium prices and quantities. The model specifies supply and demand behavior in all markets. This section describes the elements of that model.
 
-\subsection{Commodity supply}
-
-IMPACT since update to version 3 carries a full implementation of an activity-commodity framework, borrowed from the CGE literature \parencite{lofgren2002standard}, to organize the supply side, incorporating value chains from crops to produced commodities. This framework allows for a general approach that can encompass a wide array of commodities and different technologies, methods, or both in producing these commodities. Currently in IMPACT, there are three main types of commodities (crops, livestock, and processed), and each has a unique method of production but that can still be summarized by the activity-commodity framework. This framework is described in Box 4.1. 
-
-\begin{tcolorbox}[title=Box 4.1. Activity-Commodity framework in IMPACT.]
-The key to understanding the activity-commodity framework is to separate the process (activity) from the output of this process (commodity). 
-
-\vspace{5pt}
-
-Individual activities can produce more than one commodity. For example, the soybean value chain processing activity uses soybeans as an input and produces both soybean oil and soybean meal. Conversely, a given commodity can be produced by more than one activity. For example, there are separate sugar beet and sugarcane value chain processing activities that produce the same commodity, processed sugar, which is consumed and traded.
-\end{tcolorbox}
-
-The framework described in box 4.1 allows for potentially complex interlinking of activity inputs and outputs (managed through input-output matrices), to simulate agricultural value chains. An example of this interlinking is illustrated in Fig. \ref{fig:value_chain}, illustrating the oil palm sector value chain. The palm plantation activity produces palm fruit that is demanded by the palm fruit–processing sector that produces palm oil and a palm kernel by-product. Palm kernel is, in turn, an input into the palm kernel–processing sector that produces palm kernel oil and palm kernel meal. For a full list of activities and the commodities produced in IMPACT see \nameref{sec:appendixB}. This framework also allows IMPACT to consider the role of commodities outside of the agriculture sector in the production process (that is, fertilizer, labor) that can be treated as exogenous commodities with exogenous supply, prices, or both.
-
-\begin{figure}[hbt!]
-  \centering
-  \includegraphics[width=\textwidth]{plots/Slide1.png}
-  \caption[The palm oil value chain in the IMPACT activity-commodity framework]{Conceptual diagram explaining the palm oil value chain in the IMPACT activity-commodity framework. Boxes in black are activities. Irregular boxes in green are commodities in IMPACT.}
-  \label{fig:value_chain}
-\end{figure}
-
 \subsection{Crop production}
 
 Crop production in IMPACT is simulated through area\footnote{In IMPACT, area is treated as harvested area, which is the total area planted and harvested within a year, and may include multicropping or multiple harvests and differ from total arable land or reported physical area.} and yield response functions. The choice of specifying crop production in this way has a long history in IMPACT and facilitates interaction with commodity experts and land-use specialists, who work in natural units (hectares, tons per hectare). Crop production in IMPACT is specified sub-nationally with the area and yield functions at the level of FPUs. This regional disaggregation permits linking with water models and provides the added benefit of smaller geographical units for aggregating climate change results, which can vary significantly from one location to another. Land used for crop production is divided into irrigated and rainfed systems, capturing the significant differences in yields observed across these cultivation systems and linking directly with the water models, which treat irrigated and rainfed water supplies separately.
 
 A new feature of IMPACT version 3 and above is the implementation of a land market to manage competing demands for agricultural land from different crops, as well as providing new linkage points to land-use models that work with broader land-use changes, such as conversion of forest to grasslands and agricultural land. It also allows us to separate total area supply (irrigated and rainfed) from individual crop area demands and allows equilibrium conditions to determine the best economic use of the available land. The total supply of land is assumed to be a function of the scarcity value or shadow price index of land, which can also be considered a summary of changes in crop prices. The shadow price (\textit{WF} in equation \ref{eq:landsupply}) is indexed to 1 in the first year and changes based on changing demands from all crops for land area.
 
-\subsubsection{Equations}
-
-Equation \ref{eq:landsupply} describes the land supply in IMPACT. The supply of land is considered exogenous within each year, meaning that farmers are not allowed to adjust the total crop area in the middle of the year. The total land supply over time is driven by exogenous trends on the availability of area for agriculture as well as endogenous responses to changes in area demand, which is handled in between years. 
+Equation \ref{eq:landsupply} describes the land supply in IMPACT. The supply of land is considered exogenous within each year, meaning that farmers are not allowed to adjust the total crop area in the middle of the year. The total land supply over time is driven by exogenous trends on the availability of area for agriculture as well as endogenous responses to changes in area demand, which is handled in between years. These are shown in equations \ref{eq:landsupply2a} and \ref{eq:landsupply2b}.
 
 \begin{equation}
     \label{eq:landsupply}
-    QFS_{fpu, lnd} = QFSInt_{fpu, lnd} * QFSInt2_{fpu, lnd} * QFSInt3_{fpu, lnd} * \left (WF_{fpu, lnd}\right )^{L_{\gamma}} 
+    QFS_{fpu, lnd} = QFSInt_{fpu, lnd} \times QFSInt2_{fpu, lnd} \times QFSInt3_{fpu, lnd} \times \left (WF_{fpu, lnd}\right )^{L_{fpu, lnd}} 
 \end{equation}
 where:
 \begin{conditions}
  QFS        &   Land supply \\
  QFSInt     &   Land supply intercept i.e., base year supply of land \\   
- QFSInt2    &   Endogenous land supply growth multiplier \\   
- QFSInt3    &   Exogenous land supply growth multiplier \\   
+ QFSInt2    &   Exogenous land supply growth multiplier \\   
+ QFSInt3    &   Endogenous land supply growth multiplier \\   
  WF         &   Shadow price index of land \\
- L_{\gamma} &   Elasticity of land supply \\
+ L          &   Elasticity of land supply \\
  fpu        &   Food production unit \\   
  lnd        &   Land type (irrigated or rainfed)  \\   
 \end{conditions}
 
-Additionally, equations \ref{eq:landsupply2a} and \ref{eq:landsupply2b} are applied at the end of each year before solving for land supply for a new year. Note that the index \textit{t} and \textit{t+1} for the simulation time step are only illustrative in equations \ref{eq:landsupply2a} and \ref{eq:landsupply2b} to denote updates of parameters in IMPACT from one year to another.
+IMPACT is a recursive-dynamic model. This means that the model is solved year-by-year, with the solution of one year being the starting point of the next year. Additional parameters, such as population, are also updated between years. Equations eq. \ref{eq:landsupply2a} and \ref{eq:landsupply2b} are examples of how this update takes place. Equation \ref{eq:landsupply2a} illustrates the land supply growth factor affected by an exogenous trend. Equation \ref{eq:landsupply2b} shows the land supply growth factor affected by the endogenously-determined shadow price of land for the preceding three years. Note that the index \textit{t} and \textit{t+1} for the simulation time step are only illustrative in equations \ref{eq:landsupply2a} and \ref{eq:landsupply2b} to denote updates of parameters in IMPACT from one year to another.
+
 \begin{subequations}
     \begin{equation}
         \label{eq:landsupply2a}
-        QFSInt2_{fpu, lnd, t+1} = QFSInt2_{fpu, lnd, t} * (1 + Landgr_{fpu, lnd}) 
+        QFSInt2_{fpu, lnd, t+1} = QFSInt2_{fpu, lnd, t} \times (1 + Landgr_{fpu, lnd}) 
     \end{equation}
     \begin{equation}
        \label{eq:landsupply2b}
-       QFSInt3_{fpu, lnd, t+1} =  \left ( \frac{\sum_{t-3}^{t} WF_{fpu, lnd, t}}{3} \right )^{L_{\gamma, t}} 
+       QFSInt3_{fpu, lnd, t+1} =  \left ( \frac{\sum_{t-3}^{t} WF_{fpu, lnd, t}}{3} \right )^{L_{fpu, lnd, t}} 
     \end{equation}
 \end{subequations}
 
@@ -69,17 +47,17 @@ where:
  Landgr     &   Exogenous land supply growth rate \\   
  WF         &   Shadow price index of land \\
  \sum_{t=1}^{3} WF_{fpu, lnd, t}/{3} & Average shadow price of past three years \\
- L_{\gamma} &   Elasticity of land supply \\
+ L &   Elasticity of land supply \\
  fpu        &   Food production unit \\   
  lnd        &   Land type (irrigated or rainfed)  \\   
  t          &   Simulation time step  \\   
 \end{conditions}
 
-From equation \ref{eq:mrp}, crop area is driven by an area demand function with respect to changes in the marginal revenue product, changes in land cost, and exogenous non-price trends in harvested area. Crop area elasticities simulate the supply response to changes in the marginal revenue of land represented by the following equation as the interaction of the net price of an activity and the productivity of the activity in using an additional hectare of land.
+Equation \ref{eq:mrp} describes the marginal revenue product for crop activities. Broadly, the MRP gauges the income that could be earned from an additional hectare's worth of production of a particular crop. MRP is an important metric for resource allocation, as shown in equation \ref{eq:area}, which defines the area demand for each crop. 
 
 \begin{equation}
     \label{eq:mrp}
-    MRP_{j, fpu, lnd} = Yld_{j, fpu, lnd} * \sum_{cty}^{fpu} PNET_{j, cty}
+    MRP_{j, fpu, lnd} = Yld_{j, fpu, lnd} \times PNET_{j, cty} \forall cty \in fpu
 \end{equation}
 where:
 \begin{conditions}
@@ -92,21 +70,25 @@ where:
  cty        &   Countries \\  
 \end{conditions}
 
-The exogenous trend in harvested area captures changes in area resulting from factors other than direct market effects, such as government programs encouraging cropping expansion, contraction due to soil degradation, or conversion of land from agriculture to non-agricultural uses. The combination of these endogenous and exogenous factors in area demand are described in equation \ref{eq:area}.
+Equation \ref{eq:area} shows the demand function defining cropping area. Area demand for a crop is affected by its marginal revenue product, the shadow cost of the land, and exogenous non-market trends in cropping area. Non-market factors include government programs encouraging expansion of particular crops, reductions due to soil degradation, or conversions to non-agricultural use. 
 
 \begin{equation}
     \label{eq:area}
-    Area_{j, fpu, lnd} = AreaInt_{j, fpu, lnd} * AreaInt2_{j, fpu, lnd} * (WF_{fpu, lnd})^{WF_{\varepsilon}} * \left ( \frac{MRP_{j, fpu, lnd}}{MRP0_{j, fpu, lnd}} \right )^{A_{\varepsilon}} 
+    \begin{aligned}
+    Area_{j, fpu, lnd} = AreaInt_{j, fpu, lnd} \times AreaInt2_{j, fpu, lnd} \\
+    \times (WF_{fpu, lnd})^{LDE_{j, fpu, lnd}} \times \left ( \frac{MRP_{j, fpu, lnd}}{MRP0_{j, fpu, lnd}} \right )^{A_{j, fpu, lnd}}
+    \end{aligned}
 \end{equation}
 where:
 \begin{conditions}
  Area       &   Solution for crop area \\
  AreaInt    &   Crop area intercept (base year crop area) \\
  AreaInt2   &   Exogenous crop area growth multiplier \\
- WF_{\varepsilon} &   Elasticity of demand with respect to land shadow price \\
+ WF         &   Shadow price index of land \\
+ LDE        &   Land demand elasticity \\
  MRP        &   Marginal revenue product of land \\
- MRP0        &   Base year marginal revenue product of land (used to index prices) \\
- A_{\varepsilon} &   Elasticity of area demand with respect to marginal revenue product \\
+ MRP0       &   Base year marginal revenue product of land (used to index prices) \\
+ A          &   Area supply elasticity \\
  j          &   Activity (crops) \\
  fpu        &   Food production unit \\
  lnd        &   Land type (irrigated or rainfed)  \\
@@ -116,7 +98,7 @@ Assumptions for exogenous trends are determined by a combination of historical c
 
 \begin{equation}
     \label{eq:areaint2}
-    AreaInt2_{j, fpu, lnd, t+1} = AreaInt2_{j, fpu, lnd, t}* (1 + Areagr_{j, fpu, lnd, t+1})
+    AreaInt2_{j, fpu, lnd, t+1} = AreaInt2_{j, fpu, lnd, t} \times (1 + Areagr_{j, fpu, lnd, t+1})
 \end{equation}
 where:
 \begin{conditions}
@@ -128,7 +110,7 @@ where:
  t          &   Simulation time step  \\ 
 \end{conditions}
 
-Competing demands from different crops are handled through equation \ref{eq:qfs_sum}. This equilibrium equation that determines the land allocation and ensures that all crop area demand sums up to the total land supply for each FPU. 
+Competing demands from different crops are handled through Equation \ref{eq:qfs_sum}. This equilibrium equation that determines the land allocation and ensures that all crop area demand sums up to the total land supply for each FPU. 
 
 \begin{equation}
     \label{eq:qfs_sum}
@@ -145,20 +127,21 @@ where:
 
 Crop yields are a function of commodity prices, prices of inputs, available water, climate, and exogenous trend factors. The IMPACT model includes five ways that changes in yields are achieved. First, the model assumes a scenario of underlying improvements in yields over time that, to varying degrees, continue trends observed during the past 50 to 60 years in an informed extrapolation following the concepts introduced in \cite{evenson1995productivity} and \cite{evenson1998agricultural}. 
 
-These long-run trends, or intrinsic productivity growth rates, are intended to reflect the expected increases in inputs, improved seeds, and improvements in management practices. These trends differ and generally are higher for developing countries, where there is considerable scope to narrow the gap in yields compared to developed countries. These intrinsic productivity growth rates are exogenous to the model, and changes in them are specified as part of the definition of different scenarios. We assume that these underlying trends vary by crop and region and that they will decline somewhat during the next 50 years as the pace of technological improvements in developed countries slows and as developing countries catch up to yields in developed countries.
+These long-run trends, or intrinsic productivity growth rates (IPRs), are intended to reflect the expected increases in inputs, improved seeds, and improvements in management practices. These trends differ and generally are higher for developing countries, where there is considerable scope to narrow the gap in yields compared to developed countries. These intrinsic productivity growth rates are exogenous to the model, and changes in them are specified as part of the definition of different scenarios. We assume that these underlying trends vary by crop and region and that they will decline somewhat during the next 50 years as the pace of technological improvements in developed countries slows and as developing countries catch up to yields in developed countries. Also, The SSP scenarios assume differences in socioeconomic development, technology, and resources, associated with them. These are expected to affect the capacity and effectiveness to adapt to climate change, and can amplify or diminish the IPRs. In the yield equation (Equation \ref{eq:yields}), the differences in adaptation are captured using an exogenous scaling factor. This is distinct from different climate and water stresses associated with RCPs. Incorporation of IPRs in IMPACT is described in detail in \cite{hareau2025updating}.
 
 Second, the IMPACT model includes a short-run (annual), endogenous, response of yields to changes in both input and output prices. These yield response functions specify the change in yield as a constant elasticity function of the changes in output prices, with elasticity parameters that can vary by crop and region. The underlying assumption is that farmers will respond to changes in prices by varying the use of inputs, including inputs such as fertilizer, chemicals, and labor that will, in turn, change yields.
 
-Third, climate is assumed to affect yields through two mechanisms. The first is through the effects of changes in temperature and weather due to climate change on crop yields for rainfed and irrigated crops, as calculated from the solution of a crop simulation model (DSSAT) for different climate change scenarios. These crop simulations vary by crop type. The DSSAT model is run with detailed time, geographic, and crop disaggregation for different climate change scenarios that are downscaled to include weather variation in small geographic areas. This analysis gives changes in average yields due to climate change that are then averaged to generate yield shocks by crop and region (FPU) in the IMPACT model. These long-run climate scenarios generate yield shocks that are assumed to follow simple trends over time and do not consider extreme events such as droughts or floods.
+Third, climate is assumed to affect yields through the effects of changes in temperature and weather due to climate change on crop yields for rainfed and irrigated crops, as calculated from the solution of a crop simulation model (DSSAT) for different climate change scenarios. These crop simulations vary by crop type. The DSSAT model is run with detailed time, geographic, and crop disaggregation for different climate change scenarios that are downscaled to include weather variation in small geographic areas. This analysis gives changes in average yields due to climate change that are then averaged to generate yield shocks by crop and region (FPU) in the IMPACT model. These long-run climate scenarios generate yield shocks that are assumed to follow simple trends over time and do not consider extreme events such as droughts or floods.
 
-The fourth mechanism by which climate change affects yields is through variation in water availability for agriculture year by year in different climate scenarios. This mechanism is modeled through the use of the IMPACT water models. These include (1) a global hydrology model that determines runoff to the river basins included in the IMPACT model; (2) water basin management models for each FPU that optimally allocate available water to competing non-agricultural and agricultural uses, including irrigation; and (3) a water allocation and stress model that allocates available irrigation water to crops and, when the water supply is less than demand by crop, computes the impact of the water shortage on crop yields, accounting for differences among crops and varieties. These yields shocks are then passed to the IMPACT model, affecting year-to-year crop yields as shown in equation \ref{eq:yields}.
+The fourth mechanism by which climate change affects yields is through variation in water availability for agriculture year by year in different climate scenarios.\footnote{Further information on the water modelling system in IMPACT is provided in section \ref{sec:IMPACTWatersystem}} This mechanism is modeled through the use of the IMPACT water models. These include (1) a global hydrology model that determines runoff to the river basins included in the IMPACT model; (2) water basin management models for each FPU that optimally allocate available water to competing non-agricultural and agricultural uses, including irrigation; and (3) a water allocation and stress model that allocates available irrigation water to crops and, when the water supply is less than demand by crop, computes the impact of the water shortage on crop yields, accounting for differences among crops and varieties. These yields shocks are then passed to the IMPACT model, affecting year-to-year crop yields as shown in Equation \ref{eq:yields}.
 
 \begin{equation}
     \label{eq:yields}
     \begin{aligned}
-    Yield_{j, fpu, lnd} = YieldInt_{j, fpu, lnd} * YieldInt2_{j, fpu, lnd} * WatShk_{j, fpu, lnd} \\ 
-    * CliShk_{j, fpu, lnd} * \left ( \frac{PNET_{j, cty}}{PNET0_{j, cty}} \right )^{Y_{\varepsilon}} \\
-    * (PF)^{F_{\varepsilon}}
+    Yield_{j, fpu, lnd} = YieldInt_{j, fpu, lnd} \times YieldInt2_{j, fpu, lnd} \times YieldIntB2_{fpu}\\
+    \times YldShk_{j, fpu, lnd} \times YldCliShk_{j, fpu, lnd} \\
+    \times \prod_{pfac} (WF_{fpu, pfac})^{YE_{j, fpu, lnd,pfac}} \\
+    \times \left ( \frac{PNET_{j, cty}}{PNET0_{j, cty}} \right )^{Y_{j, fpu, lnd}} \forall cty \in fpu \\
     \end{aligned}
 \end{equation}
 where:
@@ -166,23 +149,26 @@ where:
  Yield       &   Final yield \\
  YieldInt    &   Yield intercept (base year yield) \\
  YieldInt2   &   Exogenous yield growth multiplier \\
- WatShk      &   Water stress shock (from water models) \\
- CliShk      &   Climate change shock (from water and crop models) \\
+ YieldIntB2  &   Scaling factor of exogenous yield growth multiplier linked to SSPs (SSP2 = 1) \\
+ YldShk      &   Water stress shock (from water models) \\
+ YldCliShk   &   Climate change shock (from water and crop models) \\
  PNET        &   Net price for the activity at the country-level \\   
  PNET0       &   Base year net price for the activity at the country-level (used to index prices) \\ 
- PF          &   Input prices \\ 
- F_{\varepsilon} &  Yield supply elasticity with respect to net price  \\ 
+ YE          & Yield elasticity wrt to other input prices \\
+ Y          & Yield elasticity wrt land prices \\
+ WF         & Shadow price index of land by fpu and land type \\
+ pfac       &   Non- land and livestock production factors (wages and fertilizer) \\ 
  j          &   Activity (crops) \\
  fpu        &   Food production unit \\
  lnd        &   Land type (irrigated or rainfed)  \\
  cty        &   Countries \\ 
 \end{conditions}
 
-IMPACT also includes the possibility of introducing new technologies such as drought and/or heat tolerant crop varieties \parencite{robinson2015new}. These are included as new crop and region specific activities in the model. We assume (as part of technology adoption scenarios) that the share of production using the new activities increases over time, usually following a logistic adoption function. Given these adoption functions, the effect of the new activities on average yields is exogenous in the multimarket model, but they will be affected by climate shocks that vary over time (that is, different crop varieties will vary in their yield reaction to climate shocks). These multiple technologies are handled in IMPACT through nested equations, where each technology’s yield is calculated in equation \ref{eq:yields_tech}, and a region-weighted average yield, based on share of total area using each technology, is calculated.
+IMPACT also includes the possibility of introducing new technologies such as drought and/or heat tolerant crop varieties \parencite{robinson2015new}. These are included as new crop and region specific activities in the model. We assume (as part of technology adoption scenarios) that the share of production using the new activities increases over time, usually following a logistic adoption function. Given these adoption functions, the effect of the new activities on average yields is exogenous in the multimarket model, but they will be affected by climate shocks that vary over time (that is, different crop varieties will vary in their yield reaction to climate shocks). These multiple technologies are handled in IMPACT through nested equations, where each technology’s yield is calculated in Equation \ref{eq:yields_tech}, and a region-weighted average yield, based on share of total area using each technology, is calculated.
 
 \begin{equation}
     \label{eq:yields_tech}
-    Yield_{j, fpu, lnd} =  \sum_{tech}(TechShare_{j, fpu, lnd, tech} * TechYield_{j, fpu, lnd})
+    Yield_{j, fpu, lnd} =  \sum_{tech}(TechShare_{j, fpu, lnd, tech} \times TechYield_{j, fpu, lnd})
 \end{equation}
 where:
 \begin{conditions}
@@ -195,11 +181,11 @@ where:
  tech       &   Crop production technology \\ 
 \end{conditions}
 
-Final crop production for each FPU and activity or crop (j) is estimated as the product of the solution for its respective area and yield equations, with national production equal to the summation of the production in all of the relevant FPUs in that country. This is modeled as shown in equation \ref{eq:qs}.
+Final crop production for each FPU and activity or crop (j) is estimated as the product of the solution for its respective area and yield equations, with national production equal to the summation of the production in all of the relevant FPUs in that country. This is modeled as shown in Equation \ref{eq:qs}.
 
 \begin{equation}
     \label{eq:qs}
-    QS_{j, cty} =  \sum_{fpu}^{cty} \left( \sum_{lnd}(Area_{j, fpu, lnd} * Yield_{j, fpu, lnd}) \right )
+    QS_{j, cty} =  \sum_{fpu, lnd}(Area_{j, fpu, lnd} \times Yield_{j, fpu, lnd}) \forall fpu \in cty 
 \end{equation}
 where:
 \begin{conditions}
@@ -216,15 +202,13 @@ where:
 
 Livestock production is modeled at the FPU level and includes animal numbers, with associated feed demands, and meat/dairy production based on processing the animals. Similar to the crop sector, this specification allows for easier translation of information from livestock experts who are used to working with herd-size and feeding requirements. In the current version of the model, there is no modeling of herd dynamics—herd size over time is set exogenously.
 
-\subsubsection{Equations}
-
-Feed demand is a function of the livestock’s own price, the prices of intermediate (feed) inputs, and a trend variable reflecting growth in livestock herds (slaughter rates are implicitly assumed to stay more or less constant over time). The price elasticities in the livestock supply function are derived in a fashion similar to how the crop area and yield elasticities are derived.
+Livestock production is a function of the livestock’s own price, the prices of intermediate (feed) inputs, and a trend variable reflecting growth in livestock herds (slaughter rates are implicitly assumed to stay more or less constant over time). The price elasticities in the livestock supply function are derived in a fashion similar to how the crop area and yield elasticities are derived.
 
 \begin{equation}
     \label{eq:animals}
     \begin{aligned}
-        AnN_{j, fpu, lvs} = AnNInt_{j, fpu, lvs} * AnNInt2_{j, fpu, lvs} \\
-        * \sum_{fpu}^{cty} \left [ \prod_{jl}\left ( \frac{PNET_{jl,cty}}{PNET0_{jl,cty}} \right )^{AN_{\varepsilon}} * \prod_{cfeed}\left ( \frac{PC_{cfeed, cty}}{PC0_{cfeed, cty}} \right )^{Feed_{\varepsilon}} \right ]
+        AnN_{j, fpu, lvs} = AnNInt_{j, fpu, lvs} \times AnNInt2_{j, fpu, lvs} \\
+        \times \prod_{jl}\left ( \frac{PNET_{jl,cty}}{PNET0_{jl,cty}} \right )^{AN_{\varepsilon}} \times \prod_{cfeed}\left ( \frac{PC_{cfeed, cty}}{PC0_{cfeed, cty}} \right )^{Feed_{\varepsilon}} \forall cty \in fpu
     \end{aligned}
 \end{equation}
 where:
@@ -238,6 +222,7 @@ where:
  PNET0       &   Base year net price for the activity at the country-level (used to index prices) \\ 
  PC       &   Consumer price \\
  PC0       &  Base year consumer price \\
+ cfeed     &  Livestock feed commodities i.e., $cfeed$ $\in$ $c$ \\
  j          &   Activity (crops) \\
  jl          &   Activity (livestock) \\
  fpu        &   Food production unit \\
@@ -245,11 +230,11 @@ where:
  cty       &   Countries \\ 
 \end{conditions}
 
-Livestock yields are determined through exogenous growth due to improved animals and management practices as shown in equation \ref{eq:animal_yield}. Currently, all price responses in the livestock sector are accounted for in the animal number equations.
+Livestock yields are determined through exogenous growth due to improved animals and management practices as shown in Equation \ref{eq:animal_yield}. Currently, all price responses in the livestock sector are accounted for in the animal number equations.
 
 \begin{equation}
     \label{eq:animal_yield}
-    AnY_{j, fpu, lvs} =  AnYInt_{j, fpu, lvs} * AnYInt2_{j, fpu, lvs}
+    AnY_{j, fpu, lvs} =  AnYInt_{j, fpu, lvs} \times AnYInt2_{j, fpu, lvs}
 \end{equation}
 where:
 \begin{conditions}
@@ -265,7 +250,7 @@ Total national production (equation \ref{eq:qsL}) is calculated by multiplying t
 
 \begin{equation}
     \label{eq:qsL}
-    QS_{j, cty} =  \sum_{fpu, lvs} (AnN_{j, fpu, lvs} * AnY_{j, fpu, lvs})
+    QS_{j, cty} =  \sum_{lvs} (AnN_{j, fpu, lvs} \times AnY_{j, fpu, lvs}) \forall fpu \in cty
 \end{equation}
 where:
 \begin{conditions}
@@ -279,13 +264,11 @@ where:
 
 \subsection{Production of processed goods}
 
-\subsubsection{Equations}
-
-Modeling of processed goods (that is, food oils, oil meals, sugar) has been an active area of improvement for IMPACT 3, and the development of the activity-commodity framework allows for a general handling of all processed goods in IMPACT through input-output matrixes and the use of net prices. The input-output matrices represent technical coefficients on input requirements, are specified by quantities of inputs per unit of output (that is, metric tons of soybeans per metric tons of soybean oil), and are calculated from the base data. The net price is the price the producer receives net of input costs. The net price will equal the producer price of the activity whenever there are no intermediate inputs.\footnote{Crops and livestock currently do not include intermediate inputs in the net price equation and instead directly take input price effects through supply elasticities in the crop yield and animal number equations.} 
+Modeling of processed goods allows for a general handling of all processed goods in IMPACT through input-output matrixes and the use of net prices. The input-output matrices represent technical coefficients on input requirements, are specified by quantities of inputs per unit of output (that is, metric tons of soybeans per metric tons of soybean oil), and are calculated from the base data. The net price is the price the producer receives net of input costs. The net price will equal the producer price of the activity whenever there are no intermediate inputs.\footnote{Crops and livestock currently do not include intermediate inputs in the net price equation and instead directly take input price effects through supply elasticities in the crop yield and animal number equations.}. Additionally, production of aquatic foods is modeled as a supply function that takes into account endogenous price effects and exogenous technological change.
 
 \begin{equation}
     \label{eq:pnet}
-    PNET_{j, cty} =  PP_{j, cty} * (1 - CSEI_{j, cty}) * \sum_{ci} (IOmat_{ci, j, cty} * PC_{ci, cty})
+    PNET_{j, cty} =  PP_{j, cty} - (1 - CSEI_{j, cty}) \times \sum_{ci} (IOmat_{ci, j, cty} \times PC_{ci, cty})
 \end{equation}
 where:
 \begin{conditions}
@@ -299,11 +282,11 @@ where:
  cty        &   Countries \\
 \end{conditions}
 
-Production of processed goods is then simulated by a supply function that incorporates both endogenous price effects and exogenous technological change. As opposed to crop and livestock production, processed goods are modeled at the country level instead of at the FPU as shown in equation \ref{eq:qsP}.
+Production of processed goods is then simulated by a supply function that incorporates both endogenous price effects and exogenous technological change. As opposed to crop and livestock production, processed goods are modeled at the country level instead of at the FPU as shown in Equation \ref{eq:qsP}.
 
 \begin{equation}
     \label{eq:qsP}
-    QS_{j, cty} = QSInt_{j, cty} * QSInt2_{j, cty} * \prod_{j} \left ( \frac{PNET_{j, cty}}{PNET0_{j, cty}} \right )^{QS\varepsilon}
+    QS_{j, cty} = QSInt_{j, cty} \times QSInt2_{j, cty} \times \prod_{jj} \left ( \frac{PNET_{jj, cty}}{PNET0_{jj, cty}} \right )^{QSE_{j, jj, cty}}
 \end{equation}
 where:
 \begin{conditions}
@@ -312,21 +295,37 @@ where:
  QSInt2       &   Supply multiplier for non-crop activities \\
  PNET        &   Net price for the activity at the country-level \\   
  PNET0       &   Base year net price for the activity at the country-level (used to index prices) \\ 
- QS\varepsilon & Supply price elasticities \\
- j          &   Activity (processed goods) \\
+ QSE & Supply price elasticities \\
+ j, jj      &   Activity (processed goods) \\
+ cty        &   Countries \\
+\end{conditions}
+
+Production of aquatic foods is treated similar to processed goods and is also simulated by a supply function that includes endogenous price effects. Fish production is also modeled at the country level instead of at the FPU as shown in Equation \ref{eq:qsFish}.
+
+\begin{equation}
+    \label{eq:qsFish}
+    QS_{jfish, cty} = QSInt_{jfish, cty} \times QSInt2_{jfish, cty} \times \prod_{jjfish} \left ( \frac{PNET_{jjfish, cty}}{PNET0_{jjfish, cty}} \right )^{QSE_{jfish, jjfish, cty}}
+\end{equation}
+where:
+\begin{conditions}
+ QS       &   Production of aquatic foods \\
+ QSInt       &   Aquatic food activity supply intercept \\
+ QSInt2       &   Supply multiplier for aquatic food activities \\
+ PNET        &   Net price for the activity at the country-level \\   
+ PNET0       &   Base year net price for the activity at the country-level (used to index prices) \\ 
+ QSE & Supply price elasticities \\
+ jfish, jjfish      &   Activity (aquatic foods) \\
  cty        &   Countries \\
 \end{conditions}
 
 
 \subsection{Commodity supply and demand}
 
-\subsubsection{Equations}
-
-Total supply of commodities requires mapping from output of production activities to supply of commodities. The mapping is given by equation \ref{eq:qsup1}.
+Total supply of commodities requires mapping from output of production activities to supply of commodities. The mapping is given by Equation \ref{eq:qsup1}.
 
 \begin{equation}
     \label{eq:qsup1}
-    QSUP_{c, cty} = \sum_{j} (JCRatio_{j, c} * QS_{j, cty})
+    QSUP_{c, cty} = \sum_{j} (JCRatio_{j, c} \times QS_{j, cty})
 \end{equation}
 where:
 \begin{conditions}
@@ -342,16 +341,17 @@ The parameter $JCRatio$ maps from the activity output to commodities. Usually, e
 
 By convention, the units of $j$ agree with the units of the main commodity produced by the activity (for example, output of the wheat activity yields the commodity wheat, in the same units), so that the $JCRatio$ for this mapped commodity always equals 1. Other outputs, if any, from an activity in $JCRatio$ are measured as ratios to the output of the main activity (for example, tons of meal per ton of production of oil in an oilseed-processing activity).
 
-Total domestic demand for a commodity is described in equation \ref{eq:qd}, and is the sum of household food demand, agricultural intermediate demand (feed and processed goods), and intermediate demand from other sectors (that is, for biofuels and industrial uses).
+Total domestic demand for a commodity is described in Equation \ref{eq:qd}, and is the sum of household food demand, agricultural intermediate demand (feed and processed goods), and intermediate demand from other sectors (that is, for biofuels and industrial uses).
 
 \begin{equation}
     \label{eq:qd}
-    QD_{c, cty} = (\sum_{h} (QH_{c, h, cty}) + QInterm_{c, cty} + QL_{c, cty} + QBF_{c, cty} + QOth_{c, cty}
+    QD_{c, cty} = \big[ \big(\sum_{h} QH_{c, h, cty}\big) \times (1+WasteH_{c, cty}) \big] + QInterm_{c, cty} + QL_{c, cty} + QBF_{c, cty} + QOth_{c, cty}
 \end{equation}
 where:
 \begin{conditions}
  QD       &   Total commodity demand \\
  QH       &   Household food demand \\
+ WasteH    & Waste fraction in household demand \\
  QInterm  &   Intermediate demand from agricultural processing sector \\
  QL       &   Feed demand from livestock sector \\
  QBF      &   Intermediate demand for biofuel feedstock \\
@@ -361,41 +361,40 @@ where:
  cty        &   Countries \\
 \end{conditions}
 
-Food demand is a function of the price of the commodity and the prices of other competing commodities, per capita income, and total population. Per capita income and population increase annually according to country-specific population and income growth rates. Population and gross domestic product (GDP) trends vary by scenario and are drawn from the Shared Socio-economic Pathway (SSP) database (version 3) representing socioeconomic scenarios. 
+Food demand is a function of the price of the commodity and the prices of other competing commodities, per capita income, and total population. Per capita income and population increase annually according to country-specific population and income growth rates. Population and gross domestic product (GDP) trends vary by scenario and are drawn from the socioeconomic scenarios reflected in the Shared Socio-Economic Pathway (SSP) database. 
 
-The IMPACT demand elasticities are originally based on United States Department of Agriculture–estimated elasticities and adjusted to represent a synthesis of average, aggregate elasticities for each region, given the income level and distribution of urban and rural population \parencite{usda1998commodity}. Over time these elasticities have been adjusted in IMPACT to accommodate the gradual shift in demand from staples to high-value commodities like meat, especially in developing countries. This assumption is based on expected economic growth, increased urbanization, and continued commercialization of the agricultural sector. IMPACT is designed to simulate multiple types of households (that is, rural, urban, etc.); however, IMPACT 3.6 treats household demand with one representative consumer per country.
+The IMPACT demand elasticities are originally based on United States Department of Agriculture–estimated elasticities and adjusted to represent a synthesis of average, aggregate elasticities for each region, given the income level and distribution of urban and rural population \parencite{usda1998commodity}. Over time these elasticities are adjusted in IMPACT to accommodate the gradual shift in demand from staples to high-value commodities like meat, especially in developing countries. This assumption is based on expected economic growth, increased urbanization, and continued commercialization of the agricultural sector. IMPACT is designed to simulate multiple types of households (that is, rural, urban, etc.); however, IMPACT 4 treats household demand with one representative consumer per country.
 
 \begin{equation}
     \label{eq:qh}
     \begin{aligned}
-        QH_{c, h, cty} = QHDint_{c, h, cty} * WI_{c, cty} * QHDInt2_{c, h, cty} * \left(\frac{pcGDP_{h, cty}}{pcGDP0_{h, cty}}\right)^{I_{\varepsilon}} \\
-        * \left(\frac{popH_{h, cty}}{popH0_{h, cty}}\right) \\
-        * \prod_{cc \neq c} \left(\frac{PC_{c, cty} * (1 - CSE_{c, cty})}{PC0_{c, cty} * (1 - CSE0_{c, cty})}\right)^{F_{\varepsilon}}
+        QH_{c, h, cty} = QHDint_{c, h, cty} \times QHDInt2_{c, h, cty} \\
+        \times \left(\frac{pcGDP_{h, cty}}{pcGDP0_{h, cty}}\right)^{Ie_{c, h, cty}} \times \left(\frac{popH_{h, cty}}{popH0_{h, cty}}\right) \\
+        \times \prod_{cc} \left(\frac{PC_{c, cty} \times (1 - CSE_{c, cty})}{PC0_{c, cty} \times (1 - CSE0_{c, cty})}\right)^{Fe_{c, cc, h, cty}}
     \end{aligned}
 \end{equation}
 where: 
 \begin{conditions}
  QH       &   Household food demand \\
  QHDInt   &   Initial household food demand \\
- WI       &   Waste fraction for post harvest losses \\
  QHDInt2  &   Demand adjuster for implementing change in diets \\
  pcGDP    &   Per capita GDP \\
  pcGDP0   &   Initial per capita GDP \\
- {I_{\varepsilon}}  & Income demand elasticity \\
+ Ie  & Income demand elasticity \\
  popH     &   Household population \\
  popH0    &   Initial household population \\
- \prod_{cc \neq c} \left(\frac{PC_{c, cty} * (1 - CSE_{c, cty})}{PC0_{c, cty} * (1 - CSE0_{c, cty})}\right)^{F_{\varepsilon}}    & Cross price response \\
- {F_{\varepsilon}} & Price demand elasticity \\
+ \prod_{cc \neq c} \left(\frac{PC_{c, cty} \times (1 - CSE_{c, cty})}{PC0_{c, cty} \times (1 - CSE0_{c, cty})}\right)^{F_{\varepsilon}}    & Cross price response \\
+ Fe         &   Household final demand price elasticties \\
  h          &   Household type (urban or rural) \\
  c, cc      &   Commodity \\
  cty        &   Countries \\
 \end{conditions}
 
-Feed demand is a treated as a derived intermediate demand. It is determined by two components: (1) animal feed requirements determined by livestock production and livestock feed requirements and (2) price effects that take into account potential substitution possibilities among different feeds. As defined in equation \ref{eq:ql}, IMPACT also incorporates a technology parameter that indicates improvements in feeding efficiencies over time.
+Feed demand is a treated as a derived intermediate demand. It is determined by two components: (1) animal feed requirements determined by livestock production and livestock feed requirements and (2) price effects that take into account potential substitution possibilities among different feeds. As defined in Equation \ref{eq:ql}, IMPACT also incorporates a technology parameter that indicates improvements in feeding efficiencies over time.
 
 \begin{equation}
     \label{eq:ql}
-        QL_{c, cty} = QLInt_{c, cty} * QLInt2_{c, cty} * \sum_{lvs} (QS_{lvs, cty} * FR_{lvs, c, cty}) * \prod_{c = cfeed} \left(\frac{PC_{c, cty}}{PC0_{c, cty}}\right)^{LF_{\varepsilon}}
+        QL_{c, cty} = QLInt_{c, cty} \times QLInt2_{c, cty} \times \sum_{lvs} (QS_{lvs, cty} \times FR_{lvs, c, cty}) \times \prod_{c = cfeed} \left(\frac{PC_{c, cty}}{PC0_{c, cty}}\right)^{LF_{c, cc, cty}}
 \end{equation}
 where: 
 \begin{conditions}
@@ -404,17 +403,20 @@ where:
  QLInt2     &   Livestock sector feed demand multiplier \\
  QS         &   Total production for livestock activity \\
  FR         &   Livestock feed requirement \\
+ LF         &   Livestock feed demand elasticity    \\
+ PC         &   Consumer price   \\
+ PC0        &   Initial consumer price   \\
  lvs        &   Livestock production systems    \\
- c          &   Commodity \\
+ c, cc      &   Commodity \\
  cfeed      &   Feed commodities \\
  cty        &   Countries \\
 \end{conditions}
 
-Intermediate demand is a derived demand that is based on the demand for final processed goods, such as food oils and sugar. The input-output matrix determines the proportions of inputs ($c$) required for each producing activity ($j$) as show in equation \ref{eq:qinterm}.
+Intermediate demand is a derived demand that is based on the demand for final processed goods, such as food oils and sugar. The input-output matrix determines the proportions of inputs ($c$) required for each producing activity ($j$) as show in Equation \ref{eq:qinterm}.
 
 \begin{equation}
     \label{eq:qinterm}
-        QInterm_{c, cty} = \sum_{j} (IOMat_{c, j, cty} * QS_{j, cty})
+        QInterm_{c, cty} = \sum_{j} (IOMat_{c, j, cty} \times QS_{j, cty})
 \end{equation}
 where: 
 \begin{conditions}
@@ -430,7 +432,7 @@ Biofuel feedstock demand (equation \ref{eq:qbf}) in IMPACT is determined through
 
 \begin{equation}
     \label{eq:qbf}
-        QBF_{c, cty} = QBFInt_{c, cty} * QBFInt2_{c, cty} * \prod_{c} \left(\frac{PC_{c, cty}}{PC0_{c, cty}}\right)^{BF_{\varepsilon}}
+        QBF_{c, cty} = QBFInt_{c, cty} \times QBFInt2_{c, cty} \times \prod_{c} \left(\frac{PC_{c, cty}}{PC0_{c, cty}}\right)^{BF_{c, cc, cty}}
 \end{equation}
 where: 
 \begin{conditions}
@@ -438,15 +440,19 @@ where:
  QBFInt             &   Initial demand for biofuel feedstock \\
  QBFInt2            &   Exogenous growth in demand for biofuel feedstock \\
  BF_{\varepsilon}   &   Biofuel feedstock demand price elasticity \\
- c                  &   Commodity \\
+  PC                 &   Consumer price   \\
+ PC0                &   Initial consumer price   \\
+ c, cc              &   Commodity \\
  cty                &   Countries \\
 \end{conditions}
 
-Other demand summarizes all other demands for agricultural products from sectors outside of the focus of IMPACT (for example, seeds, industrial use). It is simulated under equation \ref{eq:qoth1} and equation \ref{eq:qoth2}. The primary method follows the household food demand equation and is sensitive to changes in income, population, and prices.
+Other demand summarizes all other demands for agricultural products from sectors outside of the focus of IMPACT (for example, seeds, industrial use). It is simulated under Equation \ref{eq:qoth1} and Equation \ref{eq:qoth2}. The primary method follows the household food demand equation and is sensitive to changes in income, population, and prices.
 
 \begin{equation}
     \label{eq:qoth1}
-    QOth_{c, cty} = QOthInt_{c, cty} * QOthInt2_{c, cty} * \left(\frac{pcGDP_{cty}}{pcGDP0_{cty}}\right)^{OI_{\varepsilon}} * \left(\frac{pop_{cty}}{pop0_{cty}}\right) * \prod_{cc=c} \left(\frac{PC_{c, cty}}{PC0_{c, cty}}\right)^{OP_{\varepsilon}}
+    \begin{aligned}
+        QOth_{c, cty} = QOthInt_{c, cty} \times QOthInt2_{c, cty} \times  \left(\frac{pcGDP_{cty}}{pcGDP0_{cty}}\right)^{OIe_{c, cty}} \times \\ \left(\frac{pop_{cty}}{pop0_{cty}}\right) \times \prod_{cc=c} \left(\frac{PC_{c, cty}}{PC0_{c, cty}}\right)^{OPe_{c, cc, cty}}
+    \end{aligned}
 \end{equation}
 where: 
 \begin{conditions}
@@ -457,8 +463,8 @@ where:
  pcGDP0             &   Initial per capita GDP \\
  popH               &   Household population \\
  popH0              &   Initial household population \\
- {OI_{\varepsilon}} &   Income demand elasticity for other demand \\
- {OP_{\varepsilon}} &   Price demand elasticity for other demand \\
+ OIe                &   Income demand elasticity for other demand \\
+ OPe                &   Price demand elasticity for other demand \\
  PC                 &   Consumer price   \\
  PC0                &   Initial consumer price   \\
  c,cc               &   Commodity \\
@@ -470,8 +476,8 @@ The second method is used in a few cases where other demand historically has not
 \begin{equation}
     \label{eq:qoth2}
     \begin{aligned}
-        QOth_{c, cty} = QOth1_{c, cty} * \left(\frac{\sum_{h} QH_{ c, h, cty}}{\sum_{h} QHD1_{ c, h, cty}}\right) \Leftarrow \sum_{h} QHD1_{ c, h, cty} \\
-        + QOth1_{c, cty} * \left(\frac{pcGDP_{cty}}{pcGDP1_{cty}}\right)  \Leftarrow \sum_{h} QHD1_{ c, h, cty} = 0
+        QOth_{c, cty} = QOth1_{c, cty} \times \left(\frac{\sum_{h} QH_{ c, h, cty}}{\sum_{h} QHD1_{ c, h, cty}}\right) \Leftarrow \sum_{h} QHD1_{ c, h, cty} \\
+        + QOth1_{c, cty} \times \left(\frac{pcGDP_{cty}}{pcGDP1_{cty}}\right)  \Leftarrow \sum_{h} QHD1_{ c, h, cty} = 0
     \end{aligned}
 \end{equation}
 where: 
@@ -491,9 +497,7 @@ where:
 
 The system of equations is written in the GAMS programming language (from GAMS Development Corp. and GAMS Software GmbH, see \hyperlink{https://www.gams.com/}{gams.com}). The solution of these equations is achieved by the Path solver, which is included in the GAMS system. This procedure finds a set of domestic and world prices for all crops that clear domestic and international commodity markets. The world price of a commodity is the equilibrating mechanism for traded commodities—when an exogenous shock is introduced in the model, world price will adjust to clear world markets, and each adjustment is passed back to the effective producer and consumer prices via the price transmission equations. Changes in domestic prices subsequently affect commodity supply and demand, necessitating their iterative readjustments until world supply and demand balance and world net trade again equals 0. For non-traded commodities, domestic prices in each country adjust to equate supply and demand within the country.
 
-\subsubsection{Equations}
-
-In IMPACT, at the end of every year the world’s production must equal the world’s demand. This constraint is ensured by equation \ref{eq:nt}, where the sum of net trade over the globe must equal zero.
+In IMPACT, at the end of every year the world’s production must equal the world’s demand. This constraint is ensured by Equation \ref{eq:nt}, where the sum of net trade over the globe must equal zero.
 
 \begin{equation}
     \label{eq:nt}
@@ -506,7 +510,7 @@ where:
  cty                &   Countries \\
 \end{conditions}
 
-Additionally, national production and demand for tradable commodities are linked to world markets through trade. Commodity trade by country (cty) is a function of domestic production, domestic demand, and stock change.  Regions with positive net trade are net exporters, while those with negative values are net importers. This specification does not permit a separate identification of international trade by country of origin and destination—all countries export to and import from a single global market as shown in equation \ref{eq:nt2}.
+Additionally, national production and demand for tradable commodities are linked to world markets through trade. Commodity trade by country (cty) is a function of domestic production, domestic demand, and stock change.  Regions with positive net trade are net exporters, while those with negative values are net importers. This specification does not permit a separate identification of international trade by country of origin and destination—all countries export to and import from a single global market as shown in Equation \ref{eq:nt2}.
 
 \begin{equation}
     \label{eq:nt2}
@@ -522,7 +526,7 @@ where:
  cty                &   Countries \\
 \end{conditions}
 
-IMPACT prices are in constant base year US dollars (for IMPACT 3.6,  2020 is the base year). Domestic prices of tradable commodities are a function of world prices, adjusted by the effect of trade policy represented by taxes and tariffs, and price policies are expressed in terms of producer support estimates (PSEs), consumer support estimates (CSEs), and the cost of moving products from one market to another represented by marketing margins (MMs). Export taxes and import tariffs are drawn from data from the Global Trade Analysis Project (GTAP) at Purdue University and reflect trade policies at the national level. PSEs and CSEs represent public policies to support production and consumption by creating wedges between world and domestic prices. PSEs and CSEs are based on Organisation for Economic Co-operation and Development (OECD) estimates and are adjusted by expert judgment to reflect regional trade dynamics. MMs reflect other factors such as transport and marketing costs of getting goods to various markets and are based on expert opinion on the quality and availability of transportation, communication, and market infrastructure. Fig. \ref{fig:price_str} illustrates the pricing system in IMPACT and where the appropriate price wedges are applied. Abbreviations used in Fig. \ref{fig:price_str} are as follows:
+IMPACT prices are in constant base year US dollars (for IMPACT 4,  2021 is the base year). Domestic prices of tradable commodities are a function of world prices, adjusted by the effect of trade policy represented by taxes and tariffs, and price policies are expressed in terms of producer support estimates (PSEs), consumer support estimates (CSEs), and the cost of moving products from one market to another represented by marketing margins (MMs). Export taxes and import tariffs are drawn from data from the Global Trade Analysis Project (GTAP) at Purdue University and reflect trade policies at the national level. PSEs and CSEs represent public policies to support production and consumption by creating wedges between world and domestic prices. PSEs and CSEs are based on Organisation for Economic Co-operation and Development (OECD) estimates and are adjusted by expert judgment to reflect regional trade dynamics. MMs reflect other factors such as transport and marketing costs of getting goods to various markets and are based on expert opinion on the quality and availability of transportation, communication, and market infrastructure. Fig. \ref{fig:price_str} illustrates the pricing system in IMPACT and where the appropriate price wedges are applied. Abbreviations used in Fig. \ref{fig:price_str} are as follows:
 \begin{itemize}
 \setlength\itemsep{0em}
     \item  MMJ is \textbf{M}arketing \textbf{M}argins for activities (\textbf{j})
@@ -530,7 +534,7 @@ IMPACT prices are in constant base year US dollars (for IMPACT 3.6,  2020 is the
     \item  CSE is \textbf{C}onsumer \textbf{S}ubsidy \textbf{E}quivalents. 
     \item  MMM is \textbf{M}arketing \textbf{M}argins for I\textbf{m}ports  
     \item  MME is \textbf{M}arketing \textbf{M}argins for \textbf{E}xports 
-    \item  TM is \textbf{T}ariffs on \textbf{I}mports, and,
+    \item  TM is \textbf{T}ariffs on I\textbf{m}ports, and,
     \item  TE is \textbf{T}axes on \textbf{E}xports
 \end{itemize}
 
@@ -543,11 +547,11 @@ IMPACT prices are in constant base year US dollars (for IMPACT 3.6,  2020 is the
 
 The model includes three markets: (1) the farm gate, where producers sell their output to purchasers in producer prices; (2) a national market, where the purchasers then take the commodity, incurring any taxes/subsidies and trade/transportation costs; and (3) the port where exports are sold to foreigners and imports are bought from them at world market prices. 
 
-Moving commodities to and from the port incurs MMs and any taxes/subsidies/tariffs. In the model, PSEs, CSEs, and MMs are expressed as percentages (ad valorem) of the world price. To calculate producer prices the appropriate wedges are applied to the domestic consumer prices (PC) and represent the markup observed in domestic markets from the farm-gate or factory-gate prices producers receive. The producer price of an activity is the weighted sum of the prices of the commodities associated with that activity as shown in equation \ref{eq:pp}.
+Moving commodities to and from the port incurs MMs and any taxes/subsidies/tariffs. In the model, PSEs, CSEs, and MMs are expressed as percentages (ad valorem) of the world price. To calculate producer prices the appropriate wedges are applied to the domestic consumer prices (PC) and represent the markup observed in domestic markets from the farm-gate or factory-gate prices producers receive. The producer price of an activity is the weighted sum of the prices of the commodities associated with that activity as shown in Equation \ref{eq:pp}.
 
 \begin{equation}
     \label{eq:pp}
-    PP_{j, cty} * (1 + MMJ_{j,cty}) = (1 + PSE_{j, cty}) * \sum_{c}(JCRatio_{j, c, cty} * PC_{c, cty}) 
+    PP_{j, cty} \times (1 + MMJ_{j,cty}) = (1 + PSE_{j, cty}) \times \sum_{c}(JCRatio_{j, c, cty} \times PC_{c, cty}) 
 \end{equation}
 where:
 \begin{conditions}
@@ -559,7 +563,7 @@ where:
  cty        &   Countries \\ 
 \end{conditions}
 
-How consumer prices are determined in IMPACT depends on the state of tradability of the commodity. Commodities can be specified as either tradable or nontradable. Traded commodity prices are determined in international markets. Nontraded commodities are those commodities whose prices are determined in national markets, without direct links to international markets. Examples include sugarcane, sugar beets, and grass, where all demand is intermediate demand from domestic sectors (sugar processing and livestock). These commodity prices are determined endogenously by every country and ensure that domestic supply equals domestic demand as shown in equation \ref{eq:qsup}.
+How consumer prices are determined in IMPACT depends on the state of tradability of the commodity. Commodities can be specified as either tradable or nontradable. Traded commodity prices are determined in international markets. Nontraded commodities are those commodities whose prices are determined in national markets, without direct links to international markets. Examples include sugarcane, sugar beets, and grass, where all demand is intermediate demand from domestic sectors (sugar processing and livestock). These commodity prices are determined endogenously by every country and ensure that domestic supply equals domestic demand as shown in Equation \ref{eq:qsup}.
 
 \begin{equation}
     \label{eq:qsup}
@@ -573,13 +577,13 @@ where:
  cty        &   Countries \\ 
 \end{conditions}
 
-Nontraded commodities are indirectly linked to world markets through the demand for final products (that is, sugar), and potential substitution from tradable commodities (that is, grass and other feeds). IMPACT 3.6, like IMPACT 3 has been designed to allow the tradability of a commodity to be determined endogenously. As the IMPACT model includes price wedges between domestic and international markets, the prices of exports received by producers and of price of imports paid by consumers can be modeled in separate equations with similar specifications as shown in equation \ref{eq:imp_exp}.
+Nontraded commodities are indirectly linked to world markets through the demand for final products (that is, sugar), and potential substitution from tradable commodities (that is, grass and other feeds). IMPACT 4, like IMPACT 3 has been designed to allow the tradability of a commodity to be determined endogenously. As the IMPACT model includes price wedges between domestic and international markets, the prices of exports received by producers and of price of imports paid by consumers can be modeled in separate equations with similar specifications as shown in Equation \ref{eq:imp_exp}.
 
 \begin{subequations}
     \label{eq:imp_exp}
     \begin{align}
-    PM_{c, cty} & = PW_{c} * EXR_{cty} * (1 + TM_{c, cty}) * (1 + MMM_{c, cty}) \\
-    PE_{c, cty} & = PW_{c} * EXR_{cty} * (1 - TE_{c, cty}) * (1 - MME_{c, cty}) 
+    PM_{c, cty} & = PW_{c} \times EXR_{cty} \times (1 + TM_{c, cty}) \times (1 + MMM_{c, cty}) \\
+    PE_{c, cty} & = PW_{c} \times EXR_{cty} \times (1 - TE_{c, cty}) \times (1 - MME_{c, cty}) 
     \end{align}
 \end{subequations}
 where:
@@ -606,7 +610,7 @@ To start importing the domestic import price must equal the consumer price (glob
     \item Domestic trade happens if $PE_{c, cty}$ $\leq$ $PC_{c, cty}$ $\leq$ $PM_{c, cty}$
 \end{itemize}
 
-For purely tradable goods, where we want the commodities to always be linked to world markets\footnote{This is done for all traded commodities in IMPACT v3.6},  this inequality is not used, the domestic consumer price is set to the import price (equation \ref{eq:pc}), and the export price equation is never used.
+For purely tradable goods, where we want the commodities to always be linked to world markets\footnote{This is done for all traded commodities in IMPACT 4},  this inequality is not used, the domestic consumer price is set to the import price (equation \ref{eq:pc}), and the export price equation is never used.
 
 \begin{equation}
     \label{eq:pc}
@@ -619,3 +623,24 @@ where:
  c          &   Commodity  \\
  cty        &   Countries \\ 
 \end{conditions}
+
+\subsection{Activity-commodity framework}
+
+IMPACT since update to version 3 carries a full implementation of an activity-commodity framework, borrowed from the CGE literature \parencite{lofgren2002standard}, to organize the supply side, incorporating value chains from crops to produced commodities. This framework allows for a general approach that can encompass a wide array of commodities and different technologies, methods, or both in producing these commodities. Currently in IMPACT, there are three main types of commodities (crops, livestock, and processed), and each has a unique method of production but that can still be summarized by the activity-commodity framework. This framework is described in Box 4.1. 
+
+\begin{tcolorbox}[title=Box 4.1. Activity-Commodity framework in IMPACT.]
+The key to understanding the activity-commodity framework is to separate the process (activity) from the output of this process (commodity). 
+
+\vspace{5pt}
+
+Individual activities can produce more than one commodity. For example, the soybean value chain processing activity uses soybeans as an input and produces both soybean oil and soybean meal. Conversely, a given commodity can be produced by more than one activity. For example, there are separate sugar beet and sugarcane value chain processing activities that produce the same commodity, processed sugar, which is consumed and traded.
+\end{tcolorbox}
+
+The framework described in box 4.1 allows for potentially complex interlinking of activity inputs and outputs (managed through input-output matrices), to simulate agricultural value chains. An example of this interlinking is illustrated in Fig. \ref{fig:value_chain}, illustrating the oil palm sector value chain. The palm plantation activity produces palm fruit that is demanded by the palm fruit–processing sector that produces palm oil and a palm kernel by-product. Palm kernel is, in turn, an input into the palm kernel–processing sector that produces palm kernel oil and palm kernel meal. For a full list of activities and the commodities produced in IMPACT see \nameref{sec:appendixB}. This framework also allows IMPACT to consider the role of commodities outside of the agriculture sector in the production process (that is, fertilizer, labor) that can be treated as exogenous commodities with exogenous supply, prices, or both.
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics[width=\textwidth]{plots/Slide1.png}
+  \caption[The palm oil value chain in the IMPACT activity-commodity framework]{Conceptual diagram explaining the palm oil value chain in the IMPACT activity-commodity framework. Boxes in black are activities. Irregular boxes in green are commodities in IMPACT.}
+  \label{fig:value_chain}
+\end{figure}

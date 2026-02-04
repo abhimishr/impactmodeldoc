@@ -1,4 +1,5 @@
 \clearpage
+
 \section{IMPACT model system}
 \label{sec:IMPACTsystem}
 
@@ -11,6 +12,14 @@ The IMPACT model system is a network of linked models. Major components include 
   \label{fig:model_schematic}
 \end{figure}
 \end{landscape}
+
+\subsection{IMPACT-GLOBE System}
+
+The IMPACT–GLOBE system is an integrated global modeling framework that combines detailed agricultural and food system modeling with broad economy-wide general equilibrium analysis to assess long-term outcomes for food security, economic development, and climate change under alternative policy and investment scenarios and assessing the macroeconomic income and welfare effects associated with the alternative pathways under different scenarios which helps feed the simulated aggregate income pathways back to IMPACT. The modeling system incorporates a link with the GLOBE global general equilibrium model, which is used to assess the economy-wide impacts of climate change and agricultural investments, including GDP, household income, and employment. 
+
+At its core, the system links IMPACT with GLOBE, a global CGE (computable general equilibrium) model that represents the entire world economy, capturing how changes in one sector (such as agriculture) propagate through markets, income, trade, and consumption across all sectors and regions \parencite{willenbockel2018dynamic}. As a CGE model, GLOBE is calibrated using a detailed Social Accounting Matrix (SAM), usually based on the GTAP data framework to ensure consistency across production, consumption, and trade flows in the global economy.
+
+Together, the IMPACT–GLOBE system allows to capture sectoral detail and economy-wide feedback where IMPACT provides agricultural and climate sector projections while GLOBE feeds back macroeconomic effects (e.g., income changes) into the agricultural projections. This helps evaluate scenarios such as climate change, trade reforms, technological change, and policy interventions that affect food systems, natural resources, and national economies. 
 
 \subsection{IMPACT data management and estimation system}
 
@@ -46,7 +55,7 @@ where:
  LFER   &   Ratio of female-male life expectancy at birth \\
  SCH      &   Gross female secondary school enrollment rate \\
  WAT      &   \% of population with access to safe water \\
- \Delta t,t0 & Difference between time step t and base year (2019 for IMPACT v3.6) \\ 
+ \Delta t,t0 & Difference between time step t and base year \\ 
 \end{conditions}
 
 The data used in this calculation come from a variety of sources. The base values for undernourished children originally come from the World Bank’s World Development Indicators (WDIs). The base values for female-male life expectancy ratio, female secondary school enrollment, and access to safe water come from the WDIs. The projections of changes in female-male life expectancy come from the United Nations Populations Prospects (medium variant). The projections of changes in female secondary school enrollment and access to clean water come from the Technogarden Baseline Scenario \parencite{mea2005ecosystems}.
@@ -83,6 +92,7 @@ Estimating the effect of climate change on crop yields starts by running the DSS
 The grid-based yields for each climate and crop combination are aggregated within regions appropriate for the economic portions of the model. Specifically, they are computed as production-area-weighted averages using maps of production areas from the Spatial Production Allocation Model as weights \parencite{you2014spatial}. These are then used as weights in the multimarket model to estimate final yield impacts. This follows the general approach for incorporating projected yield changes from biophysical models into economics models as outlined in \cite{muller2014projecting}. Crop models are further discussed in \nameref{sec:appendixD}.
 
 \subsection{Water models}
+\label{sec:IMPACTWatersystem}
 
 The water models in the IMPACT Modeling System include (1) the IMPACT global hydrology model (IGHM) that simulates snow accumulation and melt and rainfall-runoff processes, (2) the IMPACT water basin simulation model (IWSM) that simulates operation of aggregate surface water reservoir and water supplies to economic sectors including irrigation, and (3) the IMPACT crop water allocation and stress model (ICWASM) that allocates available net irrigated water to crops and estimates the impact of water shortages on yields. These three models enable the IMPACT multimarket model to assess the effects on global food and water systems of hydroclimatic variability and change, socioeconomic change–driven water demand growth, investment in water storage and irrigation infrastructure, and technological improvements.
 

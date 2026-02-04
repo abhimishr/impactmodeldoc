@@ -1,14 +1,14 @@
 \clearpage
-\chapter*{Appendix D: Crop models}
+%\chapter*{Appendix D: Crop models}
 \label{sec:appendixD}
-\addcontentsline{toc}{section}{Appendix D: Crop models}
+%\addcontentsline{toc}{section}{Appendix D: Crop models}
 \clearpage
-\subsection*{Crop models}
+
 As a decision-support tool, crop systems models have potential at various levels of decision making, from household (for example, irrigation scheduling in farmers’ fields) to global (for example, identifying the potential breadbasket areas). Crop models mathematically describe the growth of crops and their interactions with soils, climate, and management practices. Most modern crop models can quantify, on a daily basis, various biological processes of a crop (for example, the amount of solar energy transformed into biomass; water and nutrient requirements, supply, and stresses; and growth stages) as well as physical processes around the crop (for example, soil water runoff, soil carbon sequestration, and nitrogen leaching).
 
 Since the early 1970s, various crop models have been developed by agricultural scientists based on improved knowledge of plant photosynthesis and respiration processes. Models range from generic and simple to specific and complex. Some models use response functions (for example, yield as a function of rainfall and nutrients) at their core, while others use sets of differential equations to describe complexity of different processes and their interactions. There is no final and universal crop model. Instead, crop models are selected based on the type of research question.
 
-\subsection*{Decision Support System for Agrotechnology Transfer (DSSAT) Crop Systems Model}
+\section{Decision Support System for Agrotechnology Transfer (DSSAT) Crop Systems Model}
 
 DSSAT is a popular software package used by crop modelers. DSSAT is actually a suite of single crop models with access to unified crop, soil, and weather databases \parencite{hoogenboom2019dssat, hoogenboom2021decision, jones2003dssat}. The models integrate the effects of crop systems components and management options to simulate the states of all the components of the cropping system and their interactions. DSSAT crop models provide a framework for users to understand how the overall cropping system and its components function throughout cropping season(s) on a daily basis. Users are expected to provide at least a minimum set of data that are essential to run the crop model for each geographical location. The minimum dataset includes the following:
 
@@ -24,7 +24,7 @@ DSSAT is one of the principal products developed by the International Benchmark 
 
 Currently, DSSAT is a commercial open source application that provides source code to registered users. Adopting a modular modeling approach, many parts of crop models can be plugged out/in by users as necessary. The main engine of DSSAT is written in FORTRAN 90 programming language, originally compiled in a PC environment. With minimal changes in the source code, DSSAT also can be compiled and executed in any other operating system with a FORTRAN compiler.
 
-\subsection*{Linking DSSAT Crop Model Results to the International Model for Policy Analysis of Agricultural Commodities and Trade (IMPACT) Model}
+\section{Linking DSSAT Crop Model Results to the International Model for Policy Analysis of Agricultural Commodities and Trade (IMPACT) Model}
 
 Process-based crop simulation models can be used to explore the effect of climate change and possible alternative technologies on the mechanics of crop production. For instance, the models can simulate how yields may respond to varietal choice, soil management practices (for example, residues retention, tillage depth), and length of growth period. The next level of assessment is to consider these biophysical processes in conjunction with economic factors. Shifters are calculated from the process-based models to implement supply curve shocks in the partial equilibrium environment. Process-based crop models can simulate accurately the growth of particular crops but provide no insight into the availability of a variety or technology and how farmers respond to incentives and factors beyond the crop system. They are mechanical biophysical models containing no economic factors or inputs. The challenge is then to take both management and climate change effects simulated in crop models and incorporate them into economic models alongside price effects, general technological progress, and assumptions about adaptive behavior on the part of producers.
 
@@ -35,7 +35,8 @@ This approach is followed as it allows us to capture the direction and magnitude
 DSSAT requires several consistent and comprehensive datasets as input. Seven crops are directly modeled (groundnuts, maize, potatoes, rice, sorghum, soybeans, and wheat) due to these crops’ being particularly well developed in DSSAT and broadly accepted as globally applicable. The effects on the remaining crops in IMPACT are built up off of these core crops, based on biophysical similarities of the IMPACT crops to the core DSSAT crops (for example, pulses are legumes like groundnuts and soybeans, and sugarcane is a C4 grass like maize). Table F.1 summarizes this mapping of DSSAT crop models to IMPACT crops. Each crop is modeled under purely rainfed conditions and a stylized minimum water stress irrigation scheme. Effects of carbon dioxide concentrations are considered, using the appropriate future value and keeping it constant at the baseline levels. As modeled in DSSAT, the effects of carbon dioxide fertilization are generally optimistic compared to a world without any fertilization. The range of potential future climatic conditions is represented via a baseline climate (also known as no climate change) and specified Representative Concentration Pathways. Earth System Models (ESMs) then provide a more specific climate realization that can be used to generate future monthly and daily weather data. For each Representative Concentration Pathway and ESM combination, we have (7 crops) x (2 water sources) x ([1 baseline] + [2 CO\textsubscript{2} assumptions]) = 42 individual yield realizations that are used to calculate climate change impacts across the appropriate domains of the IMPACT model.
 
 % Table generated by Excel2LaTeX from sheet 'd1'
-\begin{table}[htb!]
+\begin{table}[H]
+\begin{threeparttable}
   \centering
   \caption{Mapping DSSAT crop model results to IMPACT}
     \begin{tabular}{cp{13.93em}p{13.93em}r}
@@ -45,15 +46,25 @@ DSSAT requires several consistent and comprehensive datasets as input. Seven cro
           & CROPGRO soybeans & Soybeans &  \\
           & CROPGRO groundnuts & Groundnuts &  \\
           & SUBSTOR potatoes & Potatoes &  \\
-          & Dryland cereals & Barley, other cereals &  \\
-          & Dryland pulses & Chickpeas, pigeon peas, beans, cowpeas, lentils, other pulses &  \\
-          & C3 average & Cotton, sugar beets, tropical fruits, temperate fruits, vegetables, bananas, plantains, cocoa, coffee, tea, rapeseed, sunflower, oil palm, other oilseeds &  \\
-          & C3 tolerant & Cassava, sweet potato, yams, other roots and tubers, other &  \\
+          & Dryland cereals\tnote{a} & Barley, other cereals &  \\
+          & Dryland pulses\tnote{b} & Chickpeas, pigeon peas, beans, cowpeas, lentils, other pulses &  \\
+          & C3 average\tnote{c} & Cotton, sugar beets, tropical fruits, temperate fruits, vegetables, bananas, plantains, cocoa, coffee, tea, rapeseed, sunflower, oil palm, other oilseeds &  \\
+          & C3 tolerant\tnote{d} & Cassava, sweet potato, yams, other roots and tubers, other &  \\
 \cmidrule{1-3}    \multicolumn{1}{c}{\multirow{3}[2]{*}{C4 crops}} & CERES maize & Maize &  \\
           & CERES sorghum & Sorghum, millet &  \\
-          & C4 tolerant & Sugarcane &  \\
-\cmidrule{1-3}    \end{tabular}%
-  \label{tab:dssatimpact}%
+          & C4 tolerant\tnote{e} & Sugarcane &  \\
+\cmidrule{1-3}    
+\end{tabular}%
+    \begin{tablenotes}[flushleft]\footnotesize
+\item[a]    Dryland cereals are represented by one-half the negative effects (full positive) of climate change from CERES wheat results.
+\item[b]    Dryland pulses are represented by one-half the negative effects (full positive) of the area-weighted average of the CROPGRO soybeans and CROPGRO groundnut results.
+\item[c]    C3 average is represented as the area-weighted average of all five C3 DSSAT crop models used.
+\item[d]    C3 tolerant is represented by one-half the negative effects (full positive) of the C3 average.
+\item[e]    C4 tolerant is represented by one-half the negative effects (full positive) of climate change from CERES maize results.
+    \end{tablenotes}
+\end{threeparttable}
+
+\label{tab:dssatimpact}%
 \end{table}%
 
 Key data sources and processing for the DSSAT-IMPACT linkage are the following:

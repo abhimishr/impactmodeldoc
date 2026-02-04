@@ -1,5 +1,5 @@
 \PassOptionsToPackage{table}{xcolor}
-\documentclass[11pt, bookmarks=true, colorlinks=true, allcolors=blue, twoside, letter]{report}
+\documentclass[12pt, bookmarks=true, colorlinks=true, allcolors=blue, twoside, letter]{report}
 \usepackage[top=25mm, bottom=25mm, bindingoffset=0mm, inner=25mm, outer=25mm]{geometry}
 \usepackage{float}
 \setlength\parindent{0pt}
@@ -22,16 +22,38 @@
 \captionsetup[table]{skip=10pt}
 \captionsetup[figure]{skip=10pt}
 
-\usepackage{chngcntr} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{chngcntr}
+% Reset section numbers per appendix chapter
+\counterwithin{section}{chapter}
+\counterwithin{figure}{chapter}
+\counterwithin{table}{chapter}
 \counterwithin{figure}{section}
 \counterwithin{table}{section}
+% Make sections/subsections show the appendix letter: E.1, E.1.1, ...
+\renewcommand{\thesection}{\thechapter.\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{comment}
 \usepackage{pdfpages}
 
 \usepackage{multicol}
 
-\usepackage[backend=bibtex, style=author year, maxbibnames=20]{biblatex}
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  maxbibnames=20,
+  maxcitenames=2,
+  mincitenames=1,
+  giveninits=true,
+  uniquename=false,
+  uniquelist=false
+]{biblatex}
+
+\ExecuteBibliographyOptions{maxcitenames=3,mincitenames=1}
+
 \addbibresource{references.bib}
 \renewcommand{\thesection}{\arabic{section}}
 
@@ -63,9 +85,14 @@
 \usepackage{amsmath}
 \usepackage{pdflscape}
 \usepackage{tabularray}
-
+\usepackage{markdown} 
 %%%%%%%%%%%%%% Hphenation fix
 \usepackage[none]{hyphenat}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table with notes
+\usepackage{threeparttable}   % new
+\usepackage{siunitx}                    % new
+\usepackage{xparse}                     % new
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%% Line ending fix
@@ -76,10 +103,24 @@
 
 %%%%%%%%%%%%%%%% Font options
 %\usepackage{cmbright}
-\usepackage[sfdefault,light]{FiraSans} %% option 'sfdefault' activates Fira Sans as the default text font
-\usepackage[T1]{fontenc}
-\renewcommand*\oldstylenums[1]{{\firaoldstyle #1}}
+%\usepackage[sfdefault,light]{FiraSans} %% option 'sfdefault' activates Fira Sans as the default text font
+%\usepackage[T1]{fontenc}
+%\renewcommand*\oldstylenums[1]{{\firaoldstyle #1}}
+\renewcommand{\familydefault}{\sfdefault}
+%\renewcommand{\familydefault}{\sfdefault} % Use CMSS explicitly
+%\renewcommand{\familydefault}{\ttdefault}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% for equations cmss
+\usepackage{sansmath} % for equations cmss
+\sansmath
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% in the document preamble for subsection footnotes
+\usepackage[stable]{footmisc}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TOC Depth
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -91,7 +132,7 @@
 %deactivate maketitle if Using IFPRI's cover page
 %\maketitle
 % Use IFPRI's cover page (page= is which page number to insert, in this case first and only page)
-\includepdf[pages={1}, scale=1.01]{ReportCover_IMPACT_2024.pdf}
+%\includepdf[pages={1}, scale=1.01]{ReportCover_IMPACT_2024.pdf}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{sections/02a_information}
 \input{sections/02b_authors}
@@ -141,42 +182,64 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{appendices}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Geography}
 \setcounter{table}{0}
 \setcounter{figure}{0}
-% lables are withing appendix
 \renewcommand{\thetable}{A\arabic{table}}
 \renewcommand{\thefigure}{A\arabic{figure}}
-\label{appendixA}
+\renewcommand{\thesection}{A\arabic{section}}
+\renewcommand{\thesubsection}{A\arabic{subsection}}
+\renewcommand{\thesubsubsection}{A\arabic{subsubsection}}
 \input{appendix/a}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Activities and commodities}
 \setcounter{table}{0}
 \setcounter{figure}{0}
 \renewcommand{\thetable}{B\arabic{table}}
 \renewcommand{\thefigure}{B\arabic{figure}}
+\renewcommand{\thesection}{B\arabic{section}}
+\renewcommand{\thesubsection}{B\arabic{subsection}}
+\renewcommand{\thesubsubsection}{B\arabic{subsubsection}}
 \input{appendix/b}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Data inputs and outputs}
 \setcounter{table}{0}
 \setcounter{figure}{0}
 \renewcommand{\thetable}{C\arabic{table}}
-\renewcommand{\thefigure}{C\arabic{figure}}\textbf{}
+\renewcommand{\thefigure}{C\arabic{figure}}
+\renewcommand{\thesection}{C\arabic{section}}
+\renewcommand{\thesubsection}{C\arabic{subsection}}
+\renewcommand{\thesubsubsection}{C\arabic{subsubsection}}
 \input{appendix/c}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Crop models}
 \setcounter{table}{0}
 \setcounter{figure}{0}
 \renewcommand{\thetable}{D\arabic{table}}
 \renewcommand{\thefigure}{D\arabic{figure}}
+\renewcommand{\thesection}{D\arabic{section}}
+\renewcommand{\thesubsection}{D\arabic{subsection}}
+\renewcommand{\thesubsubsection}{D\arabic{subsubsection}}
 \input{appendix/d}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Water models}
 \setcounter{table}{0}
 \setcounter{figure}{0}
 \renewcommand{\thetable}{E\arabic{table}}
 \renewcommand{\thefigure}{E\arabic{figure}}
+\renewcommand{\thesection}{E\arabic{section}}
+\renewcommand{\thesubsection}{E\arabic{subsection}}
+\renewcommand{\thesubsubsection}{E\arabic{subsubsection}}
 \input{appendix/e}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Changelog}
+\input{appendix/f}
+
 \end{appendices}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \AtNextBibliography{\footnotesize}
