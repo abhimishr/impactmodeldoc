@@ -8,9 +8,13 @@ The IMPACT model system, as described in the preceding sections, is organized ar
 
 Crop production in IMPACT is simulated through area\footnote{In IMPACT, area is treated as harvested area, which is the total area planted and harvested within a year, and may include multicropping or multiple harvests and differ from total arable land or reported physical area.} and yield response functions. The choice of specifying crop production in this way has a long history in IMPACT and facilitates interaction with commodity experts and land-use specialists, who work in natural units (hectares, tons per hectare). Crop production in IMPACT is specified sub-nationally with the area and yield functions at the level of FPUs. This regional disaggregation permits linking with water models and provides the added benefit of smaller geographical units for aggregating climate change results, which can vary significantly from one location to another. Land used for crop production is divided into irrigated and rainfed systems, capturing the significant differences in yields observed across these cultivation systems and linking directly with the water models, which treat irrigated and rainfed water supplies separately.
 
-A new feature of IMPACT version 3 and above is the implementation of a land market to manage competing demands for agricultural land from different crops, as well as providing new linkage points to land-use models that work with broader land-use changes, such as conversion of forest to grasslands and agricultural land. It also allows us to separate total area supply (irrigated and rainfed) from individual crop area demands and allows equilibrium conditions to determine the best economic use of the available land. The total supply of land is assumed to be a function of the scarcity value or shadow price index of land, which can also be considered a summary of changes in crop prices. The shadow price (\textit{WF} in equation \ref{eq:landsupply}) is indexed to 1 in the first year and changes based on changing demands from all crops for land area.
+A new feature of IMPACT version 3 and above is the implementation of a land market to manage competing demands for agricultural land from different crops, as well as providing new linkage points to land-use models that work with broader land-use changes, such as conversion of forest to grasslands and agricultural land. 
 
-Equation \ref{eq:landsupply} describes the land supply in IMPACT. The supply of land is considered exogenous within each year, meaning that farmers are not allowed to adjust the total crop area in the middle of the year. The total land supply over time is driven by exogenous trends on the availability of area for agriculture as well as endogenous responses to changes in area demand, which is handled in between years. These are shown in equations \ref{eq:landsupply2a} and \ref{eq:landsupply2b}.
+It also allows us to separate total area supply (irrigated and rainfed) from individual crop area demands and allows equilibrium conditions to determine the best economic use of the available land. The total supply of land is assumed to be a function of the scarcity value or shadow price index of land, which can also be considered a summary of changes in crop prices. The shadow price (\textit{WF} in equation \ref{eq:landsupply}) is indexed to 1 in the first year and changes based on changing demands from all crops for land area.
+
+Equation \ref{eq:landsupply} describes the land supply in IMPACT. The supply of land is considered exogenous within each year, meaning that farmers are not allowed to adjust the total crop area in the middle of the year. 
+
+The total land supply over time is driven by exogenous trends on the availability of area for agriculture as well as endogenous responses to changes in area demand, which is handled in between years. These are shown in equations \ref{eq:landsupply2a} and \ref{eq:landsupply2b}.
 
 \begin{equation}
     \label{eq:landsupply}
@@ -73,11 +77,19 @@ where:
 Equation \ref{eq:area} shows the demand function defining cropping area. Area demand for a crop is affected by its marginal revenue product, the shadow cost of the land, and exogenous non-market trends in cropping area. Non-market factors include government programs encouraging expansion of particular crops, reductions due to soil degradation, or conversions to non-agricultural use. 
 
 \begin{equation}
-    \label{eq:area}
-    \begin{aligned}
-    Area_{j, fpu, lnd} = AreaInt_{j, fpu, lnd} \times AreaInt2_{j, fpu, lnd} \\
-    \times (WF_{fpu, lnd})^{LDE_{j, fpu, lnd}} \times \left ( \frac{MRP_{j, fpu, lnd}}{MRP0_{j, fpu, lnd}} \right )^{A_{j, fpu, lnd}}
-    \end{aligned}
+\label{eq:area}
+\begin{aligned}
+Area_{j,fpu,lnd}
+&=
+AreaInt_{j,fpu,lnd}
+\times AreaInt2_{j,fpu,lnd}
+\\
+&\qquad
+\times (WF_{fpu,lnd})^{LDE_{j,fpu,lnd}}
+\times \left(
+\frac{MRP_{j,fpu,lnd}}{MRP0_{j,fpu,lnd}}
+\right)^{A_{j,fpu,lnd}}
+\end{aligned}
 \end{equation}
 where:
 \begin{conditions}
@@ -136,14 +148,33 @@ Third, climate is assumed to affect yields through the effects of changes in tem
 The fourth mechanism by which climate change affects yields is through variation in water availability for agriculture year by year in different climate scenarios.\footnote{Further information on the water modelling system in IMPACT is provided in section \ref{sec:IMPACTWatersystem}} This mechanism is modeled through the use of the IMPACT water models. These include (1) a global hydrology model that determines runoff to the river basins included in the IMPACT model; (2) water basin management models for each FPU that optimally allocate available water to competing non-agricultural and agricultural uses, including irrigation; and (3) a water allocation and stress model that allocates available irrigation water to crops and, when the water supply is less than demand by crop, computes the impact of the water shortage on crop yields, accounting for differences among crops and varieties. These yields shocks are then passed to the IMPACT model, affecting year-to-year crop yields as shown in Equation \ref{eq:yields}.
 
 \begin{equation}
-    \label{eq:yields}
-    \begin{aligned}
-    Yield_{j, fpu, lnd} = YieldInt_{j, fpu, lnd} \times YieldInt2_{j, fpu, lnd} \times YieldIntB2_{fpu}\\
-    \times YldShk_{j, fpu, lnd} \times YldCliShk_{j, fpu, lnd} \\
-    \times \prod_{pfac} (WF_{fpu, pfac})^{YE_{j, fpu, lnd,pfac}} \\
-    \times \left ( \frac{PNET_{j, cty}}{PNET0_{j, cty}} \right )^{Y_{j, fpu, lnd}} \forall cty \in fpu \\
-    \end{aligned}
+\label{eq:yields}
+\begin{aligned}
+Yield_{j,fpu,lnd}
+&=
+YieldInt_{j,fpu,lnd}
+\times YieldInt2_{j,fpu,lnd}
+\times YieldIntB2_{fpu}
+\\
+&\qquad
+\times YldShk_{j,fpu,lnd}
+\times YldCliShk_{j,fpu,lnd}
+\\
+&\qquad
+\times \prod_{pfac}
+\left( WF_{fpu,pfac} \right)^{YE_{j,fpu,lnd,pfac}}
+\\
+&\qquad
+\times
+\left(
+\frac{PNET_{j,cty}}{PNET0_{j,cty}}
+\right)^{Y_{j,fpu,lnd}}
+\qquad
+\forall\, cty \in fpu
+\end{aligned}
 \end{equation}
+
+
 where:
 \begin{conditions}
  Yield       &   Final yield \\
@@ -200,17 +231,34 @@ where:
 
 \subsection{Livestock production}
 
-Livestock production is modeled at the FPU level and includes animal numbers, with associated feed demands, and meat/dairy production based on processing the animals. Similar to the crop sector, this specification allows for easier translation of information from livestock experts who are used to working with herd-size and feeding requirements. In the current version of the model, there is no modeling of herd dynamics—herd size over time is set exogenously.
+Livestock production is modeled at the FPU level and includes animal numbers (equation \ref{eq:animals}), with associated feed demands, and meat/dairy production based on processing the animals. Similar to the crop sector, this specification allows for easier translation of information from livestock experts who are used to working with herd-size and feeding requirements. In the current version of the model, there is no modeling of herd dynamics—herd size over time is set exogenously.
 
 Livestock production is a function of the livestock’s own price, the prices of intermediate (feed) inputs, and a trend variable reflecting growth in livestock herds (slaughter rates are implicitly assumed to stay more or less constant over time). The price elasticities in the livestock supply function are derived in a fashion similar to how the crop area and yield elasticities are derived.
 
 \begin{equation}
-    \label{eq:animals}
-    \begin{aligned}
-        AnN_{j, fpu, lvs} = AnNInt_{j, fpu, lvs} \times AnNInt2_{j, fpu, lvs} \\
-        \times \prod_{jl}\left ( \frac{PNET_{jl,cty}}{PNET0_{jl,cty}} \right )^{AN_{\varepsilon}} \times \prod_{cfeed}\left ( \frac{PC_{cfeed, cty}}{PC0_{cfeed, cty}} \right )^{Feed_{\varepsilon}} \forall cty \in fpu
-    \end{aligned}
+\label{eq:animals}
+\begin{aligned}
+AnN_{j,fpu,lvs}
+&=
+AnNInt_{j,fpu,lvs}
+\times AnNInt2_{j,fpu,lvs}
+\\
+&\qquad
+\times \prod_{jl}
+\left(
+\frac{PNET_{jl,cty}}{PNET0_{jl,cty}}
+\right)^{AN_{\varepsilon}}
+\\
+&\qquad
+\times \prod_{cfeed}
+\left(
+\frac{PC_{cfeed,cty}}{PC0_{cfeed,cty}}
+\right)^{Feed_{\varepsilon}}
+\qquad
+\forall\, cty \in fpu
+\end{aligned}
 \end{equation}
+
 where:
 \begin{conditions}
  AnN       &   Animal Numbers \\
@@ -344,9 +392,29 @@ By convention, the units of $j$ agree with the units of the main commodity produ
 Total domestic demand for a commodity is described in Equation \ref{eq:qd}, and is the sum of household food demand, agricultural intermediate demand (feed and processed goods), and intermediate demand from other sectors (that is, for biofuels and industrial uses).
 
 \begin{equation}
-    \label{eq:qd}
-    QD_{c, cty} = \big[ \big(\sum_{h} QH_{c, h, cty}\big) \times (1+WasteH_{c, cty}) \big] + QInterm_{c, cty} + QL_{c, cty} + QBF_{c, cty} + QOth_{c, cty}
+\label{eq:qd}
+\begin{aligned}
+QD_{c,cty}
+&=
+\Big[
+\sum_{h} (QH_{c,h,cty})
+\times (1+WasteH_{c,cty})
+\Big]
+\\
+&\qquad
++ QInterm_{c,cty}
+\\
+&\qquad
++ QL_{c,cty}
+\\
+&\qquad
++ QBF_{c,cty}
+\\
+&\qquad
++ QOth_{c,cty}
+\end{aligned}
 \end{equation}
+
 where:
 \begin{conditions}
  QD       &   Total commodity demand \\
@@ -366,13 +434,36 @@ Food demand is a function of the price of the commodity and the prices of other 
 The IMPACT demand elasticities are originally based on United States Department of Agriculture–estimated elasticities and adjusted to represent a synthesis of average, aggregate elasticities for each region, given the income level and distribution of urban and rural population \parencite{usda1998commodity}. Over time these elasticities are adjusted in IMPACT to accommodate the gradual shift in demand from staples to high-value commodities like meat, especially in developing countries. This assumption is based on expected economic growth, increased urbanization, and continued commercialization of the agricultural sector. IMPACT is designed to simulate multiple types of households (that is, rural, urban, etc.); however, IMPACT 4 treats household demand with one representative consumer per country.
 
 \begin{equation}
-    \label{eq:qh}
-    \begin{aligned}
-        QH_{c, h, cty} = QHDint_{c, h, cty} \times QHDInt2_{c, h, cty} \\
-        \times \left(\frac{pcGDP_{h, cty}}{pcGDP0_{h, cty}}\right)^{Ie_{c, h, cty}} \times \left(\frac{popH_{h, cty}}{popH0_{h, cty}}\right) \\
-        \times \prod_{cc} \left(\frac{PC_{c, cty} \times (1 - CSE_{c, cty})}{PC0_{c, cty} \times (1 - CSE0_{c, cty})}\right)^{Fe_{c, cc, h, cty}}
-    \end{aligned}
+\label{eq:qh}
+\begin{aligned}
+QH_{c,h,cty}
+&=
+QHDint_{c,h,cty}
+\times QHDInt2_{c,h,cty}
+\\
+&\qquad
+\times
+\left(
+\frac{pcGDP_{h,cty}}{pcGDP0_{h,cty}}
+\right)^{Ie_{c,h,cty}}
+\times
+\left(
+\frac{popH_{h,cty}}{popH0_{h,cty}}
+\right)
+\\
+&\qquad
+\times
+\prod_{cc}
+\left(
+\frac{
+PC_{c,cty}\,(1 - CSE_{c,cty})
+}{
+PC0_{c,cty}\,(1 - CSE0_{c,cty})
+}
+\right)^{Fe_{c,cc,h,cty}}
+\end{aligned}
 \end{equation}
+
 where: 
 \begin{conditions}
  QH       &   Household food demand \\
@@ -449,11 +540,30 @@ where:
 Other demand summarizes all other demands for agricultural products from sectors outside of the focus of IMPACT (for example, seeds, industrial use). It is simulated under Equation \ref{eq:qoth1} and Equation \ref{eq:qoth2}. The primary method follows the household food demand equation and is sensitive to changes in income, population, and prices.
 
 \begin{equation}
-    \label{eq:qoth1}
-    \begin{aligned}
-        QOth_{c, cty} = QOthInt_{c, cty} \times QOthInt2_{c, cty} \times  \left(\frac{pcGDP_{cty}}{pcGDP0_{cty}}\right)^{OIe_{c, cty}} \times \\ \left(\frac{pop_{cty}}{pop0_{cty}}\right) \times \prod_{cc=c} \left(\frac{PC_{c, cty}}{PC0_{c, cty}}\right)^{OPe_{c, cc, cty}}
-    \end{aligned}
+\label{eq:qoth1}
+\begin{aligned}
+QOth_{c,cty}
+&=
+QOthInt_{c,cty}
+\times QOthInt2_{c,cty}
+\\
+&\qquad
+\times
+\left(
+\frac{pcGDP_{cty}}{pcGDP0_{cty}}
+\right)^{OIe_{c,cty}}
+\times
+\left(
+\frac{pop_{cty}}{pop0_{cty}}
+\right)
+\times
+\prod_{cc=c}
+\left(
+\frac{PC_{c,cty}}{PC0_{c,cty}}
+\right)^{OPe_{c,cc,cty}}
+\end{aligned}
 \end{equation}
+
 where: 
 \begin{conditions}
  QOth               &   Other demand  \\

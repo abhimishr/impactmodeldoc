@@ -119,6 +119,7 @@ Total runoff generated $R$ in time period $t$ is the sum of surface runoff $RS$ 
 In the above equations (\ref{eq:pet} - \ref{eq:tgr}), calibration parameters include the subgrid variability shape parameter $b$, the total runoff partitioning parameter $\lambda$, the storage constant $\beta$, and the average soil water-holding capacity $S_{m}$. 
 
 Conceptually, $S_{m}$ should equal available water - namely, field capacity less wilting point in a soil moisture–accounting perspective. However, because of the monthly time step adopted, using measured available water rather than calibrating $S_{m}$ can significantly overestimate runoff and underestimate actual evapotranspiration as found in our calibration experiments.
+\clearpage
 
 \section{IMPACT Water basin Simulation Model (IWSM)}
 
@@ -132,6 +133,7 @@ IWSM includes three components:
 IWSM can also simulate water use impacts of technological and socioeconomic changes as well as climate change. 
 
 \subsection*{Water demand projection}
+\label{subsec:iwsm1}
 
 Crop water requirement is defined by equation \ref{eq:cwr} for every $fpu$, activity $j$, year $yrs$ and month $m$.
 
@@ -149,25 +151,312 @@ where:
 
 \subsubsection*{Domestic water demand}
 
-Domestic water demand includes municipal water demand and rural domestic water demand. Annual per capita domestic water consumption is based on previous work with the International Water Management Institute (de Fraiture 2007; Rosegrant, Cai, and Cline 2002), with necessary adjustments to ensure that per capita consumption in rural and urban households is not less than 15 liters per day and 25 liters per day, respectively. Total domestic water consumption at the FPU level equals population multiplied by annual per capita consumption, as seen in IWSM equation 8. The growth of domestic per capita consumption is based on projections of per capita gross domestic product as seen in IWSM equation 9. In each region or basin, income elasticities $\eta$ of demand for domestic water use are synthesized based on the literature and available estimates (de Fraiture 2007). These elasticities of demand measure the propensity to consume water with respect to increases in per capita income. The elasticities also capture both direct income effects and conservation of domestic water use through technological and management change. In higher-income countries where per capita domestic consumption is high, the elasticities of demand imply that water demand will decline with increased income growth, whereas in developing countries the elasticities imply an increase in water consumption with increased income growth.
+Domestic water demand includes municipal water demand and rural domestic water demand. Annual per capita domestic water consumption is based on previous work with the International Water Management Institute (\textcolor{red}{de Fraiture 2007; Rosegrant, Cai, and Cline 2002}), with necessary adjustments to ensure that per capita consumption in rural and urban households is not less than 15 liters per day and 25 liters per day, respectively. Total domestic water consumption $DoWD$ at the FPU level equals population $POP$ multiplied by annual per capita consumption $pcDoWD$ (derived from daily per capita demand $pcDoWDpd$), as seen in IWSM equation \ref{eq:dwd}. The growth of domestic per capita consumption is based on projections of per capita gross domestic product ($pcGDP$) as seen in IWSM equation \ref{eq:dwd3}. In each region or basin, income elasticities $\eta$ of demand for domestic water use are synthesized based on the literature and available estimates (\textcolor{red}{de Fraiture 2007}). These elasticities of demand measure the propensity to consume water with respect to increases in per capita income. The elasticities also capture both direct income effects and conservation of domestic water use through technological and management change. In higher-income countries where per capita domestic consumption is high, the elasticities of demand imply that water demand will decline with increased income growth, whereas in developing countries the elasticities imply an increase in water consumption with increased income growth.
+
+\textcolor{red}{unsure where this eqn is: maybe LoadIWSM L74}
+\begin{subequations}
+    \label{eq:dwd}
+    \begin{align}
+            DoWD_{fpu, t} = \sum_{h} (POP_{h, fpu, t} \times pcDoWD_{h, fpu, t})
+    \end{align}
+where, $\forall$ t = 1
+    \begin{align}
+            pcDoWD_{h, fpu, t} = pcDoWDpd_{h, fpu, t} \times 365.25 \times 1e^{-3} 
+    \end{align}
+and, for $\forall$ t $\ge$ 1
+    \begin{align}
+    \label{eq:dwd3}
+            pcDoWD_{h, fpu, t} = pcDoWDpd_{h, fpu, t-1} \times (1 + (\eta \times \Delta pcGDP_{h, fpu, t}))
+    \end{align}
+\end{subequations}
 
 \subsubsection*{Industrial water demand}
 
-Industrial water demand is modeled for the manufacturing and energy sectors using growth rates for the value-added by sector and energy production values for the electricity sector from the EPPA6 Model of the MIT Joint Program on the Science and Policy of Global Change (Chen et al. 2015). For many countries in Africa south of the Sahara, the projected industrial water demands are substantially lower than those in IMPACT 2, suggesting an underestimation. Therefore, for countries in Africa south of the Sahara we retained the projection method of IMPACT 2—namely, the industrial water demand is modeled as a nonlinear function of gross domestic production per capita and technology change. In IWSM equation 7, $\epsilon$ is income elasticity of demand, and $\gamma$t is the technology term, which is determined according to our perspectives on future industrial water demand and technological improvements in industrial water use in different regions.
+Industrial water demand is modeled for the manufacturing and energy sectors using growth rates for the value-added by sector and energy production values for the electricity sector from the EPPA6 Model of the MIT Joint Program on the Science and Policy of Global Change (\textcolor{red}{Chen et al. 2015}). For many countries in Africa south of the Sahara, the projected industrial water demands are substantially lower than those in IMPACT 2, suggesting an underestimation. 
+
+Therefore, for countries in Africa south of the Sahara we retained the projection method of IMPACT 2—namely, the industrial water demand is modeled as a nonlinear function of gross domestic production per capita and technology change. In IWSM equation \ref{iwd}, $\epsilon$ is income elasticity of demand, and $\gamma^{t}$ is the technology term, which is determined according to our perspectives on future industrial water demand and technological improvements in industrial water use in different regions.
+
+\textcolor{red}{cannot find this exact equation, maybe L45 in DemandUpdateIWSM.inc?}
+\begin{equation}
+    \label{eq:iwd}
+    InWD_{fpu, t} = \alpha \times pcGDP_{t}^{\epsilon} \times EXP(\gamma^{t})
+\end{equation}
 
 \subsubsection*{Livestock water demand}
 
+Livestock water demand is estimated using livestock numbers and water consumptive use per unit of livestock ($w_{lv}$), including beef, milk, pork, poultry, eggs, and sheep and goats (\textcolor{red}{de Fraiture 2007; Steinfeld et al. 2006}). The total number of live animals during a year includes slaughtered animals, the followers herd, and other categories (for example, milk-producing animals). The total number of animals is calculated based on the number of slaughtered animals ($QS_{lv}$) and a ratio of the number of slaughtered animals to the total number of animals ($r_{lv}$) (eq. \ref{eq:lwd}).
+
+\textcolor{red}{cannot find this exact equation, maybe L53 in DemandUpdateIWSM.inc?}
+\begin{equation}
+    \label{eq:lwd}
+    LvWD_{fpu, t} = QS_{lv} \times r_{lv} \times w_{lv}
+\end{equation}
+
 \subsubsection*{Irrigation water demand}
 
-Irrigation water demand is assessed as the portion of crop water requirement (IWSM.2) not satisfied by precipitation or soil moisture based on hydrologic and agronomic characteristics. Net irrigation water demand (NIRWD) in an FPU is calculated based on an empirical crop water requirement function (Doorenbos and Pruit 1977) and irrigated area of the crop.
+Irrigation water demand is assessed as the portion of crop water requirement (eq. \ref{eq:niwd}) not satisfied by precipitation or soil moisture based on hydrologic and agronomic characteristics. Net irrigation water demand ($NIWD$) in an FPU is calculated based on an empirical crop water requirement function (\textcolor{red}{Doorenbos and Pruit 1977}) and irrigated area of the crop.
+
+\begin{equation}
+    \label{eq:niwd}
+    NIWD_{fpu, j} = \sum_{m} \max(0, ETM_{fpu, j, m} - PE_{fpu, m}) \times AI_{fpu, j}
+\end{equation}
+
+where
+\begin{conditions}
+ETM & Maximum evapotranspiration in month $m$ for crop $j$ \\
+PE  & Effective rainfall in month $m$ \\
+AI  & Irrigated area from crop $j$ \\
+\end{conditions}
+
+Part or all of crop water demand can be satisfied by effective rainfall ($PE$), which is the rainfall infiltrated into the root zone and available for crop use. Effective rainfall for crop growth can be increased through rainfall harvesting technology.
+
+\paragraph*{Effective rainfall}\mbox{} \\
+
+Effective rainfall depends on total rainfall ($PT$), previous soil moisture content ($SM0$), maximum crop evapotranspiration ($ETM$), and soil characteristics (hydraulic conductivity $K$, moisture content at field capacity $Zs$, and others). $PE$ is calculated by a SCS (Soil Conservation Service) method (\textcolor{red}{USDA-SCS 1993}), given $PT$, $ETM$, and effective soil water storage.
+
+\begin{subequations}
+    \begin{align}
+        PE = SF \times (0.70917 \times PT^{0.82416} - 0.11556) \times 10^{0.02426 \times ETM}
+    \end{align}
+in which, $SF$ is the soil water storage factor and is calculated with
+    \begin{align}
+        SF = 0.531747 + (0.295167 \times D) - (0.057697 \times D^{2}) + (0.003804 \times D^{3})
+    \end{align}
+\end{subequations}
+where $D$ represents the usable soil water storage in inches and is generally calculated as 40 to 60 percent of available soil water capacity in the crop root zone, depending on the irrigation management practices in use (\textcolor{red}{USDA-SCS 1993}).
+
+Technology scenarios can be modeled by adjusting the effective rainfall value to reflect improved rainfall harvesting technology. Rainfall harvesting is the capture, diversion, and storage of rainwater for plant irrigation and other uses and can be an effective water conservation tool, especially in arid and semiarid regions. Water harvesting can provide farmers with improved water availability, increased soil fertility, and higher crop production in some local and regional ecosystems and can also provide broader environmental benefits through reduced soil erosion. Advanced tillage practices also can increase the share of rainfall that goes to infiltration and evapotranspiration. Contour plowing, which is typically a soil-preserving technique, should act also to detain and infiltrate a higher share of the precipitation. Precision leveling also can lead to greater relative infiltration and therefore a higher percentage of effective rainfall.
+
+Gross irrigation water demand $GIWD$ for all crops is shown in equation \ref{eq:giwd}, with consideration of effective rainfall use and salt leaching requirement.
+
+\begin{equation}
+    \label{eq:giwd}
+    GIWD_{fpu, j} = \frac{\sum_{j} (NIWD_{fpu, j} \times AI_{fpu, j}) \times (1 + LR)}{BE}
+\end{equation}
+
+where
+\begin{conditions}
+LR & Salt-leaching factor \\
+BE & Basin efficiency \\
+\end{conditions}
+
+The concept of basin efficiency was discussed and various definitions were provided by \textcolor{red}{Keller, Keller and Seckler (1996)}. Basin efficiency is defined as the ratio of beneficial water depletion (crop evapotranspiration and salt leaching) to total irrigation water depletion at the FPU scale. Basin efficiency in the base year is calculated as the ratio of the net irrigation water demand ($NIWD$, equation \ref{eq:niwd}) to the total irrigation water depletion estimated from records (\textcolor{red}{Shiklomanov 1999}). Basin efficiency in future years is assumed to increase at a prescribed rate in an FPU depending on water infrastructure investment and water management improvement in the FPU.
+
+The projection of irrigation water demand depends on the changes in irrigated area $AI$ and cropping patterns, basin efficiency, and effective rainfall $PE$. Global climate change affects future irrigation water demand through changes in precipitation and temperature along with other meteorological variables that affect crop evapotranspiration.
 
 \subsection*{Water supply optimization}
+\label{subsec:iwsm2}
 IWSM is an optimization-driven simulation model with operating rules implicitly given by the objective function and constraints in the following quadratic programming model, coded in GAMS. The model runs at monthly time step and is solved for individual years using the CPLEX solver.  Adjacent years are linked through reservoir storage. Although the model is solved for all the 320 FPUs in the world simultaneously each year, it is the same as solving the 154 aggregated river basins individually because only FPUs within the same basin are connected through upstream-to-downstream water transport.
 
+The objective function (equation  \ref{eq:objiwsm}) minimizes the sum of a set of objectives summed across all FPUs, including the annual sum of squared deviations from 1 of monthly ratios of irrigation water supply to demand, squared deviation from 1 of the minimum irrigation water supply to demand ratio across all months, squared deviation from 1 of the ratio of end of year storage to reservoir storage capacity, and penalty terms. $STCAP_{fpu}$ is reservoir storage capacity. $WFPU_{fpu}$, $WRA_{fpu}$, $MINRA_{fpu}$, $WSTRG_{fpu}$, $WEVSLK$, and $WNIRST$ are weighting factors. High values are assigned to the weighting factors of the slack variables to force the solution of the slack variables to zero, through the minimization.
+
+\begin{equation}
+\label{eq:objiwsm}
+\begin{aligned}
+\min OBJSQV
+&= \sum_{fpu} WFPU_{fpu}
+\\
+&\qquad \times \Bigg[
+WRA_{fpu} \sum_{m} (RAV_{fpu,m} - 1)^{2}
++ MINRA_{fpu} (MINRAV_{fpu} - 1)^{2}
+\\
+&\qquad
++ WSTRG_{fpu} \left(\frac{STRGV_{fpu, m}}{STCAP_{fpu}} - 1 \right)^{2}
++ WEVSLK \sum_{m} EVAPSLACKV_{fpu, m}
+\\
+&\qquad
++ WNIRST \sum_{m} NIRSHORTV_{fpu, m}
+\Bigg]
+\end{aligned}
+\end{equation}
+
+where
+\begin{conditions}
+OBJSQV      & Objective function \\
+RAV         & Monthly ratio of water supply to water demand \\
+MINRAV      & The minimum ratio of monthly water supply to water demand \\
+STRGV       & Reservoir storage at the end of month $m$ \\
+EVAPSLACKV  & Slack variable for reservoir evapotranspiration (\textcolor{red}{?}) \\
+NIRSHORTV   & Slack variable for the shortage of nonirrigation water \\
+\end{conditions}
+The minimum value of monthly ratio values in a year is controlled as $MINRAV_{fpu} \le RAV_{fpu, m} \forall m$.
+
+The reservoir monthly water balance equation states that reservoir storage at the end of a month equals storage at the beginning of the month, plus incoming flows, which include inflow from upstream FPUs within the same river basin and the surface water component of internal renewable water resource (that is, total internal renewal water resource less the overlap between surface water and groundwater, $GWX_{fpu,m}$, minus outgoing flows including reservoir surface evaporation, reservoir spill, and surface water depletion. We implicitly assume that return flow of surface water withdrawal rejoins the water system within the same month.
+
+\begin{equation}
+\label{eq:rmwb}
+\begin{aligned}
+STRGV_{fpu, m}
+&= STRGPV_{fpu, m}
+\\
+&\qquad
++ (IRW_{fpu, m} - GWX_{fpu, m} + INFLOWV_{fpu, m})
+\\
+&\qquad
+- (EVAPV_{fpu, m} + SPV_{fpu, m} + SWDPV_{fpu, m})
+\end{aligned}
+\end{equation}
+where
+\begin{conditions}
+STRGV       & Reservoir storage at the end of month $m$ \\
+STRGPV      & \textcolor{red}{Initial or Beginning-of-period storage in the First Month ?} \\
+IRW         & \textcolor{red}{Irrigation water?} \\
+INFLOWV     & Monthly inflows from upstream food production units \\
+EVAPV       & Monthly reservoir evaporation \\
+SPV         & Monthly reservoir spill \\
+SWDPV       & Monthly surface water depletion \\
+\end{conditions}
+
+For Beginning-of-period Storage in the First Month (equation \ref{eq:storage}), in the base year, as beginning storage is unknown, beginning storage is set as equivalent to the end-of-period storage of the last month. This is equivalent to the $IWSM$ running an infinite number of times using base year data such that the ending storage converges to a certain value. In case it is not the base year, beginning storage of the first month is set at the ending storage of the last month of the previous year ($ISTRG_{fpu}$). For all other months, beginning storage of a month equals ending storage of the previous month.
+
+\begin{equation}
+\label{eq:storage}
+STRGPV_{fpu,m} =
+\begin{cases}
+STRGV_{fpu,12}  & m = 1 \text{ and Base Year} \\[0.4em]
+ISTRG_{fpu,m}   & m = 1 \text{ and NOT Base Year} \\[0.4em]
+STRGV_{fpu,m-1} & m > 1
+\end{cases}
+\end{equation}
+
+where
+\begin{conditions}
+STRGPV      & \textcolor{red}{Initial or Beginning-of-period storage in the First Month ?} \\
+STRGV       & Reservoir storage at the end of month $m$ \\
+ISTRG       & Ending storage of the last month of the previous year \\
+\end{conditions}
+
+The inflow from FPUs upstream within the basin is given by equation \ref{eq:inflow}.
+
+\begin{subequations}
+\label{eq:inflow}
+\begin{align}
+INFLOWV_{fpu,m} = 
+\sum_{fpub \in \mathcal{N}(fpu)}
+SPV_{fpub,m} 
+\end{align}
+where
+\begin{align}
+    \mathcal{N}(fpu) = \{ fpub \mid neigb(fpu,fpub) = 1 \}
+\end{align}
+\end{subequations}
+
+\begin{conditions}
+INFLOWV     & Monthly inflows from upstream food production units \\
+SPV         & Monthly reservoir spill \\
+fpub        & Alias of FPUs \\
+neigb       & Mapping of neighboring FPUs \\
+\end{conditions}
+
+Reservoir evaporation (equation \ref{eq:resevap}) equals potential evaporation multiplied by reservoir surface area. Considering storage capacity growth over time, reservoir surface area equals the area of reservoir when storage is at its capacity in the base year multiplied by a coefficient that is a power function of the ratio of average storage of the current month to base-year storage capacity. The power $\frac{2}{3}$ is applied for converting the change in three-dimensional reservoir storage to that of two-dimensional reservoir surface area. $STRGC_{fpu}^{00}$, $RESA_{fpu,m}^{00}$, and $PET_{fpu,m}$ are, respectively, reservoir storage capacity in the base year, reservoir surface area at full storage in the base year, and potential evaporation in month $m$ of the current year. Reservoir storage capacity and reservoir surface area values in the base year are based on the GRanD database (\textcolor{red}{Lehner et al. 2011}).
+
+\textcolor{red}{ModelIWSM L108 the equation looks different}
+\begin{equation}
+\label{eq:resevap}
+\begin{aligned}
+EVAPV_{fpu,m}
+&=
+\left[
+\frac{
+0.5 \times \left( STRGPV_{fpu,m} + STRGV_{fpu,m} \right)
+}{
+STRGC^{00}_{fpu}
+}
+\right]^{\tfrac{2}{3}}
+\\
+&\qquad
+\times RESA^{00}_{fpu,m}
+\times PET_{fpu,m}
+\\
+&\qquad
+- EVAPSLACKV_{fpu,m}
+\end{aligned}
+\end{equation}
+where
+\begin{conditions}
+EVAPV       & Monthly reservoir evaporation \\
+STRGPV      & \textcolor{red}{Initial or Beginning-of-period storage in the First Month ?} \\
+STRGV       & Reservoir storage at the end of month $m$ \\
+EVAPSLACKV  & Slack variable for reservoir evapotranspiration (\textcolor{red}{?}) \\
+\end{conditions}
+
+The sum of surface water depletion, groundwater depletion, and desalinized water, $WDSL_{fpu,m}$ (water supply by source) equals the sum of water depletion in the irrigation sector and total water depletion in non-irrigation sectors (water depletion by sector).
+
+\begin{equation}
+\label{eq:wsdb}
+\begin{aligned}
+SWDPV_{fpu,m}
++ GWDPV_{fpu,m}
++ WDSL_{fpu,m}
+&=
+IRRWUV_{fpu,m}
+\\
+&\qquad
++ WDNI_{fpu,m}
+\\
+&\qquad
+- NIRSHORTV_{fpu,m}
+\end{aligned}
+\end{equation}
+where
+\begin{conditions}
+SWDPV       & Monthly surface water depletion \\
+GWDPV       & Monthly groundwater depletion \\
+WDSL        & Desalinated water amount \\
+IRRWUV      & Monthly irrigation water use \\
+WDNI        & Water depletion in non-irrigation sectors\\
+NIRSHORTV   & Slack variable for the shortage of non-irrigation water \\
+\end{conditions}
+
+The ratio of irrigation water supply to gross irrigation water requirement, $GIWD_{fpu,m}$, which considers effective basin efficiency, is given by equation \ref{eq:rav}.
+
+\begin{equation}
+\label{eq:rav}
+RAV_{fpu, m} = \frac{IRRWUV_{fpu, m}}{GIWD_{fpu, m}}
+\end{equation}
+where
+\begin{conditions}
+RAV & Monthly ratio of water supply to water demand \\
+IRRWUV & Monthly irrigation water use \\
+GIWD & Irrigation water demand \\
+\end{conditions}
+
+The total surface water withdrawal in a given year cannot exceed surface water withdrawal capacity i.e., $\sum_{m} SWDPV_{fpu, m} \le SWDCAP_{fpu}$. The capacity has been converted into a consumptive use term, using estimated depletion coefficients of domestic, industrial, and agricultural sectors. Water withdrawal data by source around year \textcolor{red}{\textbf{2005 from FAO’s AQUASTAT global database} Maybe we can update here, flagging for checks} were used to estimate surface and groundwater withdrawal capacity values (\textcolor{red}{FAO 2014}), considering inter-annual variability of water demand at the FPU level.
+
+The total groundwater water withdrawal in a given year cannot exceed groundwater withdrawal capacity of that year i.e., $\sum_{m} GWDPV_{fpu, m} \le GWDCAP_{fpu}$. The capacity has been converted into a consumptive use term, using estimated depletion coefficients of domestic, industrial, and agricultural sectors.
+
+The reservoir release (excluding surface withdrawal) in any given month should be greater than minimum instream flow requirement, which is specified as a percentage of available surface water resource. The committed flow requirement coefficient values are based on available global study on environmental flow requirements (\textcolor{red}{Smakhtin, Revenga, and Döll 2004}).
+
+\textcolor{red}{Doesnt fully match CMFLOWYR2 equation ModelIWSM L139 and L143 - two equations}
+\begin{equation}
+\label{eq:cifr}
+SPV_{fpu,m}
+\ge
+CFY_{fpu}
+\times
+\sum_{m}
+\left(
+IRW_{fpu,m}
++ INFLOWV_{fpu,m}
+- GWX_{fpu,m}
+- EVAPV_{fpu,m}
+\right)
+\end{equation}
+wehre
+\begin{conditions}
+CFY & annual committed flow in percentage of total \\
+IRW & Monthly runoff \\
+INFLOWV     & Monthly inflows from upstream food production units \\
+EVAPV & Reservoir evaporation \\
+\end{conditions}
+
+The reservoir storage in any month should be greater than its dead storage, and, less than its storage capacity i.e. $STCAPMN_{fpu} \le STRGV_{fpu, m} \le STCAP_{fpu}$.
+
 \subsection*{Intersector water allocation}
+\label{subsec:iwsm3}
 
 IWSM adopts a priority-based intersector water allocation scheme, assuming domestic water demand is the first priority, industrial and livestock demand is the second priority, and the remaining water is available for irrigation. The above water supply optimization already guarantees that nonirrigation water demand is met before irrigation water demand by forcing the shortage of supply to nonirrigation sectors to zero whenever possible. Therefore, for domestic, industrial, and livestock sectors, water supplies equal water demands if nonirrigation sector water supply shortage is zero in the IWSM water supply optimization solution. Otherwise, if shortage exists for nonirrigation sectors, water is allocated in the order of domestic, industrial, and livestock.
-
+\clearpage
 
 \section{IMPACT Crop Water Allocation and Stress Model (ICWASM)}
 

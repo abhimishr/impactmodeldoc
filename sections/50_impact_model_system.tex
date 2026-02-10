@@ -21,6 +21,7 @@ At its core, the system links IMPACT with GLOBE, a global CGE (computable genera
 
 Together, the IMPACT–GLOBE system allows to capture sectoral detail and economy-wide feedback where IMPACT provides agricultural and climate sector projections while GLOBE feeds back macroeconomic effects (e.g., income changes) into the agricultural projections. This helps evaluate scenarios such as climate change, trade reforms, technological change, and policy interventions that affect food systems, natural resources, and national economies. 
 
+\clearpage
 \subsection{IMPACT data management and estimation system}
 
 Modeling philosophy in IMPACT also focuses on making data processing independent from the behavioral model system. The goal is that any model component of IMPACT should have standard data requirements and that the data sources could be changed as long as they conform to deliver standard data inputs of the modules. This standardization of data inputs has allowed the breaking up of processing the IMPACT database into a series of specific data-processing modules, each focused on preparing one part of the IMPACT database. These data modules are linked into a separate IMPACT Data Management and Estimation System that provides all the data needed to implement the IMPACT model system. These data processing modules include the following:
@@ -34,6 +35,7 @@ Modeling philosophy in IMPACT also focuses on making data processing independent
    \item Climate data processing module, which reads in results from crop models aggregated to the FPU level and then processes them into average annual climate shocks for all IMPACT commodities.
 \end{itemize}
 
+\clearpage
 \subsection{Food security modules}
 
 Food security is an important aspect analyzed with IMPACT. Understanding the interplay of commodity production, trade, and demand is valuable, but understanding some of the potential human welfare implications of these changes is also important to better understand consequences of difference scenarios. In IMPACT, there are two food security modules that were designed to give policymakers a sense of how countries were progressing toward the Sustainable Development Goals. 
@@ -46,7 +48,7 @@ The percentage of children younger than five who are undernourished is estimated
 
 \begin{equation}
     \label{eq:undernourished}
-    \Delta UndNrsh_{t, t0} = -25.54 * \ln{\frac{kcal_{t}}{kcal_{t0}}} - (71.76 * \Delta LFER_{t, t0}) - (0.22 * \Delta SCH_{t, t0}) - (0.08 * \Delta WAT_{t, t0})
+    \Delta UndNrsh_{t, t0} = -25.54 \times \ln{\frac{kcal_{t}}{kcal_{t0}}} - (71.76 \times \Delta LFER_{t, t0}) - (0.22 \times \Delta SCH_{t, t0}) - (0.08 \times \Delta WAT_{t, t0})
 \end{equation}
 where:
 \begin{conditions}
@@ -70,7 +72,7 @@ The share at risk is the percentage of the total population that is at risk of s
 
 \begin{equation}
     \label{eq:poprisk}
-    ShrRisk_{cty, t} = \beta_0 + (\beta_1 * rKcal_{cty, t}) + (\beta_2 * rKcal_{cty, t}^{2}) + \varepsilon
+    ShrRisk_{cty, t} = \beta_0 + (\beta_1 \times rKcal_{cty, t}) + (\beta_2 \times rKcal_{cty, t}^{2}) + \varepsilon
 \end{equation}
 where:
 \begin{conditions}
@@ -85,16 +87,25 @@ where:
 
 It should be noted that due to the quadratic nature of this equation it is necessary to apply an upper and lower bound to the share at risk. The lower bound is defined as 0, and the upper bound is 100. Developed countries unsurprisingly have low share at risk, so for simplicity we treat all countries with less than 3 percent share at risk of hunger as if they had 0 percent share of hunger. The relative availability of food has been bounded to ensure realistic results on the quadratic curve: when the ratio of calories available to calories required, RelativeKCal, is greater than 1.7, we assume that the share at risk of hunger is effectively 0.
 
-\subsection{Crop models}
+\clearpage
+\subsection{Crop models\footnote{Crop models are further discussed in Appendix~\ref{sec:appendixD} (\nameref{sec:appendixD}).}}
 
 Estimating the effect of climate change on crop yields starts by running the DSSAT family of crop models across a gridded representation of the world. Yield maps for groundnuts, maize, potatoes, rice, sorghum, soybeans, and wheat are compiled under both rainfed and irrigated conditions. Driving the model is a large collection of data. Some of the data represent soil characteristics and conditions as well as basic management decisions while others characterize the climatic conditions under which the crops were grown.
 
-The grid-based yields for each climate and crop combination are aggregated within regions appropriate for the economic portions of the model. Specifically, they are computed as production-area-weighted averages using maps of production areas from the Spatial Production Allocation Model as weights \parencite{you2014spatial}. These are then used as weights in the multimarket model to estimate final yield impacts. This follows the general approach for incorporating projected yield changes from biophysical models into economics models as outlined in \cite{muller2014projecting}. Crop models are further discussed in \nameref{sec:appendixD}.
+The grid-based yields for each climate and crop combination are aggregated within regions appropriate for the economic portions of the model. Specifically, they are computed as production-area-weighted averages using maps of production areas from the Spatial Production Allocation Model as weights \parencite{you2014spatial}. These are then used as weights in the multimarket model to estimate final yield impacts. This follows the general approach for incorporating projected yield changes from biophysical models into economics models as outlined in \cite{muller2014projecting}. 
 
-\subsection{Water models}
+\clearpage
+\subsection{Water models\footnote{Water models are further discussed in Appendix~\ref{sec:appendixE} (\nameref{sec:appendixE}).}}
 \label{sec:IMPACTWatersystem}
 
-The water models in the IMPACT Modeling System include (1) the IMPACT global hydrology model (IGHM) that simulates snow accumulation and melt and rainfall-runoff processes, (2) the IMPACT water basin simulation model (IWSM) that simulates operation of aggregate surface water reservoir and water supplies to economic sectors including irrigation, and (3) the IMPACT crop water allocation and stress model (ICWASM) that allocates available net irrigated water to crops and estimates the impact of water shortages on yields. These three models enable the IMPACT multimarket model to assess the effects on global food and water systems of hydroclimatic variability and change, socioeconomic change–driven water demand growth, investment in water storage and irrigation infrastructure, and technological improvements.
+The water models in the IMPACT Modeling System include 
+\begin{enumerate}
+    \item The IMPACT global hydrology model (IGHM) that simulates snow accumulation and melt and rainfall-runoff processes, 
+    \item The IMPACT water basin simulation model (IWSM) that simulates operation of aggregate surface water reservoir and water supplies to economic sectors including irrigation, and 
+    \item The IMPACT crop water allocation and stress model (ICWASM) that allocates available net irrigated water to crops and estimates the impact of water shortages on yields. 
+\end{enumerate}
+
+These three models enable the IMPACT multimarket model to assess the effects on global food and water systems of hydroclimatic variability and change, socioeconomic change–driven water demand growth, investment in water storage and irrigation infrastructure, and technological improvements.
 
 IGHM is driven by climate-forcing data and computes effective rainfall, potential and actual evapotranspiration, and runoff to river basins. The IGHM-simulated hydrologic outputs are then provided in a one-way link to IWSM, which optimally manages water basin storage and provides irrigated water supply in a one-way link to ICWASM, which then provides the IMPACT multimarket model with water stress-induced crop yield reductions for both irrigated and rainfed crops. The solution of IGHM depends only on climate inputs and is completely independent of the other water models and the IMPACT multimarket model. However, there is two-way communication between IWSM and the IMPACT multimarket model—the demand for water in IWSM depends on the allocation of land to crops, which is part of the solution of the IMPACT multimarket model. In turn, changes in water availability from IWSM affect water allocation and stress in ICWASM. The communication between these models to capture this endogeneity is discussed below.
 
@@ -109,7 +120,8 @@ Actual evapotranspiration is determined jointly by the potential evapotranspirat
 
 \begin{figure}[hbt!]
   \centerline{\includegraphics[width=0.8\textwidth]{plots/5_5.png}}
-  \caption[Detailed schematic of IMPACT global hydrology model]{IMPACT global hydrology model schematic illustrating vertical water balance of the land and open water fraction of a grid cell. E = evaporation (millimeters per month [mm/m]); ET = evapotranspiration (mm/m); GW = groundwater; IMPACT = International Model for Policy Analysis of Agricultural Commodities and Trade; P = effective precipitation (mm/m); P* = precipitation (mm/m); R = total runoff (mm/m); RB = base flow (mm/m); RD = direct runoff from open water body (mm/m); RS = surface runoff (mm/m); S = soil moisture content (millimeters); T = temperature (\textdegree C); Tb = base temperature (\textdegree C), used as threshold to determine incoming precipitation as rain or snow.}
+  \caption[Detailed schematic of IMPACT global hydrology model]{IMPACT global hydrology model schematic illustrating vertical water balance of the land and open water fraction of a grid cell. 
+  $E$ = evaporation (millimeters per month [mm/m]); $ET$ = evapotranspiration (mm/m); $GW$ = groundwater; $IMPACT$ = International Model for Policy Analysis of Agricultural Commodities and Trade; $P$ = effective precipitation (mm/m); $P^{*}$ = precipitation (mm/m); $R$ = total runoff (mm/m); $RB$ = base flow (mm/m); $RD$ = direct runoff from open water body (mm/m); $RS$ = surface runoff (mm/m); $S$ = soil moisture content (millimeters); $T$ = temperature (\textdegree C); $T_{b}$ = base temperature (\textdegree C), used as threshold to determine incoming precipitation as rain or snow.}
   \label{fig:ighm}
 \end{figure}
 
