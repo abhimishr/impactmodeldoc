@@ -1,14 +1,12 @@
 # IMPACT Changelog
 
-## v4.1.4-dev
-
-### Name: Maize price fix 
+## v4.1.4 - _Berlin_
 
 ### Updates
 
-- Update to maize IPR (increase by 0.5 percentage points) to fix unrealistic global maize price increase
+- Update to maize IPR (increase by 0.5 percentage points) to fix unrealistic global maize price increase.
 
-## v4.1.3
+## v4.1.3 - _Bursa_
 
 ### Bugfix
 
@@ -20,91 +18,82 @@
 - `InputFiles\IMPACT3\IMPACT3_BaseProductionTrade.gdx` updated due to fix in Entropy code which resulted in negative priors.
 - `InputFiles\IMPACT3\IMPACT3_IPRsAgrs.gdx` updated to have maize `YLDGR` fix from the IPROverwriting process. The change in `InputFiles\IMPACT3\IMPACT3_BaseProductionTrade.gdx` was causing weird dips in `EGY`.
 
-## v4.1.2
-
-### Name: IMPACT 4.1.2
+## v4.1.2 - _Tunis_
 
 ### Bugfix
 
 - `PerCapGDP` reporting bugfix (not used in the model but fixed for consistency)
 
-## v4.1.1
-
-### Name: IMPACT 4.1.1 
+## v4.1.1 - _Guayaquil_
 
 ### Updates
 
-- `ReportGen` to account for FISH reporting (commodities and activities)
+- `ReportGen` to account for aquatic foods reporting (commodities and activities)
 
 ### Bugfix
 
 - Bugfix for GLOBE model interation (`hexpdev`)
 - Spelling fix in `ReportGen` for one instance of `Sierra Leone` incorrectly written as `Sierra Leon`
 
-## v4.1.0
-
-### Name: IMPACT (2025 IPR Update) 
+## v4.1.0 - _Lima_
 
 ### Updates
 
-- 2025 IPR Updates  [FH+NC]
+- **2025 IPR Updates**  [FH+NC]
 
-## v4.0
-
-### Name: IMPACT (w FISH) 
+## v4.0 - _Penang_
 
 ### Updates
 
-- Added fish to IMPACT main model
+- Added **aquatic foods** to IMPACT main model
 
-## v3.9
-
-### Name: IMPACT (Base year 2021) 
+## v3.9 - _Valparaíso_
 
 ### Updates or Bug-Fixes
 
-- Updated `IMPACT3_CCData.gdx` (Fix for spongy climate impact data due to legacy code).
-- Update of base year data in IMPACT (2021 -> 2021)
-
-## v3.9.0-dev
-
-### Name: IMPACT Base 2021 
+- Updated **`IMPACT3_CCData.gdx`** (Fix for spongy climate impact data due to legacy code).
+- Update of base year data in IMPACT **(2021 -> 2021)**
+## v3.9.0-dev - _Georgetown_
 
 ### Updates or Bug-Fixes
 
-- Update of base year data in IMPACT (2021 -> 2021)
+- Update of base year data in IMPACT **(2021 -> 2021)**
 
 ### Notes
 
 - Dev flag in this release until bugfix for CCDelta file is committed
 
-## v3.8.2
+## v3.8.2 - _Kyoto_
 
-### Name: _Hotfix v2_ for growth rates in MENA
+### Description: 
+Hotfix v2 for growth rates in MENA
 
 ### Updates or Bug-Fixes
 
 - Additional bugfix for 3.8.1 implementation for growth rates in MENA. 
 
-## v3.8.1
+## v3.8.1 - _Valencia_
 
-### Name: _Hotfix_ for MENA growth rates
+### Description: 
+Hotfix for MENA growth rates
 
 ### Updates or Bug-Fixes
 
 - Bugfix for 3.8.0 implementation for growth rates in MENA. Some activities (dairy, potatoes, other, vegetables and tropical fruits) are excluded for additional shocks in MENA.
 
-## v3.8.0
+## v3.8.0 - _Kavrelis_
 
-### Name: MENA-Fix
+### Description: 
+MENA-Fix
 
 ### Updates or Bug-Fixes
 
 - Area and yield growth rates for Middle-East and North Africa
 
-## v3.7.1
+## v3.7.1 - _Sarnora_
 
-### Name: _hotfix_ 3.7.0
+### Description: 
+hotfix_ 3.7.0
 
 ### Added
 
@@ -115,9 +104,10 @@
 - Hotfix for caluclating `wcdc` in 2020 based in 2005 data using CAGR
 - Correct reporting of `wcd_s_fpu` numbers because `wcdc` calcualtion was corrected
 
-## v3.7.0
+## v3.7.0 - _Thornbridge_
 
-### Name: _Water Fix_
+### Description: 
+Water Fix
 
 ### Added
 
@@ -130,9 +120,10 @@
 - Updated `INFLWEQ2` equation to account for `outflow_coef` parameter
 - Updated `irw` parameter to account for `outflow_coef` parameter
 
-## v3.6.2
+## v3.6.2 - _Reykjavík_
 
-### Name: _EAT-Lancet 2.0_
+### Description:
+2025 EAT-Lancet
 
 ### Added
 
@@ -144,18 +135,27 @@
 - Fix for waste calculation (moved to overall demand calculation equation)
 - Fix for Ozone and Animal productivity shocks (.\InputFiles\Scenarios\SimulationsSetUp.xlsm)
 
-## v3.6.1
+### Citation
 
-### Name: _ADB_
+`Mishra, A., Sulser, T.B., Gabriel, S., Cenacchi, N., Dunston, S., Headey, D., Herrero, M., Mason-D’Croz, D. and Wiebe, K., 2025. Affordability and nutritional challenges for the future of EAT diets: an economic modelling analysis. The Lancet Planetary Health, 9(10).`
 
-### Citation (Tentative)
+DOI: `https://doi.org/10.1016/j.lanplh.2025.101325`
 
-Rosegrant MW; Sulser T, Mishra A, Cenacchi N,Willenbockel D, Dunston S, and Wiebe K. The Future of Food and Agriculture: Scenarios of Increased Public Investments and Policy Reforms for Asia and the Pacific. _Asian Development Bank_. (Forthcoming)
-
-## v3.4
-
-### Name: _GFS_
+## v3.6.1 - _Saint Cloud_
 
 ### Citation
 
-Rosegrant, M.W., Sulser, T.B., Dunston, S., Mishra, A., Cenacchi, N., Gebretsadik, Y., Robertson, R., Thomas, T. and Wiebe, K., 2024. Food and nutrition security under changing climate and socioeconomic conditions. _Global Food Security_, 41, p.100755.
+`Rosegrant, M.W., Wiebe, K., Sulser, T.B, Mishra, A., Cenacchi, N., Willenbockel, D., Dunston, S., Kimura, S and Yao, X. The Future of Food and Agriculture: Scenarios of Increased Public Investments and Policy Reforms for Asia and the Pacific. Asian Development Bank Briefs No. 364.` 
+
+DOI: `https://dx.doi.org/10.22617/BRF250480-2`
+
+## v3.4 - _Leyton_
+
+### Description:
+Global Food Securty paper
+
+### Citation
+
+`Rosegrant, M.W., Sulser, T.B., Dunston, S., Mishra, A., Cenacchi, N., Gebretsadik, Y., Robertson, R., Thomas, T. and Wiebe, K., 2024. Food and nutrition security under changing climate and socioeconomic conditions. Global Food Security, 41, p.100755.`
+
+DOI: `https://doi.org/10.1016/j.gfs.2024.100755`

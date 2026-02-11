@@ -85,7 +85,6 @@
 \usepackage{amsmath}
 \usepackage{pdflscape}
 \usepackage{tabularray}
-\usepackage{markdown} 
 %%%%%%%%%%%%%% Hphenation fix
 \usepackage[none]{hyphenat}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -124,6 +123,20 @@
 
 %%% Last line numbers
 \usepackage{lineno}
+
+%%% Render markdown
+\usepackage{markdown}
+% Render Markdown headings as plain bold text (no \section)
+\markdownSetup{
+  renderers = {
+    headingOne   = {\par\noindent\textbf{#1}\par},
+    headingTwo   = {\par\noindent\textbf{#1}\par},
+    headingThree = {\par\noindent\textbf{#1}\par},
+    headingFour  = {\par\noindent\textbf{#1}\par},
+    headingFive  = {\par\noindent\textbf{#1}\par},
+    headingSix   = {\par\noindent\textbf{#1}\par},
+  }
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,7 +147,7 @@
 %deactivate maketitle if Using IFPRI's cover page
 %\maketitle
 % Use IFPRI's cover page (page= is which page number to insert, in this case first and only page)
-%\includepdf[pages={1}, scale=1.01]{ReportCover_IMPACT_2024.pdf}
+%\includepdf[pages={1}, scale=1.01]{auxiliary/cover_page.pdf}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{sections/02a_information}
 \input{sections/02b_authors}
