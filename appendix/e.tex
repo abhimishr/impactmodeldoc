@@ -10,7 +10,7 @@ IGHM is a semi-distributed parsimonious model. It simulates snow accumulation an
 
 Gridded output of hydrological fluxes, namely, effective rainfall, for calculating net irrigation water requirement in IMPACT water basin simulation model (IWSM), potential and actual evapotranspiration, and runoff are spatially aggregated to food production units (FPUs) within the river basin, weighted by grid cell areas, and then incorporated into IWSM.
 
-The most dominant climatic drivers for water availability are precipitation and evaporative demand determined by net radiation at ground level, atmospheric humidity, wind speed, and temperature. In IGHM, the Priestley-Taylor equation is used to calculate potential evapotranspiration (Equation \ref{eq:pet}).\footnote{For $\alpha$, the humid and arid conditions are defined as having relative humidity greater or less than 60\% in the month with peak evapotranspiration.}
+The most dominant climatic drivers for water availability are precipitation and evaporative demand determined by net radiation at ground level, atmospheric humidity, wind speed, and temperature. In IGHM, the Priestley-Taylor equation is used to calculate potential evapotranspiration (Equation~\ref{eq:pet}).\footnote{For $\alpha$, the humid and arid conditions are defined as having relative humidity greater or less than 60\% in the month with peak evapotranspiration.}
 
 \begin{equation}
     \label{eq:pet}
@@ -26,7 +26,7 @@ where:
  G          &   Soil heat flux density (mm day\textsuperscript{-1}) \\
 \end{conditions}
 
-Soil moisture balance is simulated at each grid cell using a single-layer water bucket. To represent subgrid variability of soil water-holding capacity $c$ we assume that it varies spatially within each grid cell following a parabolic distribution function (Equation \ref{eq:swhc}).
+Soil moisture balance is simulated at each grid cell using a single-layer water bucket. To represent subgrid variability of soil water-holding capacity $c$ we assume that it varies spatially within each grid cell following a parabolic distribution function (Equation~\ref{eq:swhc}).
 
 \begin{equation}
     \label{eq:swhc}
@@ -39,23 +39,23 @@ C_{m} & Maximum soil water-holding capacity value across all points within the g
 b & shape parameter defining the degree of spatial variability of soil moisture-holding capacity $c$
 \end{conditions}
 
-The maximum amount of water that can be held in the grid cell is defined in Equation \ref{eq:mwhc}.
+The maximum amount of water that can be held in the grid cell is defined in Equation~\ref{eq:mwhc}.
 
 \begin{equation}
     \label{eq:mwhc}
     S_{m} = \int_{0}^{C_{m}} (1 - f(c)) \,dc = \frac{C_{m}}{1+b} 
 \end{equation}
 
-Refer to Fig. \ref{fig:ighm}, where $S_{m}$ equals the area between the parabolic curve and the x-axis with area fraction values of the x-axis ranging from 0 to 1.
+Refer to Fig.~\ref{fig:ighm}, where $S_{m}$ equals the area between the parabolic curve and the x-axis with area fraction values of the x-axis ranging from 0 to 1.
 
-Assuming that at any time $t$ each point in the grid cell is either at $C_{m}$ or at a constant moisture state $c$ (\textcolor{red}{Zhao 1992}), the mean areal water storage $S$ associated with soil water-holding capacity $c$ at time $t$ is given by equation \ref{eq:maws}
+Assuming that at any time $t$ each point in the grid cell is either at $C_{m}$ or at a constant moisture state $c$ (\textcolor{red}{Zhao 1992}), the mean areal water storage $S$ associated with soil water-holding capacity $c$ at time $t$ is given by equation~\ref{eq:maws}
 
 \begin{equation}
     \label{eq:maws}
     S_{t} = S_{m} \times \left[ 1 - \left( 1 - \frac{c_{t}}{C_{m}} \right)^{1+b} \right] 
 \end{equation}
 
-With precipitation $P_{t}$ and actual evapotranspiration $AET_{t}$ in time period $t$, runoff $R_{t}$ is determined by equation \ref{eq:runoff}.
+With precipitation $P_{t}$ and actual evapotranspiration $AET_{t}$ in time period $t$, runoff $R_{t}$ is determined by equation~\ref{eq:runoff}.
 
 \begin{subequations}
 \label{eq:runoff}
@@ -77,21 +77,21 @@ where
     \end{align}
 \end{subequations}
 
-The $AET$ is determined jointly by the $PET$ and relative soil moisture state in a grid cell at time period t (Equation \ref{eq:aet}).
+The $AET$ is determined jointly by the $PET$ and relative soil moisture state in a grid cell at time period t (Equation~\ref{eq:aet}).
 
 \begin{equation}
     \label{eq:aet}
     AET_{t} = PET_{t} \times \frac{S_{t}}{S_{m}}
 \end{equation}
 
-Runoff generated in time period $t$ is divided into a surface runoff component $RS$ and a deep percolation component using partitioning factor $\lambda$ (Equation \ref{eq:runoffsurface}).
+Runoff generated in time period $t$ is divided into a surface runoff component $RS$ and a deep percolation component using partitioning factor $\lambda$ (Equation~\ref{eq:runoffsurface}).
 
 \begin{equation}
     \label{eq:runoffsurface}
     RS_{t} = \lambda \times R_{t}
 \end{equation}
 
-A linear reservoir is assumed to model base flow $RB$. The storage of the linear reservoir is linearly related to output, namely, base flow by a storage constant $\beta$ (\textcolor{red}{Chow et al. 1988}, Equation \ref{eq:rbflow}). 
+A linear reservoir is assumed to model base flow $RB$. The storage of the linear reservoir is linearly related to output, namely, base flow by a storage constant $\beta$ (\textcolor{red}{Chow et al. 1988}, Equation~\ref{eq:rbflow}). 
 
 \begin{equation}
     \label{eq:rbflow}
@@ -103,20 +103,20 @@ where:
 G_{t} & Storage value in time period $t$
 \end{conditions}
 
-The change of reservoir storage $\Delta G$ during time period $t$ equals the difference between deep percolation and base flow $RB$ occurred in this period (Equation \ref{eq:cirs})
+The change of reservoir storage $\Delta G$ during time period $t$ equals the difference between deep percolation and base flow $RB$ occurred in this period (Equation~\ref{eq:cirs})
 
 \begin{equation}
     \label{eq:cirs}
     \Delta G = G_{t} - G_{t-1} = [(1 - \lambda) \times R_{t}] - RB_{t}
 \end{equation}
 
-Total runoff generated $R$ in time period $t$ is the sum of surface runoff $RS$ and base flow $RB$ (Equation \ref{eq:tgr}).
+Total runoff generated $R$ in time period $t$ is the sum of surface runoff $RS$ and base flow $RB$ (Equation~\ref{eq:tgr}).
 \begin{equation}
     \label{eq:tgr}
     R_{t} = RS_{t} + RB_{t}
 \end{equation}
 
-In the above equations (\ref{eq:pet} - \ref{eq:tgr}), calibration parameters include the subgrid variability shape parameter $b$, the total runoff partitioning parameter $\lambda$, the storage constant $\beta$, and the average soil water-holding capacity $S_{m}$. 
+In the above equations (\ref{eq:pet} -~\ref{eq:tgr}), calibration parameters include the subgrid variability shape parameter $b$, the total runoff partitioning parameter $\lambda$, the storage constant $\beta$, and the average soil water-holding capacity $S_{m}$. 
 
 Conceptually, $S_{m}$ should equal available water - namely, field capacity less wilting point in a soil moisture–accounting perspective. However, because of the monthly time step adopted, using measured available water rather than calibrating $S_{m}$ can significantly overestimate runoff and underestimate actual evapotranspiration as found in our calibration experiments.
 \clearpage
@@ -135,7 +135,7 @@ IWSM can also simulate water use impacts of technological and socioeconomic chan
 \subsection*{Water demand projection}
 \label{subsec:iwsm1}
 
-Crop water requirement is defined by equation \ref{eq:cwr} for every $fpu$, activity $j$, year $yrs$ and month $m$.
+Crop water requirement is defined by equation~\ref{eq:cwr} for every $fpu$, activity $j$, year $yrs$ and month $m$.
 
 \begin{equation}
     \label{eq:cwr}
@@ -151,7 +151,7 @@ where:
 
 \subsubsection*{Domestic water demand}
 
-Domestic water demand includes municipal water demand and rural domestic water demand. Annual per capita domestic water consumption is based on previous work with the International Water Management Institute (\textcolor{red}{de Fraiture 2007; Rosegrant, Cai, and Cline 2002}), with necessary adjustments to ensure that per capita consumption in rural and urban households is not less than 15 liters per day and 25 liters per day, respectively. Total domestic water consumption $DoWD$ at the FPU level equals population $POP$ multiplied by annual per capita consumption $pcDoWD$ (derived from daily per capita demand $pcDoWDpd$), as seen in IWSM equation \ref{eq:dwd}. The growth of domestic per capita consumption is based on projections of per capita gross domestic product ($pcGDP$) as seen in IWSM equation \ref{eq:dwd3}. In each region or basin, income elasticities $\eta$ of demand for domestic water use are synthesized based on the literature and available estimates (\textcolor{red}{de Fraiture 2007}). These elasticities of demand measure the propensity to consume water with respect to increases in per capita income. The elasticities also capture both direct income effects and conservation of domestic water use through technological and management change. In higher-income countries where per capita domestic consumption is high, the elasticities of demand imply that water demand will decline with increased income growth, whereas in developing countries the elasticities imply an increase in water consumption with increased income growth.
+Domestic water demand includes municipal water demand and rural domestic water demand. Annual per capita domestic water consumption is based on previous work with the International Water Management Institute (\textcolor{red}{de Fraiture 2007; Rosegrant, Cai, and Cline 2002}), with necessary adjustments to ensure that per capita consumption in rural and urban households is not less than 15 liters per day and 25 liters per day, respectively. Total domestic water consumption $DoWD$ at the FPU level equals population $POP$ multiplied by annual per capita consumption $pcDoWD$ (derived from daily per capita demand $pcDoWDpd$), as seen in IWSM equation~\ref{eq:dwd}. The growth of domestic per capita consumption is based on projections of per capita gross domestic product ($pcGDP$) as seen in IWSM equation~\ref{eq:dwd3}. In each region or basin, income elasticities $\eta$ of demand for domestic water use are synthesized based on the literature and available estimates (\textcolor{red}{de Fraiture 2007}). These elasticities of demand measure the propensity to consume water with respect to increases in per capita income. The elasticities also capture both direct income effects and conservation of domestic water use through technological and management change. In higher-income countries where per capita domestic consumption is high, the elasticities of demand imply that water demand will decline with increased income growth, whereas in developing countries the elasticities imply an increase in water consumption with increased income growth.
 
 \textcolor{red}{unsure where this eqn is: maybe LoadIWSM L74}
 \begin{subequations}
@@ -174,7 +174,7 @@ and, for $\forall$ t $\ge$ 1
 
 Industrial water demand is modeled for the manufacturing and energy sectors using growth rates for the value-added by sector and energy production values for the electricity sector from the EPPA6 Model of the MIT Joint Program on the Science and Policy of Global Change (\textcolor{red}{Chen et al. 2015}). For many countries in Africa south of the Sahara, the projected industrial water demands are substantially lower than those in IMPACT 2, suggesting an underestimation. 
 
-Therefore, for countries in Africa south of the Sahara we retained the projection method of IMPACT 2—namely, the industrial water demand is modeled as a nonlinear function of gross domestic production per capita and technology change. In IWSM equation \ref{iwd}, $\epsilon$ is income elasticity of demand, and $\gamma^{t}$ is the technology term, which is determined according to our perspectives on future industrial water demand and technological improvements in industrial water use in different regions.
+Therefore, for countries in Africa south of the Sahara we retained the projection method of IMPACT 2—namely, the industrial water demand is modeled as a nonlinear function of gross domestic production per capita and technology change. In IWSM equation~\ref{eq:iwd}, $\epsilon$ is income elasticity of demand, and $\gamma^{t}$ is the technology term, which is determined according to our perspectives on future industrial water demand and technological improvements in industrial water use in different regions.
 
 \textcolor{red}{cannot find this exact equation, maybe L45 in DemandUpdateIWSM.inc?}
 \begin{equation}
@@ -184,7 +184,7 @@ Therefore, for countries in Africa south of the Sahara we retained the projectio
 
 \subsubsection*{Livestock water demand}
 
-Livestock water demand is estimated using livestock numbers and water consumptive use per unit of livestock ($w_{lv}$), including beef, milk, pork, poultry, eggs, and sheep and goats (\textcolor{red}{de Fraiture 2007; Steinfeld et al. 2006}). The total number of live animals during a year includes slaughtered animals, the followers herd, and other categories (for example, milk-producing animals). The total number of animals is calculated based on the number of slaughtered animals ($QS_{lv}$) and a ratio of the number of slaughtered animals to the total number of animals ($r_{lv}$) (eq. \ref{eq:lwd}).
+Livestock water demand is estimated using livestock numbers and water consumptive use per unit of livestock ($w_{lv}$), including beef, milk, pork, poultry, eggs, and sheep and goats (\textcolor{red}{de Fraiture 2007; Steinfeld et al. 2006}). The total number of live animals during a year includes slaughtered animals, the followers herd, and other categories (for example, milk-producing animals). The total number of animals is calculated based on the number of slaughtered animals ($QS_{lv}$) and a ratio of the number of slaughtered animals to the total number of animals ($r_{lv}$) (eq.~\ref{eq:lwd}).
 
 \textcolor{red}{cannot find this exact equation, maybe L53 in DemandUpdateIWSM.inc?}
 \begin{equation}
@@ -194,7 +194,7 @@ Livestock water demand is estimated using livestock numbers and water consumptiv
 
 \subsubsection*{Irrigation water demand}
 
-Irrigation water demand is assessed as the portion of crop water requirement (eq. \ref{eq:niwd}) not satisfied by precipitation or soil moisture based on hydrologic and agronomic characteristics. Net irrigation water demand ($NIWD$) in an FPU is calculated based on an empirical crop water requirement function (\textcolor{red}{Doorenbos and Pruit 1977}) and irrigated area of the crop.
+Irrigation water demand is assessed as the portion of crop water requirement (eq.~\ref{eq:niwd}) not satisfied by precipitation or soil moisture based on hydrologic and agronomic characteristics. Net irrigation water demand ($NIWD$) in an FPU is calculated based on an empirical crop water requirement function (\textcolor{red}{Doorenbos and Pruit 1977}) and irrigated area of the crop.
 
 \begin{equation}
     \label{eq:niwd}
@@ -227,7 +227,7 @@ where $D$ represents the usable soil water storage in inches and is generally ca
 
 Technology scenarios can be modeled by adjusting the effective rainfall value to reflect improved rainfall harvesting technology. Rainfall harvesting is the capture, diversion, and storage of rainwater for plant irrigation and other uses and can be an effective water conservation tool, especially in arid and semiarid regions. Water harvesting can provide farmers with improved water availability, increased soil fertility, and higher crop production in some local and regional ecosystems and can also provide broader environmental benefits through reduced soil erosion. Advanced tillage practices also can increase the share of rainfall that goes to infiltration and evapotranspiration. Contour plowing, which is typically a soil-preserving technique, should act also to detain and infiltrate a higher share of the precipitation. Precision leveling also can lead to greater relative infiltration and therefore a higher percentage of effective rainfall.
 
-Gross irrigation water demand $GIWD$ for all crops is shown in equation \ref{eq:giwd}, with consideration of effective rainfall use and salt leaching requirement.
+Gross irrigation water demand $GIWD$ for all crops is shown in equation~\ref{eq:giwd}, with consideration of effective rainfall use and salt leaching requirement.
 
 \begin{equation}
     \label{eq:giwd}
@@ -240,7 +240,7 @@ LR & Salt-leaching factor \\
 BE & Basin efficiency \\
 \end{conditions}
 
-The concept of basin efficiency was discussed and various definitions were provided by \textcolor{red}{Keller, Keller and Seckler (1996)}. Basin efficiency is defined as the ratio of beneficial water depletion (crop evapotranspiration and salt leaching) to total irrigation water depletion at the FPU scale. Basin efficiency in the base year is calculated as the ratio of the net irrigation water demand ($NIWD$, equation \ref{eq:niwd}) to the total irrigation water depletion estimated from records (\textcolor{red}{Shiklomanov 1999}). Basin efficiency in future years is assumed to increase at a prescribed rate in an FPU depending on water infrastructure investment and water management improvement in the FPU.
+The concept of basin efficiency was discussed and various definitions were provided by \textcolor{red}{Keller, Keller and Seckler (1996)}. Basin efficiency is defined as the ratio of beneficial water depletion (crop evapotranspiration and salt leaching) to total irrigation water depletion at the FPU scale. Basin efficiency in the base year is calculated as the ratio of the net irrigation water demand ($NIWD$, equation~\ref{eq:niwd}) to the total irrigation water depletion estimated from records (\textcolor{red}{Shiklomanov 1999}). Basin efficiency in future years is assumed to increase at a prescribed rate in an FPU depending on water infrastructure investment and water management improvement in the FPU.
 
 The projection of irrigation water demand depends on the changes in irrigated area $AI$ and cropping patterns, basin efficiency, and effective rainfall $PE$. Global climate change affects future irrigation water demand through changes in precipitation and temperature along with other meteorological variables that affect crop evapotranspiration.
 
@@ -248,7 +248,7 @@ The projection of irrigation water demand depends on the changes in irrigated ar
 \label{subsec:iwsm2}
 IWSM is an optimization-driven simulation model with operating rules implicitly given by the objective function and constraints in the following quadratic programming model, coded in GAMS. The model runs at monthly time step and is solved for individual years using the CPLEX solver.  Adjacent years are linked through reservoir storage. Although the model is solved for all the 320 FPUs in the world simultaneously each year, it is the same as solving the 154 aggregated river basins individually because only FPUs within the same basin are connected through upstream-to-downstream water transport.
 
-The objective function (equation  \ref{eq:objiwsm}) minimizes the sum of a set of objectives summed across all FPUs, including the annual sum of squared deviations from 1 of monthly ratios of irrigation water supply to demand, squared deviation from 1 of the minimum irrigation water supply to demand ratio across all months, squared deviation from 1 of the ratio of end of year storage to reservoir storage capacity, and penalty terms. $STCAP_{fpu}$ is reservoir storage capacity. $WFPU_{fpu}$, $WRA_{fpu}$, $MINRA_{fpu}$, $WSTRG_{fpu}$, $WEVSLK$, and $WNIRST$ are weighting factors. High values are assigned to the weighting factors of the slack variables to force the solution of the slack variables to zero, through the minimization.
+The objective function (equation ~\ref{eq:objiwsm}) minimizes the sum of a set of objectives summed across all FPUs, including the annual sum of squared deviations from 1 of monthly ratios of irrigation water supply to demand, squared deviation from 1 of the minimum irrigation water supply to demand ratio across all months, squared deviation from 1 of the ratio of end of year storage to reservoir storage capacity, and penalty terms. $STCAP_{fpu}$ is reservoir storage capacity. $WFPU_{fpu}$, $WRA_{fpu}$, $MINRA_{fpu}$, $WSTRG_{fpu}$, $WEVSLK$, and $WNIRST$ are weighting factors. High values are assigned to the weighting factors of the slack variables to force the solution of the slack variables to zero, through the minimization.
 
 \begin{equation}
 \label{eq:objiwsm}
@@ -307,7 +307,7 @@ SPV         & Monthly reservoir spill \\
 SWDPV       & Monthly surface water depletion \\
 \end{conditions}
 
-For Beginning-of-period Storage in the First Month (equation \ref{eq:storage}), in the base year, as beginning storage is unknown, beginning storage is set as equivalent to the end-of-period storage of the last month. This is equivalent to the $IWSM$ running an infinite number of times using base year data such that the ending storage converges to a certain value. In case it is not the base year, beginning storage of the first month is set at the ending storage of the last month of the previous year ($ISTRG_{fpu}$). For all other months, beginning storage of a month equals ending storage of the previous month.
+For Beginning-of-period Storage in the First Month (equation~\ref{eq:storage}), in the base year, as beginning storage is unknown, beginning storage is set as equivalent to the end-of-period storage of the last month. This is equivalent to the $IWSM$ running an infinite number of times using base year data such that the ending storage converges to a certain value. In case it is not the base year, beginning storage of the first month is set at the ending storage of the last month of the previous year ($ISTRG_{fpu}$). For all other months, beginning storage of a month equals ending storage of the previous month.
 
 \begin{equation}
 \label{eq:storage}
@@ -326,7 +326,7 @@ STRGV       & Reservoir storage at the end of month $m$ \\
 ISTRG       & Ending storage of the last month of the previous year \\
 \end{conditions}
 
-The inflow from FPUs upstream within the basin is given by equation \ref{eq:inflow}.
+The inflow from FPUs upstream within the basin is given by equation~\ref{eq:inflow}.
 
 \begin{subequations}
 \label{eq:inflow}
@@ -348,7 +348,7 @@ fpub        & Alias of FPUs \\
 neigb       & Mapping of neighboring FPUs \\
 \end{conditions}
 
-Reservoir evaporation (equation \ref{eq:resevap}) equals potential evaporation multiplied by reservoir surface area. Considering storage capacity growth over time, reservoir surface area equals the area of reservoir when storage is at its capacity in the base year multiplied by a coefficient that is a power function of the ratio of average storage of the current month to base-year storage capacity. The power $\frac{2}{3}$ is applied for converting the change in three-dimensional reservoir storage to that of two-dimensional reservoir surface area. $STRGC_{fpu}^{00}$, $RESA_{fpu,m}^{00}$, and $PET_{fpu,m}$ are, respectively, reservoir storage capacity in the base year, reservoir surface area at full storage in the base year, and potential evaporation in month $m$ of the current year. Reservoir storage capacity and reservoir surface area values in the base year are based on the GRanD database (\textcolor{red}{Lehner et al. 2011}).
+Reservoir evaporation (equation~\ref{eq:resevap}) equals potential evaporation multiplied by reservoir surface area. Considering storage capacity growth over time, reservoir surface area equals the area of reservoir when storage is at its capacity in the base year multiplied by a coefficient that is a power function of the ratio of average storage of the current month to base-year storage capacity. The power $\frac{2}{3}$ is applied for converting the change in three-dimensional reservoir storage to that of two-dimensional reservoir surface area. $STRGC_{fpu}^{00}$, $RESA_{fpu,m}^{00}$, and $PET_{fpu,m}$ are, respectively, reservoir storage capacity in the base year, reservoir surface area at full storage in the base year, and potential evaporation in month $m$ of the current year. Reservoir storage capacity and reservoir surface area values in the base year are based on the GRanD database (\textcolor{red}{Lehner et al. 2011}).
 
 \textcolor{red}{ModelIWSM L108 the equation looks different}
 \begin{equation}
@@ -408,7 +408,7 @@ WDNI        & Water depletion in non-irrigation sectors\\
 NIRSHORTV   & Slack variable for the shortage of non-irrigation water \\
 \end{conditions}
 
-The ratio of irrigation water supply to gross irrigation water requirement, $GIWD_{fpu,m}$, which considers effective basin efficiency, is given by equation \ref{eq:rav}.
+The ratio of irrigation water supply to gross irrigation water requirement, $GIWD_{fpu,m}$, which considers effective basin efficiency, is given by equation~\ref{eq:rav}.
 
 \begin{equation}
 \label{eq:rav}
@@ -462,7 +462,7 @@ IWSM adopts a priority-based intersector water allocation scheme, assuming domes
 
 ICWASM allocates irrigation water among crops in an area. We use FAO’s K\textsubscript{y}/K\textsubscript{c} approach\footnote{K\textsubscript{y} is the Yield response factor, K\textsubscript{c} is the crop coefficient} (\textcolor{red}{Doorenbos and Kassam 1979}) to measure water stress using a monthly time step to include seasonality of water stress. The model maximizes the total value of production given fixed prices and also includes a measure of risk aversion for farmers in the objective function, which preserves a diversified production structure even in case of a drought.
 
-The monthly ($m$) irrigation water delivered to FPU has to be less than or equal to total water available for that FPU. This constraint on water availability is expressed by the following inequality (Equation \ref{eq:awc}):
+The monthly ($m$) irrigation water delivered to FPU has to be less than or equal to total water available for that FPU. This constraint on water availability is expressed by the following inequality (Equation~\ref{eq:awc}):
 
 \begin{equation}
     \label{eq:awc}
@@ -476,14 +476,14 @@ AREAC & area for crop $j$ in the $fpu$ \\
 WDAG  & Available water, which comes from $IWSM$ \\
 \end{conditions}
 
-The water supplied to each crop has to be less than or equal to the crop irrigation water demand ($IWD$) requirement, which does not include basin efficiency as shown in Equation \ref{eq:wsc}.
+The water supplied to each crop has to be less than or equal to the crop irrigation water demand ($IWD$) requirement, which does not include basin efficiency as shown in Equation~\ref{eq:wsc}.
 
 \begin{equation}
     \label{eq:wsc}
     CWDLV_{fpu, j, m} \leq IWD_{fpu, j, m}
 \end{equation}
 
-Additionally, water delivery ratio by crop ($RatioCWDLV$), and mean of water delivery ratio across crops ($MeanRatioV$) are calculated using Equation \ref{eq:wdrs} where $N_{j}$ is the total number of crops.
+Additionally, water delivery ratio by crop ($RatioCWDLV$), and mean of water delivery ratio across crops ($MeanRatioV$) are calculated using Equation~\ref{eq:wdrs} where $N_{j}$ is the total number of crops.
 
 \begin{subequations}
     \label{eq:wdrs}
@@ -495,14 +495,14 @@ Additionally, water delivery ratio by crop ($RatioCWDLV$), and mean of water del
     \end{align}
 \end{subequations}
 
-The monthly irrigation yield reduction rate ($IYRMV$\footnote{As $IYRMV$ is the rate of reduction in yield by month, so a value of 1 means total crop loss.}, equation \ref{eq:miyrr}) is equal to the yield coefficient times the fraction of the water requirement unmet by supply for that month, given the cropping calendar. We ensure that yield reduction is less than 1, such that a yield reduction cannot lead to a negative yield. Ky is the yield coefficient, $precip$ is monthly precipitation, and $etcrop$ is the monthly crop-specific evapotranspiration (millimeters). Here, $IYRMSLKV$ is a slack variable to ensure $IYRMV$ $\leq$ 1.
+The monthly irrigation yield reduction rate ($IYRMV$\footnote{As $IYRMV$ is the rate of reduction in yield by month, so a value of 1 means total crop loss.}, equation~\ref{eq:miyrr}) is equal to the yield coefficient times the fraction of the water requirement unmet by supply for that month, given the cropping calendar. We ensure that yield reduction is less than 1, such that a yield reduction cannot lead to a negative yield. Ky is the yield coefficient, $precip$ is monthly precipitation, and $etcrop$ is the monthly crop-specific evapotranspiration (millimeters). Here, $IYRMSLKV$ is a slack variable to ensure $IYRMV$ $\leq$ 1.
 
 \begin{equation}
     \label{eq:miyrr}
     IYRMV_{fpu, j, m} + IYRMSLKV_{fpu, j, m} = Ky_{fpu, j, m} \times \left[ 1 - \frac{MIN(precip_{fpu, m}, etcrop_{fpu, j, m})}{etcrop_{fpu, j, m}} \right]
 \end{equation}
 
-Equations \ref{eq:mmmys} and \ref{eq:ammys} provide alternative approaches to aggregating the monthly yield shocks to produce the annual shock. Both approaches are based on \textcolor{red}{Rao et al. 1988}. Equation \ref{eq:mmmys} shows a multiplicative representation of monthly yield shocks, where the annual yield reduction shock equals the product during the months of 1 minus the monthly irrigated yield reductions. It is a nonlinear equation that requires that the model be solved with a nonlinear programming (NLP) solver. Equation \ref{eq:ammys} shows an additive representation of monthly yield shocks where the annual yield reduction shock equals 1 minus the sum of the monthly irrigated yield reduction terms. The equation is linear, and the model can be solved as a quadratic programming (QCP) problem. A slack variable $IYRYSLKV$ is introduced to allow setting a minimum on the irrigated yield $YldIrr$ so that it cannot be less than the rainfed yield $YldRfd$ (Equation \ref{eq:iryc}). Alternatively, one could replace $YldRfd$ with the average of the full irrigated yield on part of the irrigated land, given the shortfall, and the rainfed yield on the rest, splitting $AREAC$ into irrigated and rainfed. In effect, for this strategy, the farmer would fully irrigate as much land as possible, given water availability, and let the rest operate as rainfed.
+Equations~\ref{eq:mmmys} and~\ref{eq:ammys} provide alternative approaches to aggregating the monthly yield shocks to produce the annual shock. Both approaches are based on \textcolor{red}{Rao et al. 1988}. Equation~\ref{eq:mmmys} shows a multiplicative representation of monthly yield shocks, where the annual yield reduction shock equals the product during the months of 1 minus the monthly irrigated yield reductions. It is a nonlinear equation that requires that the model be solved with a nonlinear programming (NLP) solver. Equation~\ref{eq:ammys} shows an additive representation of monthly yield shocks where the annual yield reduction shock equals 1 minus the sum of the monthly irrigated yield reduction terms. The equation is linear, and the model can be solved as a quadratic programming (QCP) problem. A slack variable $IYRYSLKV$ is introduced to allow setting a minimum on the irrigated yield $YldIrr$ so that it cannot be less than the rainfed yield $YldRfd$ (Equation~\ref{eq:iryc}). Alternatively, one could replace $YldRfd$ with the average of the full irrigated yield on part of the irrigated land, given the shortfall, and the rainfed yield on the rest, splitting $AREAC$ into irrigated and rainfed. In effect, for this strategy, the farmer would fully irrigate as much land as possible, given water availability, and let the rest operate as rainfed.
 
 \begin{subequations}
 \begin{align}
@@ -521,14 +521,14 @@ Equations \ref{eq:mmmys} and \ref{eq:ammys} provide alternative approaches to ag
 
 In the above equations $IYRYV$ annual irrigated yield multiplier, so the new yield equals old yield times $IYRYV$, and a value of 1 means no crop loss.
 
-Crop production is reduced by the value of the yield shock in ICWASM as defined in equation \ref{eq:cropprod}.
+Crop production is reduced by the value of the yield shock in ICWASM as defined in equation~\ref{eq:cropprod}.
 
 \begin{equation}
     \label{eq:cropprod}
     CProdV_{fpu, j} = IYRYV_{fpu, j} \times YldIrr_{fpu, j} \times AREAC_{j, fpu}
 \end{equation}
 
-The objective function of the ICWASM module includes total revenue and a risk-aversion term to dampen changes in allocation of water to crops from the previous year and is represented mathematically by equation \ref{eq:icwasmOBJ}, where $N_{j}$ is the total number of irrigated crops, $PP$ is the producer price of crop $j$ in an $fpu$, $N_{fpu}$ is the total number of FPUs, and $TOTVAL$ is the total expected value of crops in an $fpu$. $PP$ and $TOTVAL$ are both generated by the multimarket model. The first term (equation \ref{eq:icwasmOBJ1}) allocates available water to crops to maximize the expected value of output, given water shortages and yield shocks. The second term (equation \ref{eq:icwasmOBJ2}) minimizes the variance of the ratios of supply to demand for water across crops, reflecting the desire for risk-averse farmers to maintain their initial cropping pattern. The variance will be 0 when all crops have the same ratio of supply to demand for water. The third minimizes the slack variables (equation \ref{eq:icwasmOBJ3}). The $WGHT$s are weights on the three terms. The first two terms are scaled to have comparable magnitudes so that the $WGHT$s will reflect the relative importance of revenue maximization versus variance minimization. The value of $WGHT3$ is chosen to be large, ensuring that the slack variables are positive only when $IYRMV$ equals 1 and the irrigated yield equals the rainfed yield. Slack variable $IYRMSLKV$ is chosen to ensure $IYRMV$ $\leq$ 1.
+The objective function of the ICWASM module includes total revenue and a risk-aversion term to dampen changes in allocation of water to crops from the previous year and is represented mathematically by equation~\ref{eq:icwasmOBJ}, where $N_{j}$ is the total number of irrigated crops, $PP$ is the producer price of crop $j$ in an $fpu$, $N_{fpu}$ is the total number of FPUs, and $TOTVAL$ is the total expected value of crops in an $fpu$. $PP$ and $TOTVAL$ are both generated by the multimarket model. The first term (equation~\ref{eq:icwasmOBJ1}) allocates available water to crops to maximize the expected value of output, given water shortages and yield shocks. The second term (equation~\ref{eq:icwasmOBJ2}) minimizes the variance of the ratios of supply to demand for water across crops, reflecting the desire for risk-averse farmers to maintain their initial cropping pattern. The variance will be 0 when all crops have the same ratio of supply to demand for water. The third minimizes the slack variables (equation~\ref{eq:icwasmOBJ3}). The $WGHT$s are weights on the three terms. The first two terms are scaled to have comparable magnitudes so that the $WGHT$s will reflect the relative importance of revenue maximization versus variance minimization. The value of $WGHT3$ is chosen to be large, ensuring that the slack variables are positive only when $IYRMV$ equals 1 and the irrigated yield equals the rainfed yield. Slack variable $IYRMSLKV$ is chosen to ensure $IYRMV$ $\leq$ 1.
 
 \begin{subequations}
 \label{eq:icwasmOBJ}
