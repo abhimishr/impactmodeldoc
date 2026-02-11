@@ -10,11 +10,11 @@ Crop production in IMPACT is simulated through area\footnote{In IMPACT, area is 
 
 A new feature of IMPACT version 3 and above is the implementation of a land market to manage competing demands for agricultural land from different crops, as well as providing new linkage points to land-use models that work with broader land-use changes, such as conversion of forest to grasslands and agricultural land. 
 
-It also allows us to separate total area supply (irrigated and rainfed) from individual crop area demands and allows equilibrium conditions to determine the best economic use of the available land. The total supply of land is assumed to be a function of the scarcity value or shadow price index of land, which can also be considered a summary of changes in crop prices. The shadow price (\textit{WF} in equation \ref{eq:landsupply}) is indexed to 1 in the first year and changes based on changing demands from all crops for land area.
+It also allows us to separate total area supply (irrigated and rainfed) from individual crop area demands and allows equilibrium conditions to determine the best economic use of the available land. The total supply of land is assumed to be a function of the scarcity value or shadow price index of land, which can also be considered a summary of changes in crop prices. The shadow price (\textit{WF} in equation~\ref{eq:landsupply}) is indexed to 1 in the first year and changes based on changing demands from all crops for land area.
 
-Equation \ref{eq:landsupply} describes the land supply in IMPACT. The supply of land is considered exogenous within each year, meaning that farmers are not allowed to adjust the total crop area in the middle of the year. 
+Equation~\ref{eq:landsupply} describes the land supply in IMPACT. The supply of land is considered exogenous within each year, meaning that farmers are not allowed to adjust the total crop area in the middle of the year. 
 
-The total land supply over time is driven by exogenous trends on the availability of area for agriculture as well as endogenous responses to changes in area demand, which is handled in between years. These are shown in equations \ref{eq:landsupply2a} and \ref{eq:landsupply2b}.
+The total land supply over time is driven by exogenous trends on the availability of area for agriculture as well as endogenous responses to changes in area demand, which is handled in between years. These are shown in equations~\ref{eq:landsupply2a} and~\ref{eq:landsupply2b}.
 
 \begin{equation}
     \label{eq:landsupply}
@@ -32,7 +32,7 @@ where:
  lnd        &   Land type (irrigated or rainfed)  \\   
 \end{conditions}
 
-IMPACT is a recursive-dynamic model. This means that the model is solved year-by-year, with the solution of one year being the starting point of the next year. Additional parameters, such as population, are also updated between years. Equations eq. \ref{eq:landsupply2a} and \ref{eq:landsupply2b} are examples of how this update takes place. Equation \ref{eq:landsupply2a} illustrates the land supply growth factor affected by an exogenous trend. Equation \ref{eq:landsupply2b} shows the land supply growth factor affected by the endogenously-determined shadow price of land for the preceding three years. Note that the index \textit{t} and \textit{t+1} for the simulation time step are only illustrative in equations \ref{eq:landsupply2a} and \ref{eq:landsupply2b} to denote updates of parameters in IMPACT from one year to another.
+IMPACT is a recursive-dynamic model. This means that the model is solved year-by-year, with the solution of one year being the starting point of the next year. Additional parameters, such as population, are also updated between years. Equations eq.~\ref{eq:landsupply2a} and~\ref{eq:landsupply2b} are examples of how this update takes place. Equation~\ref{eq:landsupply2a} illustrates the land supply growth factor affected by an exogenous trend. Equation~\ref{eq:landsupply2b} shows the land supply growth factor affected by the endogenously-determined shadow price of land for the preceding three years. Note that the index \textit{t} and \textit{t+1} for the simulation time step are only illustrative in equations~\ref{eq:landsupply2a} and~\ref{eq:landsupply2b} to denote updates of parameters in IMPACT from one year to another.
 
 \begin{subequations}
     \begin{equation}
@@ -57,7 +57,7 @@ where:
  t          &   Simulation time step  \\   
 \end{conditions}
 
-Equation \ref{eq:mrp} describes the marginal revenue product for crop activities. Broadly, the MRP gauges the income that could be earned from an additional hectare's worth of production of a particular crop. MRP is an important metric for resource allocation, as shown in equation \ref{eq:area}, which defines the area demand for each crop. 
+Equation~\ref{eq:mrp} describes the marginal revenue product for crop activities. Broadly, the MRP gauges the income that could be earned from an additional hectare's worth of production of a particular crop. MRP is an important metric for resource allocation, as shown in equation~\ref{eq:area}, which defines the area demand for each crop. 
 
 \begin{equation}
     \label{eq:mrp}
@@ -74,7 +74,7 @@ where:
  cty        &   Countries \\  
 \end{conditions}
 
-Equation \ref{eq:area} shows the demand function defining cropping area. Area demand for a crop is affected by its marginal revenue product, the shadow cost of the land, and exogenous non-market trends in cropping area. Non-market factors include government programs encouraging expansion of particular crops, reductions due to soil degradation, or conversions to non-agricultural use. 
+Equation~\ref{eq:area} shows the demand function defining cropping area. Area demand for a crop is affected by its marginal revenue product, the shadow cost of the land, and exogenous non-market trends in cropping area. Non-market factors include government programs encouraging expansion of particular crops, reductions due to soil degradation, or conversions to non-agricultural use. 
 
 \begin{equation}
 \label{eq:area}
@@ -106,7 +106,7 @@ where:
  lnd        &   Land type (irrigated or rainfed)  \\
 \end{conditions}
 
-Assumptions for exogenous trends are determined by a combination of historical changes in land use and expert judgment on potential future regional dynamics as described in equation \ref{eq:areaint2}. They are represented as compound growth from the base and are applied between years. Note that the index \textit{t} and \textit{t+1} for the simulation time step is only illustrative in equation \ref{eq:areaint2} to denote updates of parameters in IMPACT from one year to another.
+Assumptions for exogenous trends are determined by a combination of historical changes in land use and expert judgment on potential future regional dynamics as described in equation~\ref{eq:areaint2}. They are represented as compound growth from the base and are applied between years. Note that the index \textit{t} and \textit{t+1} for the simulation time step is only illustrative in equation~\ref{eq:areaint2} to denote updates of parameters in IMPACT from one year to another.
 
 \begin{equation}
     \label{eq:areaint2}
@@ -122,7 +122,7 @@ where:
  t          &   Simulation time step  \\ 
 \end{conditions}
 
-Competing demands from different crops are handled through Equation \ref{eq:qfs_sum}. This equilibrium equation that determines the land allocation and ensures that all crop area demand sums up to the total land supply for each FPU. 
+Competing demands from different crops are handled through Equation~\ref{eq:qfs_sum}. This equilibrium equation that determines the land allocation and ensures that all crop area demand sums up to the total land supply for each FPU. 
 
 \begin{equation}
     \label{eq:qfs_sum}
@@ -139,13 +139,13 @@ where:
 
 Crop yields are a function of commodity prices, prices of inputs, available water, climate, and exogenous trend factors. The IMPACT model includes five ways that changes in yields are achieved. First, the model assumes a scenario of underlying improvements in yields over time that, to varying degrees, continue trends observed during the past 50 to 60 years in an informed extrapolation following the concepts introduced in \cite{evenson1995productivity} and \cite{evenson1998agricultural}. 
 
-These long-run trends, or intrinsic productivity growth rates (IPRs), are intended to reflect the expected increases in inputs, improved seeds, and improvements in management practices. These trends differ and generally are higher for developing countries, where there is considerable scope to narrow the gap in yields compared to developed countries. These intrinsic productivity growth rates are exogenous to the model, and changes in them are specified as part of the definition of different scenarios. We assume that these underlying trends vary by crop and region and that they will decline somewhat during the next 50 years as the pace of technological improvements in developed countries slows and as developing countries catch up to yields in developed countries. Also, The SSP scenarios assume differences in socioeconomic development, technology, and resources, associated with them. These are expected to affect the capacity and effectiveness to adapt to climate change, and can amplify or diminish the IPRs. In the yield equation (Equation \ref{eq:yields}), the differences in adaptation are captured using an exogenous scaling factor. This is distinct from different climate and water stresses associated with RCPs. Incorporation of IPRs in IMPACT is described in detail in \cite{hareau2025updating}.
+These long-run trends, or intrinsic productivity growth rates (IPRs), are intended to reflect the expected increases in inputs, improved seeds, and improvements in management practices. These trends differ and generally are higher for developing countries, where there is considerable scope to narrow the gap in yields compared to developed countries. These intrinsic productivity growth rates are exogenous to the model, and changes in them are specified as part of the definition of different scenarios. We assume that these underlying trends vary by crop and region and that they will decline somewhat during the next 50 years as the pace of technological improvements in developed countries slows and as developing countries catch up to yields in developed countries. Also, The SSP scenarios assume differences in socioeconomic development, technology, and resources, associated with them. These are expected to affect the capacity and effectiveness to adapt to climate change, and can amplify or diminish the IPRs. In the yield equation (Equation~\ref{eq:yields}), the differences in adaptation are captured using an exogenous scaling factor. This is distinct from different climate and water stresses associated with RCPs. Incorporation of IPRs in IMPACT is described in detail in \cite{hareau2025updating}.
 
 Second, the IMPACT model includes a short-run (annual), endogenous, response of yields to changes in both input and output prices. These yield response functions specify the change in yield as a constant elasticity function of the changes in output prices, with elasticity parameters that can vary by crop and region. The underlying assumption is that farmers will respond to changes in prices by varying the use of inputs, including inputs such as fertilizer, chemicals, and labor that will, in turn, change yields.
 
 Third, climate is assumed to affect yields through the effects of changes in temperature and weather due to climate change on crop yields for rainfed and irrigated crops, as calculated from the solution of a crop simulation model (DSSAT) for different climate change scenarios. These crop simulations vary by crop type. The DSSAT model is run with detailed time, geographic, and crop disaggregation for different climate change scenarios that are downscaled to include weather variation in small geographic areas. This analysis gives changes in average yields due to climate change that are then averaged to generate yield shocks by crop and region (FPU) in the IMPACT model. These long-run climate scenarios generate yield shocks that are assumed to follow simple trends over time and do not consider extreme events such as droughts or floods.
 
-The fourth mechanism by which climate change affects yields is through variation in water availability for agriculture year by year in different climate scenarios.\footnote{Further information on the water modelling system in IMPACT is provided in section \ref{sec:IMPACTWatersystem}} This mechanism is modeled through the use of the IMPACT water models. These include (1) a global hydrology model that determines runoff to the river basins included in the IMPACT model; (2) water basin management models for each FPU that optimally allocate available water to competing non-agricultural and agricultural uses, including irrigation; and (3) a water allocation and stress model that allocates available irrigation water to crops and, when the water supply is less than demand by crop, computes the impact of the water shortage on crop yields, accounting for differences among crops and varieties. These yields shocks are then passed to the IMPACT model, affecting year-to-year crop yields as shown in Equation \ref{eq:yields}.
+The fourth mechanism by which climate change affects yields is through variation in water availability for agriculture year by year in different climate scenarios.\footnote{Further information on the water modelling system in IMPACT is provided in section \ref{sec:IMPACTWatersystem} and Appendix~\ref{sec:appendixE}.} This mechanism is modeled through the use of the IMPACT water models. These include (1) a global hydrology model that determines runoff to the river basins included in the IMPACT model; (2) water basin management models for each FPU that optimally allocate available water to competing non-agricultural and agricultural uses, including irrigation; and (3) a water allocation and stress model that allocates available irrigation water to crops and, when the water supply is less than demand by crop, computes the impact of the water shortage on crop yields, accounting for differences among crops and varieties. These yields shocks are then passed to the IMPACT model, affecting year-to-year crop yields as shown in Equation \ref{eq:yields}.
 
 \begin{equation}
 \label{eq:yields}
@@ -195,7 +195,7 @@ where:
  cty        &   Countries \\ 
 \end{conditions}
 
-IMPACT also includes the possibility of introducing new technologies such as drought and/or heat tolerant crop varieties \parencite{robinson2015new}. These are included as new crop and region specific activities in the model. We assume (as part of technology adoption scenarios) that the share of production using the new activities increases over time, usually following a logistic adoption function. Given these adoption functions, the effect of the new activities on average yields is exogenous in the multimarket model, but they will be affected by climate shocks that vary over time (that is, different crop varieties will vary in their yield reaction to climate shocks). These multiple technologies are handled in IMPACT through nested equations, where each technology’s yield is calculated in Equation \ref{eq:yields_tech}, and a region-weighted average yield, based on share of total area using each technology, is calculated.
+IMPACT also includes the possibility of introducing new technologies such as drought and/or heat tolerant crop varieties \parencite{robinson2015new}. These are included as new crop and region specific activities in the model. We assume (as part of technology adoption scenarios) that the share of production using the new activities increases over time, usually following a logistic adoption function. Given these adoption functions, the effect of the new activities on average yields is exogenous in the multimarket model, but they will be affected by climate shocks that vary over time (that is, different crop varieties will vary in their yield reaction to climate shocks). These multiple technologies are handled in IMPACT through nested equations, where each technology’s yield is calculated in Equation~\ref{eq:yields_tech}, and a region-weighted average yield, based on share of total area using each technology, is calculated.
 
 \begin{equation}
     \label{eq:yields_tech}
@@ -212,7 +212,7 @@ where:
  tech       &   Crop production technology \\ 
 \end{conditions}
 
-Final crop production for each FPU and activity or crop (j) is estimated as the product of the solution for its respective area and yield equations, with national production equal to the summation of the production in all of the relevant FPUs in that country. This is modeled as shown in Equation \ref{eq:qs}.
+Final crop production for each FPU and activity or crop (j) is estimated as the product of the solution for its respective area and yield equations, with national production equal to the summation of the production in all of the relevant FPUs in that country. This is modeled as shown in Equation~\ref{eq:qs}.
 
 \begin{equation}
     \label{eq:qs}
@@ -231,7 +231,7 @@ where:
 
 \subsection{Livestock production}
 
-Livestock production is modeled at the FPU level and includes animal numbers (equation \ref{eq:animals}), with associated feed demands, and meat/dairy production based on processing the animals. Similar to the crop sector, this specification allows for easier translation of information from livestock experts who are used to working with herd-size and feeding requirements. In the current version of the model, there is no modeling of herd dynamics—herd size over time is set exogenously.
+Livestock production is modeled at the FPU level and includes animal numbers (equation~\ref{eq:animals}), with associated feed demands, and meat/dairy production based on processing the animals. Similar to the crop sector, this specification allows for easier translation of information from livestock experts who are used to working with herd-size and feeding requirements. In the current version of the model, there is no modeling of herd dynamics—herd size over time is set exogenously.
 
 Livestock production is a function of the livestock’s own price, the prices of intermediate (feed) inputs, and a trend variable reflecting growth in livestock herds (slaughter rates are implicitly assumed to stay more or less constant over time). The price elasticities in the livestock supply function are derived in a fashion similar to how the crop area and yield elasticities are derived.
 
@@ -278,7 +278,7 @@ where:
  cty       &   Countries \\ 
 \end{conditions}
 
-Livestock yields are determined through exogenous growth due to improved animals and management practices as shown in Equation \ref{eq:animal_yield}. Currently, all price responses in the livestock sector are accounted for in the animal number equations.
+Livestock yields are determined through exogenous growth due to improved animals and management practices as shown in Equation~\ref{eq:animal_yield}. Currently, all price responses in the livestock sector are accounted for in the animal number equations.
 
 \begin{equation}
     \label{eq:animal_yield}
@@ -294,7 +294,7 @@ where:
  lvs        &   Livestock production systems  \\
 \end{conditions}
 
-Total national production (equation \ref{eq:qsL}) is calculated by multiplying the number of slaughtered animals by the yield per head and summing across FPU and livestock system.
+Total national production (equation~\ref{eq:qsL}) is calculated by multiplying the number of slaughtered animals by the yield per head and summing across FPU and livestock system.
 
 \begin{equation}
     \label{eq:qsL}
@@ -330,7 +330,7 @@ where:
  cty        &   Countries \\
 \end{conditions}
 
-Production of processed goods is then simulated by a supply function that incorporates both endogenous price effects and exogenous technological change. As opposed to crop and livestock production, processed goods are modeled at the country level instead of at the FPU as shown in Equation \ref{eq:qsP}.
+Production of processed goods is then simulated by a supply function that incorporates both endogenous price effects and exogenous technological change. As opposed to crop and livestock production, processed goods are modeled at the country level instead of at the FPU as shown in Equation~\ref{eq:qsP}.
 
 \begin{equation}
     \label{eq:qsP}
@@ -348,7 +348,7 @@ where:
  cty        &   Countries \\
 \end{conditions}
 
-Production of aquatic foods is treated similar to processed goods and is also simulated by a supply function that includes endogenous price effects. Fish production is also modeled at the country level instead of at the FPU as shown in Equation \ref{eq:qsFish}.
+Production of aquatic foods is treated similar to processed goods and is also simulated by a supply function that includes endogenous price effects. Fish production is also modeled at the country level instead of at the FPU as shown in Equation~\ref{eq:qsFish}.
 
 \begin{equation}
     \label{eq:qsFish}
@@ -369,7 +369,7 @@ where:
 
 \subsection{Commodity supply and demand}
 
-Total supply of commodities requires mapping from output of production activities to supply of commodities. The mapping is given by Equation \ref{eq:qsup1}.
+Total supply of commodities requires mapping from output of production activities to supply of commodities. The mapping is given by Equation~\ref{eq:qsup1}.
 
 \begin{equation}
     \label{eq:qsup1}
@@ -389,7 +389,7 @@ The parameter $JCRatio$ maps from the activity output to commodities. Usually, e
 
 By convention, the units of $j$ agree with the units of the main commodity produced by the activity (for example, output of the wheat activity yields the commodity wheat, in the same units), so that the $JCRatio$ for this mapped commodity always equals 1. Other outputs, if any, from an activity in $JCRatio$ are measured as ratios to the output of the main activity (for example, tons of meal per ton of production of oil in an oilseed-processing activity).
 
-Total domestic demand for a commodity is described in Equation \ref{eq:qd}, and is the sum of household food demand, agricultural intermediate demand (feed and processed goods), and intermediate demand from other sectors (that is, for biofuels and industrial uses).
+Total domestic demand for a commodity is described in Equation~\ref{eq:qd}, and is the sum of household food demand, agricultural intermediate demand (feed and processed goods), and intermediate demand from other sectors (that is, for biofuels and industrial uses).
 
 \begin{equation}
 \label{eq:qd}
@@ -481,7 +481,7 @@ where:
  cty        &   Countries \\
 \end{conditions}
 
-Feed demand is a treated as a derived intermediate demand. It is determined by two components: (1) animal feed requirements determined by livestock production and livestock feed requirements and (2) price effects that take into account potential substitution possibilities among different feeds. As defined in Equation \ref{eq:ql}, IMPACT also incorporates a technology parameter that indicates improvements in feeding efficiencies over time.
+Feed demand is a treated as a derived intermediate demand. It is determined by two components: (1) animal feed requirements determined by livestock production and livestock feed requirements and (2) price effects that take into account potential substitution possibilities among different feeds. As defined in Equation~\ref{eq:ql}, IMPACT also incorporates a technology parameter that indicates improvements in feeding efficiencies over time.
 
 \begin{equation}
     \label{eq:ql}
@@ -503,7 +503,7 @@ where:
  cty        &   Countries \\
 \end{conditions}
 
-Intermediate demand is a derived demand that is based on the demand for final processed goods, such as food oils and sugar. The input-output matrix determines the proportions of inputs ($c$) required for each producing activity ($j$) as show in Equation \ref{eq:qinterm}.
+Intermediate demand is a derived demand that is based on the demand for final processed goods, such as food oils and sugar. The input-output matrix determines the proportions of inputs ($c$) required for each producing activity ($j$) as show in Equation~\ref{eq:qinterm}.
 
 \begin{equation}
     \label{eq:qinterm}
@@ -519,7 +519,7 @@ where:
  cty        &   Countries \\
 \end{conditions}
 
-Biofuel feedstock demand (equation \ref{eq:qbf}) in IMPACT is determined through exogenous growth rates, which represent government mandates to encourage the production of biofuels, though adjusted in various scenarios where the mandates are infeasible or adjusted to reflect scenarios on the role of first- or second-generation biofuels. The biofuel feedstock demand equation also allows for a price response for biofuels to allow for substitution across different potential feedstocks as well as to reflect the reality that increasing food prices would put pressure to ease biofuel mandates.
+Biofuel feedstock demand (equation~\ref{eq:qbf}) in IMPACT is determined through exogenous growth rates, which represent government mandates to encourage the production of biofuels, though adjusted in various scenarios where the mandates are infeasible or adjusted to reflect scenarios on the role of first- or second-generation biofuels. The biofuel feedstock demand equation also allows for a price response for biofuels to allow for substitution across different potential feedstocks as well as to reflect the reality that increasing food prices would put pressure to ease biofuel mandates.
 
 \begin{equation}
     \label{eq:qbf}
@@ -537,7 +537,7 @@ where:
  cty                &   Countries \\
 \end{conditions}
 
-Other demand summarizes all other demands for agricultural products from sectors outside of the focus of IMPACT (for example, seeds, industrial use). It is simulated under Equation \ref{eq:qoth1} and Equation \ref{eq:qoth2}. The primary method follows the household food demand equation and is sensitive to changes in income, population, and prices.
+Other demand summarizes all other demands for agricultural products from sectors outside of the focus of IMPACT (for example, seeds, industrial use). It is simulated under Equation~\ref{eq:qoth1} and Equation~\ref{eq:qoth2}. The primary method follows the household food demand equation and is sensitive to changes in income, population, and prices.
 
 \begin{equation}
 \label{eq:qoth1}
@@ -607,7 +607,7 @@ where:
 
 The system of equations is written in the GAMS programming language (from GAMS Development Corp. and GAMS Software GmbH, see \hyperlink{https://www.gams.com/}{gams.com}). The solution of these equations is achieved by the Path solver, which is included in the GAMS system. This procedure finds a set of domestic and world prices for all crops that clear domestic and international commodity markets. The world price of a commodity is the equilibrating mechanism for traded commodities—when an exogenous shock is introduced in the model, world price will adjust to clear world markets, and each adjustment is passed back to the effective producer and consumer prices via the price transmission equations. Changes in domestic prices subsequently affect commodity supply and demand, necessitating their iterative readjustments until world supply and demand balance and world net trade again equals 0. For non-traded commodities, domestic prices in each country adjust to equate supply and demand within the country.
 
-In IMPACT, at the end of every year the world’s production must equal the world’s demand. This constraint is ensured by Equation \ref{eq:nt}, where the sum of net trade over the globe must equal zero.
+In IMPACT, at the end of every year the world’s production must equal the world’s demand. This constraint is ensured by Equation~\ref{eq:nt}, where the sum of net trade over the globe must equal zero.
 
 \begin{equation}
     \label{eq:nt}
@@ -620,7 +620,7 @@ where:
  cty                &   Countries \\
 \end{conditions}
 
-Additionally, national production and demand for tradable commodities are linked to world markets through trade. Commodity trade by country (cty) is a function of domestic production, domestic demand, and stock change.  Regions with positive net trade are net exporters, while those with negative values are net importers. This specification does not permit a separate identification of international trade by country of origin and destination—all countries export to and import from a single global market as shown in Equation \ref{eq:nt2}.
+Additionally, national production and demand for tradable commodities are linked to world markets through trade. Commodity trade by country (cty) is a function of domestic production, domestic demand, and stock change.  Regions with positive net trade are net exporters, while those with negative values are net importers. This specification does not permit a separate identification of international trade by country of origin and destination—all countries export to and import from a single global market as shown in Equation~\ref{eq:nt2}.
 
 \begin{equation}
     \label{eq:nt2}
@@ -636,7 +636,7 @@ where:
  cty                &   Countries \\
 \end{conditions}
 
-IMPACT prices are in constant base year US dollars (for IMPACT 4,  2021 is the base year). Domestic prices of tradable commodities are a function of world prices, adjusted by the effect of trade policy represented by taxes and tariffs, and price policies are expressed in terms of producer support estimates (PSEs), consumer support estimates (CSEs), and the cost of moving products from one market to another represented by marketing margins (MMs). Export taxes and import tariffs are drawn from data from the Global Trade Analysis Project (GTAP) at Purdue University and reflect trade policies at the national level. PSEs and CSEs represent public policies to support production and consumption by creating wedges between world and domestic prices. PSEs and CSEs are based on Organisation for Economic Co-operation and Development (OECD) estimates and are adjusted by expert judgment to reflect regional trade dynamics. MMs reflect other factors such as transport and marketing costs of getting goods to various markets and are based on expert opinion on the quality and availability of transportation, communication, and market infrastructure. Fig. \ref{fig:price_str} illustrates the pricing system in IMPACT and where the appropriate price wedges are applied. Abbreviations used in Fig. \ref{fig:price_str} are as follows:
+IMPACT prices are in constant base year US dollars (for IMPACT 4,  2021 is the base year). Domestic prices of tradable commodities are a function of world prices, adjusted by the effect of trade policy represented by taxes and tariffs, and price policies are expressed in terms of producer support estimates (PSEs), consumer support estimates (CSEs), and the cost of moving products from one market to another represented by marketing margins (MMs). Export taxes and import tariffs are drawn from data from the Global Trade Analysis Project (GTAP) at Purdue University and reflect trade policies at the national level. PSEs and CSEs represent public policies to support production and consumption by creating wedges between world and domestic prices. PSEs and CSEs are based on Organisation for Economic Co-operation and Development (OECD) estimates and are adjusted by expert judgment to reflect regional trade dynamics. MMs reflect other factors such as transport and marketing costs of getting goods to various markets and are based on expert opinion on the quality and availability of transportation, communication, and market infrastructure. Fig.~\ref{fig:price_str} illustrates the pricing system in IMPACT and where the appropriate price wedges are applied. Abbreviations used in Fig.~\ref{fig:price_str} are as follows:
 \begin{itemize}
 \setlength\itemsep{0em}
     \item  MMJ is \textbf{M}arketing \textbf{M}argins for activities (\textbf{j})
@@ -657,7 +657,7 @@ IMPACT prices are in constant base year US dollars (for IMPACT 4,  2021 is the b
 
 The model includes three markets: (1) the farm gate, where producers sell their output to purchasers in producer prices; (2) a national market, where the purchasers then take the commodity, incurring any taxes/subsidies and trade/transportation costs; and (3) the port where exports are sold to foreigners and imports are bought from them at world market prices. 
 
-Moving commodities to and from the port incurs MMs and any taxes/subsidies/tariffs. In the model, PSEs, CSEs, and MMs are expressed as percentages (ad valorem) of the world price. To calculate producer prices the appropriate wedges are applied to the domestic consumer prices (PC) and represent the markup observed in domestic markets from the farm-gate or factory-gate prices producers receive. The producer price of an activity is the weighted sum of the prices of the commodities associated with that activity as shown in Equation \ref{eq:pp}.
+Moving commodities to and from the port incurs MMs and any taxes/subsidies/tariffs. In the model, PSEs, CSEs, and MMs are expressed as percentages (ad valorem) of the world price. To calculate producer prices the appropriate wedges are applied to the domestic consumer prices (PC) and represent the markup observed in domestic markets from the farm-gate or factory-gate prices producers receive. The producer price of an activity is the weighted sum of the prices of the commodities associated with that activity as shown in Equation~\ref{eq:pp}.
 
 \begin{equation}
     \label{eq:pp}
@@ -673,7 +673,7 @@ where:
  cty        &   Countries \\ 
 \end{conditions}
 
-How consumer prices are determined in IMPACT depends on the state of tradability of the commodity. Commodities can be specified as either tradable or nontradable. Traded commodity prices are determined in international markets. Nontraded commodities are those commodities whose prices are determined in national markets, without direct links to international markets. Examples include sugarcane, sugar beets, and grass, where all demand is intermediate demand from domestic sectors (sugar processing and livestock). These commodity prices are determined endogenously by every country and ensure that domestic supply equals domestic demand as shown in Equation \ref{eq:qsup}.
+How consumer prices are determined in IMPACT depends on the state of tradability of the commodity. Commodities can be specified as either tradable or nontradable. Traded commodity prices are determined in international markets. Nontraded commodities are those commodities whose prices are determined in national markets, without direct links to international markets. Examples include sugarcane, sugar beets, and grass, where all demand is intermediate demand from domestic sectors (sugar processing and livestock). These commodity prices are determined endogenously by every country and ensure that domestic supply equals domestic demand as shown in Equation~\ref{eq:qsup}.
 
 \begin{equation}
     \label{eq:qsup}
@@ -687,7 +687,7 @@ where:
  cty        &   Countries \\ 
 \end{conditions}
 
-Nontraded commodities are indirectly linked to world markets through the demand for final products (that is, sugar), and potential substitution from tradable commodities (that is, grass and other feeds). IMPACT 4, like IMPACT 3 has been designed to allow the tradability of a commodity to be determined endogenously. As the IMPACT model includes price wedges between domestic and international markets, the prices of exports received by producers and of price of imports paid by consumers can be modeled in separate equations with similar specifications as shown in Equation \ref{eq:imp_exp}.
+Nontraded commodities are indirectly linked to world markets through the demand for final products (that is, sugar), and potential substitution from tradable commodities (that is, grass and other feeds). IMPACT 4, like IMPACT 3 has been designed to allow the tradability of a commodity to be determined endogenously. As the IMPACT model includes price wedges between domestic and international markets, the prices of exports received by producers and of price of imports paid by consumers can be modeled in separate equations with similar specifications as shown in Equation~\ref{eq:imp_exp}.
 
 \begin{subequations}
     \label{eq:imp_exp}
@@ -720,7 +720,7 @@ To start importing the domestic import price must equal the consumer price (glob
     \item Domestic trade happens if $PE_{c, cty}$ $\leq$ $PC_{c, cty}$ $\leq$ $PM_{c, cty}$
 \end{itemize}
 
-For purely tradable goods, where we want the commodities to always be linked to world markets\footnote{This is done for all traded commodities in IMPACT 4},  this inequality is not used, the domestic consumer price is set to the import price (equation \ref{eq:pc}), and the export price equation is never used.
+For purely tradable goods, where we want the commodities to always be linked to world markets\footnote{This is done for all traded commodities in IMPACT 4},  this inequality is not used, the domestic consumer price is set to the import price (equation~\ref{eq:pc}), and the export price equation is never used.
 
 \begin{equation}
     \label{eq:pc}
@@ -746,7 +746,7 @@ The key to understanding the activity-commodity framework is to separate the pro
 Individual activities can produce more than one commodity. For example, the soybean value chain processing activity uses soybeans as an input and produces both soybean oil and soybean meal. Conversely, a given commodity can be produced by more than one activity. For example, there are separate sugar beet and sugarcane value chain processing activities that produce the same commodity, processed sugar, which is consumed and traded.
 \end{tcolorbox}
 
-The framework described in box 4.1 allows for potentially complex interlinking of activity inputs and outputs (managed through input-output matrices), to simulate agricultural value chains. An example of this interlinking is illustrated in Fig. \ref{fig:value_chain}, illustrating the oil palm sector value chain. The palm plantation activity produces palm fruit that is demanded by the palm fruit–processing sector that produces palm oil and a palm kernel by-product. Palm kernel is, in turn, an input into the palm kernel–processing sector that produces palm kernel oil and palm kernel meal. For a full list of activities and the commodities produced in IMPACT see \nameref{sec:appendixB}. This framework also allows IMPACT to consider the role of commodities outside of the agriculture sector in the production process (that is, fertilizer, labor) that can be treated as exogenous commodities with exogenous supply, prices, or both.
+The framework described in box 4.1 allows for potentially complex interlinking of activity inputs and outputs (managed through input-output matrices), to simulate agricultural value chains. An example of this interlinking is illustrated in Fig.~\ref{fig:value_chain}, illustrating the oil palm sector value chain. The palm plantation activity produces palm fruit that is demanded by the palm fruit–processing sector that produces palm oil and a palm kernel by-product. Palm kernel is, in turn, an input into the palm kernel–processing sector that produces palm kernel oil and palm kernel meal. For a full list of activities and the commodities produced in IMPACT see \nameref{sec:appendixB}. This framework also allows IMPACT to consider the role of commodities outside of the agriculture sector in the production process (that is, fertilizer, labor) that can be treated as exogenous commodities with exogenous supply, prices, or both.
 
 \begin{figure}[hbt!]
   \centering
