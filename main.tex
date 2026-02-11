@@ -129,12 +129,9 @@
 % Render Markdown headings as plain bold text (no \section)
 \markdownSetup{
   renderers = {
-    headingOne   = {\par\noindent\textbf{#1}\par},
-    headingTwo   = {\par\noindent\textbf{#1}\par},
-    headingThree = {\par\noindent\textbf{#1}\par},
-    headingFour  = {\par\noindent\textbf{#1}\par},
-    headingFive  = {\par\noindent\textbf{#1}\par},
-    headingSix   = {\par\noindent\textbf{#1}\par},
+    headingOne   = {\par\noindent\textbf{#1}\par\vspace{-0.5\baselineskip}},
+    headingTwo   = {\par\noindent\textbf{#1}\par\vspace{-0.5\baselineskip}},
+    headingThree = {\par\noindent\textbf{#1}\par\vspace{-0.4\baselineskip}},
   }
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
