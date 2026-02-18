@@ -48,7 +48,7 @@ The maximum amount of water that can be held in the grid cell is defined in Equa
 
 Refer to Fig.~\ref{fig:ighm}, where $S_{m}$ equals the area between the parabolic curve and the x-axis with area fraction values of the x-axis ranging from 0 to 1.
 
-Assuming that at any time $t$ each point in the grid cell is either at $C_{m}$ or at a constant moisture state $c$ (\textcolor{red}{Zhao 1992}), the mean areal water storage $S$ associated with soil water-holding capacity $c$ at time $t$ is given by equation~\ref{eq:maws}
+Assuming that at any time $t$ each point in the grid cell is either at $C_{m}$ or at a constant moisture state $c$ (\cite{ren1992xinanjiang}), the mean areal water storage $S$ associated with soil water-holding capacity $c$ at time $t$ is given by equation~\ref{eq:maws}
 
 \begin{equation}
     \label{eq:maws}
@@ -91,7 +91,7 @@ Runoff generated in time period $t$ is divided into a surface runoff component $
     RS_{t} = \lambda \times R_{t}
 \end{equation}
 
-A linear reservoir is assumed to model base flow $RB$. The storage of the linear reservoir is linearly related to output, namely, base flow by a storage constant $\beta$ (\textcolor{red}{Chow et al. 1988}, Equation~\ref{eq:rbflow}). 
+A linear reservoir is assumed to model base flow $RB$. The storage of the linear reservoir is linearly related to output, namely, base flow by a storage constant $\beta$ (\cite{chow1988applied}, Equation~\ref{eq:rbflow}). 
 
 \begin{equation}
     \label{eq:rbflow}
@@ -153,7 +153,6 @@ where:
 
 Domestic water demand includes municipal water demand and rural domestic water demand. Annual per capita domestic water consumption is based on previous work with the International Water Management Institute (\cite{de2007integrated, rosegrant2002world}), with necessary adjustments to ensure that per capita consumption in rural and urban households is not less than 15 liters per day and 25 liters per day, respectively. Total domestic water consumption $DoWD$ at the FPU level equals population $POP$ multiplied by annual per capita consumption $pcDoWD$ (derived from daily per capita demand $pcDoWDpd$), as seen in IWSM equation \ref{eq:dwd}. The growth of domestic per capita consumption is based on projections of per capita gross domestic product ($pcGDP$) as seen in IWSM equation \ref{eq:dwd3}. In each region or basin, income elasticities $\eta$ of demand for domestic water use are synthesized based on the literature and available estimates (\cite{de2007integrated}). These elasticities of demand measure the propensity to consume water with respect to increases in per capita income. The elasticities also capture both direct income effects and conservation of domestic water use through technological and management change. In higher-income countries where per capita domestic consumption is high, the elasticities of demand imply that water demand will decline with increased income growth, whereas in developing countries the elasticities imply an increase in water consumption with increased income growth.
 
-\textcolor{red}{unsure where this eqn is: maybe LoadIWSM L74}
 \begin{subequations}
     \label{eq:dwd}
     \begin{align}
@@ -176,17 +175,17 @@ Industrial water demand is modeled for the manufacturing and energy sectors usin
 
 Therefore, for countries in Africa south of the Sahara we retained the projection method of IMPACT 2—namely, the industrial water demand is modeled as a nonlinear function of gross domestic production per capita and technology change. In IWSM equation~\ref{eq:iwd}, $\epsilon$ is income elasticity of demand, and $\gamma^{t}$ is the technology term, which is determined according to our perspectives on future industrial water demand and technological improvements in industrial water use in different regions.
 
-\textcolor{red}{cannot find this exact equation, maybe L45 in DemandUpdateIWSM.inc?}
+%\textcolor{red}{cannot find this exact equation, maybe L45 in DemandUpdateIWSM.inc?}
 \begin{equation}
     \label{eq:iwd}
-    InWD_{fpu, t} = \alpha \times pcGDP_{t}^{\epsilon} \times EXP(\gamma^{t})
+    InWD_{fpu, t} = \alpha \times \Delta pcGDP_{t}^{\epsilon} \times EXP(\gamma^{t})
 \end{equation}
 
 \subsubsection*{Livestock water demand}
 
 Livestock water demand is estimated using livestock numbers and water consumptive use per unit of livestock ($w_{lv}$), including beef, milk, pork, poultry, eggs, and sheep and goats (\cite{de2007integrated, steinfeld2006livestock}). The total number of live animals during a year includes slaughtered animals, the followers herd, and other categories (for example, milk-producing animals). The total number of animals is calculated based on the number of slaughtered animals ($QS_{lv}$) and a ratio of the number of slaughtered animals to the total number of animals ($r_{lv}$) (eq. \ref{eq:lwd}).
 
-\textcolor{red}{cannot find this exact equation, maybe L53 in DemandUpdateIWSM.inc?}
+%\textcolor{red}{cannot find this exact equation, maybe L53 in DemandUpdateIWSM.inc?}
 \begin{equation}
     \label{eq:lwd}
     LvWD_{fpu, t} = QS_{lv} \times r_{lv} \times w_{lv}
@@ -299,8 +298,8 @@ STRGV_{fpu, m}
 where
 \begin{conditions}
 STRGV       & Reservoir storage at the end of month $m$ \\
-STRGPV      & \textcolor{red}{Initial or Beginning-of-period storage in the First Month ?} \\
-IRW         & \textcolor{red}{Irrigation water?} \\
+STRGPV      & Initial or Beginning-of-period storage in the First Month \\
+IRW         & Irrigation water \\
 INFLOWV     & Monthly inflows from upstream food production units \\
 EVAPV       & Monthly reservoir evaporation \\
 SPV         & Monthly reservoir spill \\
@@ -321,7 +320,7 @@ STRGV_{fpu,m-1} & m > 1
 
 where
 \begin{conditions}
-STRGPV      & \textcolor{red}{Initial or Beginning-of-period storage in the First Month ?} \\
+STRGPV      & Initial or Beginning-of-period storage in the First Month \\
 STRGV       & Reservoir storage at the end of month $m$ \\
 ISTRG       & Ending storage of the last month of the previous year \\
 \end{conditions}
@@ -350,34 +349,30 @@ neigb       & Mapping of neighboring FPUs \\
 
 Reservoir evaporation (equation \ref{eq:resevap}) equals potential evaporation multiplied by reservoir surface area. Considering storage capacity growth over time, reservoir surface area equals the area of reservoir when storage is at its capacity in the base year multiplied by a coefficient that is a power function of the ratio of average storage of the current month to base-year storage capacity. The power $\frac{2}{3}$ is applied for converting the change in three-dimensional reservoir storage to that of two-dimensional reservoir surface area. $STRGC_{fpu}^{00}$, $RESA_{fpu,m}^{00}$, and $PET_{fpu,m}$ are, respectively, reservoir storage capacity in the base year, reservoir surface area at full storage in the base year, and potential evaporation in month $m$ of the current year. Reservoir storage capacity and reservoir surface area values in the base year are based on the GRanD database (\cite{lehner2011global}).
 
-\textcolor{red}{ModelIWSM L108 the equation looks different}
 \begin{equation}
 \label{eq:resevap}
 \begin{aligned}
-EVAPV_{fpu,m}
-&=
-\left[
-\frac{
-0.5 \times \left( STRGPV_{fpu,m} + STRGV_{fpu,m} \right)
-}{
-STRGC^{00}_{fpu}
-}
-\right]^{\tfrac{2}{3}}
-\\
-&\qquad
-\times RESA^{00}_{fpu,m}
-\times PET_{fpu,m}
-\\
-&\qquad
-- EVAPSLACKV_{fpu,m}
+EVAPV_{fpu,m} &= - EVAPSLACKV_{fpu,m} \\
+              &\quad + PRET1_{fpu, m} \\
+              &\quad \times \frac{1}{2} \left[ 
+                  \begin{aligned}
+                      & STRGV_{fpu,m} \\
+                      &+ ISTRG1_{fpu} \mid m = 1 \wedge t \neq 1 \\
+                      &+ STRGV_{fpu,m \ominus 1} \mid m = 1 \wedge t = 1 \\
+                      &+ STRGV_{fpu, m-1} \mid m \neq 1
+                  \end{aligned}
+              \right] \\
+              &\quad \times STRGC1_{fpu}^{-1}
 \end{aligned}
 \end{equation}
 where
 \begin{conditions}
 EVAPV       & Monthly reservoir evaporation \\
-STRGPV      & \textcolor{red}{Initial or Beginning-of-period storage in the First Month ?} \\
+EVAPSLACKV  & Slack variable for reservoir evapotranspiration \\
+PRET1       & Evaporation when reservoir is full \\
 STRGV       & Reservoir storage at the end of month $m$ \\
-EVAPSLACKV  & Slack variable for reservoir evapotranspiration (\textcolor{red}{?}) \\
+ISTRG1      & Initial storage (in $m$=1 i.e., january equals $m$=12 i.e., December) \\
+STRGC1      & basin storage capacity \\
 \end{conditions}
 
 The sum of surface water depletion, groundwater depletion, and desalinized water, $WDSL_{fpu,m}$ (water supply by source) equals the sum of water depletion in the irrigation sector and total water depletion in non-irrigation sectors (water depletion by sector).
@@ -421,31 +416,27 @@ IRRWUV & Monthly irrigation water use \\
 GIWD & Irrigation water demand \\
 \end{conditions}
 
-The total surface water withdrawal in a given year cannot exceed surface water withdrawal capacity i.e., $\sum_{m} SWDPV_{fpu, m} \le SWDCAP_{fpu}$. The capacity has been converted into a consumptive use term, using estimated depletion coefficients of domestic, industrial, and agricultural sectors. Water withdrawal data by source around year \textcolor{red}{\textbf{2005 from FAO’s AQUASTAT global database} Maybe we can update here, flagging for checks} were used to estimate surface and groundwater withdrawal capacity values (\cite{FAO2014}), considering inter-annual variability of water demand at the FPU level.
+The total surface water withdrawal in a given year cannot exceed surface water withdrawal capacity i.e., $\sum_{m} SWDPV_{fpu, m} \le SWDCAP_{fpu}$. The capacity has been converted into a consumptive use term, using estimated depletion coefficients of domestic, industrial, and agricultural sectors. Water withdrawal data by source around year 2005 from FAO’s AQUASTAT global databasewere used to estimate surface and groundwater withdrawal capacity values (\cite{FAO2014}), considering inter-annual variability of water demand at the FPU level.
 
 The total groundwater water withdrawal in a given year cannot exceed groundwater withdrawal capacity of that year i.e., $\sum_{m} GWDPV_{fpu, m} \le GWDCAP_{fpu}$. The capacity has been converted into a consumptive use term, using estimated depletion coefficients of domestic, industrial, and agricultural sectors.
 
 The reservoir release (excluding surface withdrawal) in any given month should be greater than minimum instream flow requirement, which is specified as a percentage of available surface water resource. The committed flow requirement coefficient values are based on available global study on environmental flow requirements (\cite{smakhtin2004pilot}).
 
-\textcolor{red}{Doesnt fully match CMFLOWYR2 equation ModelIWSM L139 and L143 - two equations}
 \begin{equation}
-\label{eq:cifr}
-SPV_{fpu,m}
-\ge
-CFY_{fpu}
-\times
-\sum_{m}
-\left(
-IRW_{fpu,m}
-+ INFLOWV_{fpu,m}
-- GWX_{fpu,m}
-- EVAPV_{fpu,m}
-\right)
+\label{eq:cofr}
+\begin{aligned}
+SPV_{fpu,m} \ge \frac{1}{24} \times CFY_{fpu} \times \sum_{m} \Big[ &IRW_{fpu, m} \\
+&- GSEXG_{fpu} \times GRCHG{fpu,m2} \\
+&+ INFLOWV_{fpu,m2} - EVAPV_{fpu,m2} \Big]
+\end{aligned}
 \end{equation}
 wehre
 \begin{conditions}
+SPV & Monthly spill \\
 CFY & annual committed flow in percentage of total \\
 IRW & Monthly runoff \\
+GSEXG & Percentage of groundwater recharge from surface water \\
+GRCHG & Groundwater recharge \\
 INFLOWV     & Monthly inflows from upstream food production units \\
 EVAPV & Reservoir evaporation \\
 \end{conditions}
@@ -502,24 +493,33 @@ The monthly irrigation yield reduction rate ($IYRMV$\footnote{As $IYRMV$ is the 
     IYRMV_{fpu, j, m} + IYRMSLKV_{fpu, j, m} = Ky_{fpu, j, m} \times \left[ 1 - \frac{MIN(precip_{fpu, m}, etcrop_{fpu, j, m})}{etcrop_{fpu, j, m}} \right]
 \end{equation}
 
-Equations \ref{eq:mmmys} and \ref{eq:ammys} provide alternative approaches to aggregating the monthly yield shocks to produce the annual shock. Both approaches are based on \cite{rao1988simple}. Equation \ref{eq:mmmys} shows a multiplicative representation of monthly yield shocks, where the annual yield reduction shock equals the product during the months of 1 minus the monthly irrigated yield reductions. It is a nonlinear equation that requires that the model be solved with a nonlinear programming (NLP) solver. Equation \ref{eq:ammys} shows an additive representation of monthly yield shocks where the annual yield reduction shock equals 1 minus the sum of the monthly irrigated yield reduction terms. The equation is linear, and the model can be solved as a quadratic programming (QCP) problem. A slack variable $IYRYSLKV$ is introduced to allow setting a minimum on the irrigated yield $YldIrr$ so that it cannot be less than the rainfed yield $YldRfd$ (Equation \ref{eq:iryc}). Alternatively, one could replace $YldRfd$ with the average of the full irrigated yield on part of the irrigated land, given the shortfall, and the rainfed yield on the rest, splitting $AREAC$ into irrigated and rainfed. In effect, for this strategy, the farmer would fully irrigate as much land as possible, given water availability, and let the rest operate as rainfed.
+Equations \ref{eq:irr_yield_1} and \ref{eq:irr_yield_2} provide alternative approaches to aggregating the monthly yield shocks to produce the annual shock. Both approaches are based on \cite{rao1988simple}. Equation \ref{eq:irr_yield_1} shows a multiplicative representation of monthly yield shocks, where the annual yield reduction shock equals the product during the months of 1 minus the monthly irrigated yield reductions. It is a nonlinear equation that requires that the model be solved with a nonlinear programming (NLP) solver. Equation \ref{eq:irr_yield_2} shows an additive representation of monthly yield shocks where the annual yield reduction shock equals 1 minus the sum of the monthly irrigated yield reduction terms. The equation is linear, and the model can be solved as a quadratic programming (QCP) problem. 
 
 \begin{subequations}
+\label{eq:yield_reduction}
 \begin{align}
-    \label{eq:mmmys}
-    IYRYV_{fpu, j} = \prod_{m} (1-IYRMB_{fpu, j, m}) + \textcolor{red}{IYRYSLKV_{fpu, j}}
-\end{align}
-\begin{align}
-    \label{eq:ammys}
-    IYRYV_{fpu, j} = 1 - \sum_{m} IYRMV_{fpu, j, m} + \textcolor{red}{IYRYSLKV_{fpu, j}}
-\end{align}
-\begin{align}
-    \label{eq:iryc}
-    IYRYV_{fpu, j} \times YldIrr_{fpu, j} \geq YldRfd_{fpu, j}
+    \label{eq:irr_yield_1}
+    IYRYV_{fpu,j} &= \prod_{m \mid Ky_{fpu,j,m}} (1 - IYRMV_{fpu, j, m}) \\[15pt]
+    \label{eq:irr_yield_2}
+    IYRYV_{fpu, j} &= 
+    \begin{cases} 
+        1 - \frac{\sum_{m} \left( KyMod_{j} \times Ky_{fpu,j,m} \times IYRMV_{fpu,j,m} \right)}{\sum_{m} \left( KyMod_{j} \times Ky_{fpu,j,m} \right)} & \text{if } \sum_{m} Ky_{fpu,j,m} > 0 \\
+        0 & \text{otherwise}
+    \end{cases} \\[15pt]
+    \label{eq:irr_yield_3}
+    IYRYV_{fpu, j} &= \prod_{m \mid Ky_{fpu,j,m}} (1 - IYRMV_{fpu, j, m})^{wKy_{fpu, j, m}}
 \end{align}
 \end{subequations}
 
-In the above equations $IYRYV$ annual irrigated yield multiplier, so the new yield equals old yield times $IYRYV$, and a value of 1 means no crop loss.
+where
+\begin{conditions}
+IYRYV & Annual irrigated yield multiplier \\
+IYRMV & Monthly irrigated yield reduction rate \\
+Ky  & Monthly crop yield coefficient \\
+KyMod & Technology-Specific Yield Sensitivity Mapping \\
+\end{conditions}
+
+As $IYRMV$ is the rate of reduction in yield by month, so a value of 1 means total crop loss. $IYRYV$ is the annual yield multiplier, so the new yield equals old yield times IYRY, and 1 means no crop loss (see equation \ref{eq:icwasmobjective}).
 
 Crop production is reduced by the value of the yield shock in ICWASM as defined in equation~\ref{eq:cropprod}.
 
@@ -528,29 +528,19 @@ Crop production is reduced by the value of the yield shock in ICWASM as defined 
     CProdV_{fpu, j} = IYRYV_{fpu, j} \times YldIrr_{fpu, j} \times AREAC_{j, fpu}
 \end{equation}
 
-The objective function of the ICWASM module includes total revenue and a risk-aversion term to dampen changes in allocation of water to crops from the previous year and is represented mathematically by equation~\ref{eq:icwasmOBJ}, where $N_{j}$ is the total number of irrigated crops, $PP$ is the producer price of crop $j$ in an $fpu$, $N_{fpu}$ is the total number of FPUs, and $TOTVAL$ is the total expected value of crops in an $fpu$. $PP$ and $TOTVAL$ are both generated by the multimarket model. The first term (equation~\ref{eq:icwasmOBJ1}) allocates available water to crops to maximize the expected value of output, given water shortages and yield shocks. The second term (equation~\ref{eq:icwasmOBJ2}) minimizes the variance of the ratios of supply to demand for water across crops, reflecting the desire for risk-averse farmers to maintain their initial cropping pattern. The variance will be 0 when all crops have the same ratio of supply to demand for water. The third minimizes the slack variables (equation~\ref{eq:icwasmOBJ3}). The $WGHT$s are weights on the three terms. The first two terms are scaled to have comparable magnitudes so that the $WGHT$s will reflect the relative importance of revenue maximization versus variance minimization. The value of $WGHT3$ is chosen to be large, ensuring that the slack variables are positive only when $IYRMV$ equals 1 and the irrigated yield equals the rainfed yield. Slack variable $IYRMSLKV$ is chosen to ensure $IYRMV$ $\leq$ 1.
+The objective function of the ICWASM module includes total revenue and a risk-aversion term to dampen changes in allocation of water to crops from the previous year and is represented mathematically by equation~\ref{eq:icwasmOBJ}. The first term allocates available water to crops to maximize the expected value of output, given water shortages and yield shocks. The second term minimizes the slack variables. Slack variable $IYRMSLKV$ is chosen to ensure $IYRMV$ $\leq$ 1.
 
-\begin{subequations}
-\label{eq:icwasmOBJ}
+\begin{equation}
+\label{eq:icwasmobjective}
+\begin{aligned}
+OBJV2 = &\sum_{fpu, j} \left( 1 - IYRYV_{fpu,j} \right)^2 \times YldIrr_{fpu,j} \times PP_{fpu,j} \\
+        &+ 10^{4} \times \sum_{j, fpu, m} IYRMSLKV_{fpu,j,m}
+\end{aligned}
+\end{equation}
 
-\begin{align}
-    OBJV = MinStress + \textcolor{red}{MinRisk} + MinSlacks
-\end{align}
-\textcolor{red}{[MinStress is different in doc vs in model]}
-\begin{align}
-\label{eq:icwasmOBJ1}
-%    MinStress = WGHT1 \times \frac{1}{N_{fpu}} \times \sum_{fpu} \frac{CProdV_{fpu, j} \times PP_{j, fpu}}{TOTVAL_{j, fpu}}
-    MinStress = (1-IYRYV_{fpu, j})^{2} * YldIrr_{fpu, j} \times PP_{fpu, j}
-\end{align}
-\textcolor{red}{[MinRisk is commented out in model]}\textbf{}
-\begin{align}
-\label{eq:icwasmOBJ2}
-    \textcolor{red}{MinRisk = IYRYV_{fpu, j} \times YldIrr_{fpu, j} \times AREAC_{j, fpu}}
-\end{align}
-\textcolor{red}{[MinSlacks is different in doc vs in model]}
-\begin{align}
-\label{eq:icwasmOBJ3}
-    MinSlacks = IYRMSLKV_{fpu, j}
-\end{align}
-
-\end{subequations}
+where
+\begin{conditions}
+YldIrr & Irrigated yield \\
+PP & Producer prices at the FPU level for the previous year \\
+IYRMSLKV & Slack variable to ensure $IYRMV$ $\le$ 1\\
+\end{conditions}
